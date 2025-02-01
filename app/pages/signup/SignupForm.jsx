@@ -7,6 +7,7 @@ import Link from 'next/link'
 export default function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined)
   return (
+    
     <div className="min-h-screen bg-gradient-to-tr from-violet-500 to-violet-900 flex items-center justify-center">
     <form action={action} className='max-w-sm mx-auto w-full p-8 rounded-md bg-slate-200'>
       <div className='mb-2'>

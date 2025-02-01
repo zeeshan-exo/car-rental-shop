@@ -72,6 +72,7 @@ export async function login(state, formData){
         return{
             errors:{
                 email: "Email does not exist "
+                
             }
         }
     }
@@ -86,6 +87,7 @@ export async function login(state, formData){
 
     await createSession(existingUser._id.toString())
     redirect ('/dashboard')
+
 }
 
 export async function logout() {

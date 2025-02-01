@@ -35,6 +35,7 @@ export default function LoginForm() {
       </div>
      
      <div className='mb-4 text-sm'>
+      
      <p className=' text-blue-600 underline'><a href='#'>Forgot Password?</a></p>
      <Link href='/pages/signup' className='text-blue-600 underline'>create a new account?</Link>
      </div>
