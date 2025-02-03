@@ -2,28 +2,25 @@
 import { getCollection } from "@/lib/db";
 import { SignupFormSchema, LoginformSchema } from "@/lib/definations";
 import { createSession, deleteSession } from "@/lib/session";
+import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
-
+import { cookies } from "next/headers";
+import { decrypt } from "@/lib/session";
 import bcrypt from 'bcrypt'
 
 
 export async function signup(state, formData) {
+    const rawData = Object.fromEntries(formData.entries());
+    console.log("FORM RAW DATA:", rawData);
 
-    const validatedFields = SignupFormSchema.safeParse({
-        name: formData.get("name"),
-        email: formData.get("email"),
-        password: formData.get("password"),
-        role: formData.get("role"),
-    });
-
+    const validatedFields = SignupFormSchema.safeParse(rawData);
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
         };
     }
 
-    const { email, password, ...remaining } = validatedFields.data;
-    console.log("Validated Fields: ", validatedFields);
+    const { email, password, role, cars_quantity, idCard, name, address } = validatedFields.data;
 
     const userCollection = await getCollection("users");
     if (!userCollection) return { errors: { email: "Server error" } };
@@ -38,18 +35,25 @@ export async function signup(state, formData) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const results = await userCollection.insertOne({
+
+    const userData = {
         email,
+        name,
         password: hashedPassword,
-        ...remaining,
-    });
+        role,
+        status: "inactive", 
+    };
 
-    console.log(results);
+    if (role === "vendor") {
+        if (cars_quantity) userData.cars_quantity = cars_quantity;
+        if (idCard) userData.idCard = idCard;
+        if (address) userData.address = address;
+    }
 
-    await createSession(results.insertedId.toString());
-
-    redirect("/dashboard");
+    await userCollection.insertOne(userData);
+    redirect("/pages/login");
 }
+
 
   
 
@@ -85,12 +89,35 @@ export async function login(state, formData){
         }
     }
 
+
+  
+    await userCollection.updateOne(
+        {email},
+        {$set: {status: "active"}}
+
+    )
+
     await createSession(existingUser._id.toString())
     redirect ('/dashboard')
 
 }
 
 export async function logout() {
+    const session = (await cookies()).get('session')?.value;
+
+    if (session) {
+        const payload = await decrypt(session);
+
+        if (payload?.userId) {
+            const userCollection = await getCollection("users");
+
+            await userCollection.updateOne(
+                { _id: new ObjectId(payload.userId) },  
+                { $set: { status: 'inactive' } }       
+            );
+        }
+    }
+
     deleteSession()
     redirect('/pages/login')
 }
