@@ -11,7 +11,6 @@ import bcrypt from 'bcrypt'
 
 export async function signup(state, formData) {
     const rawData = Object.fromEntries(formData.entries());
-    console.log("FORM RAW DATA:", rawData);
 
     const validatedFields = SignupFormSchema.safeParse(rawData);
     if (!validatedFields.success) {
@@ -21,9 +20,8 @@ export async function signup(state, formData) {
     }
 
     const { email, password, role, cars_quantity, idCard, name, address } = validatedFields.data;
-
     const userCollection = await getCollection("users");
-    if (!userCollection) return { errors: { email: "Server error" } };
+    if (!userCollection) return { errors: { email: "User collection not found" } };
 
     const existingUser = await userCollection.findOne({ email });
     if (existingUser) {
@@ -35,7 +33,6 @@ export async function signup(state, formData) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-
     const userData = {
         email,
         name,
@@ -49,7 +46,6 @@ export async function signup(state, formData) {
         if (idCard) userData.idCard = idCard;
         if (address) userData.address = address;
     }
-
     await userCollection.insertOne(userData);
     redirect("/pages/login");
 }
@@ -88,16 +84,14 @@ export async function login(state, formData){
             }
         }
     }
-
-
-  
+ 
     await userCollection.updateOne(
         {email},
         {$set: {status: "active"}}
 
     )
 
-    await createSession(existingUser._id.toString())
+    await createSession(existingUser._id.toString(), existingUser.role.toString())
     redirect ('/dashboard')
 
 }

@@ -7,9 +7,12 @@ const Sidebar = () => {
     <div className='bg-slate-600 text-white font-bold max-w-60 min-h-screen'>
         <nav className='flex flex-col space-y-4 p-2'>
             <h1 className='text-3xl text-slate-900'>Dashboard</h1>
+        
         <Link href="/" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Home</Link>
-        <Link href="/" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>About</Link>
-        <Link href="/" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Contact</Link>
+        <Link href="/dashboard/products" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Products</Link>
+        <Link href="/dashboard/customers" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Customers</Link>
+        <Link href="/dashboard" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Orders</Link>
+        <Link href="/dashboard" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Reviews</Link>
         <Link href="/" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Services</Link>
 
         <button onClick={logout}>signout</button>

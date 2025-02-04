@@ -97,7 +97,7 @@ export default function SignupForm() {
           onChange={handleonChange}
         />
 
-        <button disabled={pending || !verified} type="submit" className='mb-2 mt-2 w-full bg-blue-700 p-2 text-white font-bold rounded-md'>Register</button>
+        <button disabled={pending || !verified} type="submit" className='mb-2 mt-2 w-full bg-blue-700 p-2 text-white font-bold rounded-md disabled:bg-slate-500'>Register</button>
       </form>
     </div>
   )
