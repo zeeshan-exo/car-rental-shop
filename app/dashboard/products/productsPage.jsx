@@ -4,6 +4,9 @@ import { cookies } from 'next/headers';
 import { decrypt } from '@/lib/session';
 import ProductForm from './productForm';
 
+import DisplayVendorProducts from './vendorProducts';
+
+
 export default async function ProductsPage() {
 
     const sessionCookie = (await cookies()).get('session')?.value
@@ -13,8 +16,9 @@ export default async function ProductsPage() {
     <div className="p-4">
 
       {payload?.role === "vendor" && <ProductForm />}
-
-      <DisplayProducts />
+      {payload?.userId && <DisplayVendorProducts/>}
+       {payload?.role === "customer" &&  <DisplayProducts />}
+     
     </div>
   );
 }

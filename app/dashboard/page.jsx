@@ -5,7 +5,6 @@ const page = () => {
   return (
     <div>
          Welcome to dashboard
-  
     </div>
   )
 }
