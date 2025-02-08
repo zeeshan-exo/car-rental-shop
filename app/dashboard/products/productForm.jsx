@@ -34,7 +34,6 @@ const ProductForm = () => {
     startTransition(() => {
       action(formData);
     });
-
     setIsModalOpen(false); 
   };
 
@@ -131,19 +130,20 @@ const ProductForm = () => {
                   name="image"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                  class="file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100 "
                 />
               </div>
                
               <div className="flex flex-col col-span-3">
                 <label htmlFor="description" className="font-semibold mb-1">
-                   Description
+                  Product Description
                 </label>
                 <textarea
                   id="description"
                   name="description"
                   type="text"
-                  placeholder="product details"
+                  placeholder="fill out the details of your product"
+                  rows={3}
                   className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
                 {state?.errors?.description && (
@@ -152,7 +152,8 @@ const ProductForm = () => {
               </div>
 
 
-              <div className="col-span-3 mt-4 flex justify-end">
+              <div className="col-span-3 mt-4 flex justify-between">
+                <p className="text-blue-600">Tips: <span className="text-sm text-gray-400">Choose a more detailed name of your product, but keep it short.</span></p>
                 <button
                   disabled={pending}
                   type="submit"

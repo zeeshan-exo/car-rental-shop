@@ -14,9 +14,7 @@ export async function signup(state, formData) {
 
     const validatedFields = SignupFormSchema.safeParse(rawData);
     if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-        };
+        return { errors: validatedFields.error.flatten().fieldErrors,};
     }
 
     const { email, password, role, cars_quantity, idCard, name, address } = validatedFields.data;
@@ -50,9 +48,6 @@ export async function signup(state, formData) {
     redirect("/pages/login");
 }
 
-
-  
-
 export async function login(state, formData){
     const validatedFields = LoginformSchema.safeParse({
         email: formData.get('email'),
@@ -70,25 +65,19 @@ export async function login(state, formData){
     const existingUser = await userCollection.findOne({email})
     if(!existingUser) {
         return{
-            errors:{
-                email: "Email does not exist "
-                
-            }
+            errors:{email: "Email does not exist "}
         }
     }
     const isPasswordValid = await bcrypt.compare(password, existingUser.password)
     if(!isPasswordValid){
         return{
-            errors:{
-                email:"Invalid email or password"
-            }
+            errors:{ email:"Invalid email or password"}
         }
     }
  
     await userCollection.updateOne(
         {email},
         {$set: {status: "active"}}
-
     )
 
     await createSession(existingUser._id.toString(), existingUser.role.toString())

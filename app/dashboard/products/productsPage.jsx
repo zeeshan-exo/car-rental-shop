@@ -14,11 +14,9 @@ export default async function ProductsPage() {
 
   return (
     <div className="p-4">
-
+     {payload?.role ==="customer" &&  <DisplayProducts />}
       {payload?.role === "vendor" && <ProductForm />}
-      {payload?.userId && <DisplayVendorProducts/>}
-      {!payload?.role === "vendor" &&   <DisplayProducts />}
-    
+      {payload?.userId && payload?.role === "vendor" && <DisplayVendorProducts/>}
      
     </div>
   );
