@@ -17,7 +17,8 @@ export default async function ProductsPage() {
 
       {payload?.role === "vendor" && <ProductForm />}
       {payload?.userId && <DisplayVendorProducts/>}
-       {payload?.role === "customer" &&  <DisplayProducts />}
+      {!payload?.role === "vendor" &&   <DisplayProducts />}
+    
      
     </div>
   );

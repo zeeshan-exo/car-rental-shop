@@ -16,8 +16,12 @@ export default async function DisplayVendorProducts() {
         <ul>
           {products.map((product) => (
             <li key={product._id} className="p-4 border rounded-md shadow-md">
-              <h2 className="text-lg font-semibold">{product.name}</h2>
-              <p>Name: {product.carName || 'N/A'}</p>
+              <img
+              src={product.image}
+              alt={product.carName}
+              />
+
+              <h2 className="text-lg font-semibold">{product.carName}</h2>
               <p>Brand: {product.brand || 'N/A'}</p>
               <p>Model: {product.model || 'N/A'}</p>
               <p className="text-green-600 font-bold">

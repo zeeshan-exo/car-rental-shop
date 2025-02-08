@@ -1,102 +1,172 @@
-'use client'
-import React, { useActionState, useState } from 'react'
-import { createProduct } from '@/app/actions/products'
+"use client";
+import React, { useActionState, useState } from "react";
+import { createProduct } from "@/app/actions/products";
+import { startTransition } from "react";
 
 const ProductForm = () => {
-  
-  const [state, action, pending] = useActionState(createProduct, undefined) 
-  const [isFormOpen, setIsfromOpen] = useState(false)
+  const [state, action, pending] = useActionState(createProduct, undefined);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imageFile, setImageFile] = useState("");
 
+  const handleImageChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (formData) => {
+    if (imageFile) {
+      const imageData = new FormData();
+      imageData.append("image", imageFile);
+
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: imageData,
+      });
+
+      const uploadResult = await uploadResponse.json();
+      if (!uploadResult.success) {
+        console.error("Image upload failed:", uploadResult.error);
+        return;
+      }
+
+      formData.append("image", uploadResult.cloudinaryUrl);
+    }
+
+    startTransition(() => {
+      action(formData);
+    });
+
+    setIsModalOpen(false); 
+  };
 
   return (
-    <div >
-      <button className='bg-indigo-800 text-white rounded-md p-2' onClick={()=>setIsfromOpen(!isFormOpen)}>{isFormOpen? "Close From": "Add Product"}</button>
-      {isFormOpen && 
-         <form action={action}  className="max-w-sm mx-auto w-full p-2">
-     
-         <div className="flex flex-col">
-           <label htmlFor="name">Car Name</label>
-           <input 
-             id="name"
-             name="carName"
-             type="text" 
-             placeholder="car's name" 
-             className="p-2 mb-2 rounded-md border border-gray-800 bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-800"
-           />
-           {state?.errors?.name && (
-             <p className="text-red-600 text-sm">{state.errors.name}</p>
-           )}
-         </div>
- 
-         <div className="flex flex-col">
-           <label htmlFor="brand">Brand</label>
-           <input 
-             id="brand"
-             name="brand"
-             type="text" 
-             placeholder="car's brand" 
-             className="p-2 mb-2 border border-gray-800 rounded-md bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-800"
-           />
-           {state?.errors?.brand && (
-             <p className="text-red-600 text-sm">{state.errors.brand}</p>
-           )}
-         </div>
-         
-         <div className="flex flex-col">
-           <label htmlFor="model">Model</label>
-           <input 
-             id="model"
-             name="model"
-             type="text" 
-             placeholder="model" 
-             className="p-2 mb-2 border border-gray-800 rounded-md bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-800"
-           />
-           {state?.errors?.model && (
-             <p className="text-red-600 text-sm">{state.errors.model}</p>
-           )}
-         </div>
- 
-         <div className="flex flex-col">
-           <label htmlFor="price">Rental Price</label>
-           <input 
-             id="price"
-             name="price"
-             type="text" 
-             placeholder="price" 
-             className="p-2 mb-2 border border-gray-800 rounded-md bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-800"
-           />
-           {state?.errors?.price && (
-             <p className="text-red-600 text-sm">{state.errors.price}</p>
-           )}
-         </div>
+    <div>
+      <button
+        className="bg-indigo-800 text-white rounded-md p-3 mb-2"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Add Product
+      </button>
 
-      
-        
-         {/* <div className="flex flex-col">
-            <label htmlFor="avatar">Upload Image</label>
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-          
-              className="p-2 mb-2 rounded-md border border-gray-800 bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-800"
-            />
-          </div> */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full m-40 relative">
+            <button
+              className="absolute top-3 right-3 mb-3 text-gray-600 text-2xl font-bold"
+              onClick={() => setIsModalOpen(false)}
+            >
+              &times;
+            </button>
 
-         <div className="mt-4">
-           <button
-             disabled={pending}
-             type="submit"
-             className="mb-2 mt-2 w-full bg-indigo-800 p-2 text-white font-bold rounded-md disabled:bg-slate-500"
-           >
-             {pending ? "Adding..." : "Add Product"}
-           </button>
-         </div>
-       </form>
-       }
-   
+            <form action={handleSubmit} className="grid grid-cols-3 gap-4">
+              <div className="flex flex-col">
+                <label htmlFor="name" className="font-semibold mb-1">
+                  Product Title
+                </label>
+                <input
+                  id="name"
+                  name="carName"
+                  type="text"
+                  placeholder="car's name"
+                  className="p-2 rounded-md border border-gray-200 bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+                {state?.errors?.name && (
+                  <p className="text-red-600 text-sm">{state.errors.name}</p>
+                )}
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="brand" className="font-semibold mb-1">
+                  Brand
+                </label>
+                <input
+                  id="brand"
+                  name="brand"
+                  type="text"
+                  placeholder="car's brand"
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+                {state?.errors?.brand && (
+                  <p className="text-red-600 text-sm">{state.errors.brand}</p>
+                )}
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="model" className="font-semibold mb-1">
+                  Model
+                </label>
+                <input
+                  id="model"
+                  name="model"
+                  type="text"
+                  placeholder="model"
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+                {state?.errors?.model && (
+                  <p className="text-red-600 text-sm">{state.errors.model}</p>
+                )}
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="price" className="font-semibold mb-1">
+                  Rental Price
+                </label>
+                <input
+                  id="price"
+                  name="price"
+                  type="text"
+                  placeholder="price"
+                  className="p-2 rounded-md border bg-slate-200 focus:outline-none shadow-md focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+                {state?.errors?.price && (
+                  <p className="text-red-600 text-sm">{state.errors.price}</p>
+                )}
+              </div>
+
+              <div className="flex flex-col col-span-3">
+                <label htmlFor="image" className="font-semibold mb-1">
+                  Upload Image
+                </label>
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+              </div>
+               
+              <div className="flex flex-col col-span-3">
+                <label htmlFor="description" className="font-semibold mb-1">
+                   Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  type="text"
+                  placeholder="product details"
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+                {state?.errors?.description && (
+                  <p className="text-red-600 text-sm">{state.errors.description}</p>
+                )}
+              </div>
+
+
+              <div className="col-span-3 mt-4 flex justify-end">
+                <button
+                  disabled={pending}
+                  type="submit"
+                  className="bg-indigo-800 text-white p-2 font-bold rounded-md disabled:bg-slate-500"
+                >
+                  {pending ? "Adding..." : "Add Product"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ProductForm
+export default ProductForm;

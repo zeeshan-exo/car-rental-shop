@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { uploads } from "@/utils/cloudinary"; 
+import { uploads } from "@/utils/cloudinary";
 
 export async function POST(req) {
   try {
@@ -10,11 +10,11 @@ export async function POST(req) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const base64File = `data:${file.type};base64,${buffer.toString("base64")}`;
+    const cloudinaryResult = await uploads(file, "products");
 
-
-    const cloudinaryResult = await uploads(base64File, "products");
+    if (!cloudinaryResult || !cloudinaryResult.url) {
+      return NextResponse.json({ error: "Cloudinary upload failed" }, { status: 500 });
+    }
 
     return NextResponse.json({
       success: true,
@@ -24,6 +24,6 @@ export async function POST(req) {
     });
   } catch (error) {
     console.error("Error uploading file:", error);
-    return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
+    return NextResponse.json({ error: "Failed to upload file", details: error.message }, { status: 500 });
   }
 }

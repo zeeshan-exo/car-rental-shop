@@ -16,12 +16,15 @@ export default async function DisplayProducts() {
       <ul >
         {products.map((product) => (
           <li key={product._id} className="p-4 border rounded-md shadow-md">
-            <h2 className="text-lg font-semibold">{product.name}</h2>
-            <p>Name: {product.carName}</p>
+             <img
+             src={product.image}
+             alt={product.carName}
+              className="w-40 h-40 object-cover rounded-md mb-2"
+             /> 
+            <h2 className="text-lg font-semibold">{product.carName}</h2>
             <p>Brand: {product.brand}</p>
             <p>Model: {product.model}</p>
-           
-           
+                     
             <p className="text-green-600 font-bold">${product.price}</p>
           </li>
         ))}

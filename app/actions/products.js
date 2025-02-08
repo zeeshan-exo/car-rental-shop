@@ -1,57 +1,41 @@
-'use server'
+"use server";
 import { getCollection } from "@/lib/db";
 import { ProductSchema } from "@/lib/productDefinations/productDefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 
-
 export async function createProduct(state, formData) {
-  console.log("Form Data:", formData)
-    
   const rawData = Object.fromEntries(formData.entries());
 
   const validatedFields = ProductSchema.safeParse(rawData);
   if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
-  const {vendorId, ...Data} = validatedFields.data;
-
-  const session = (await cookies()).get('session').value
-  if(!session){
-    console.log("No session found in cookies")
-  }
-  const payload = await decrypt(session)
-  if(!payload){console.log("data not found in payload")}
-
-  console.log("Payload User ID", payload?.userId)
-
-     validatedFields.data.vendorId = payload?.userId
-
-
-  const productData ={
-    ...Data,
-    vendorId : payload?.userId
+    return { errors: validatedFields.error.flatten().fieldErrors };
   }
 
-  console.log("Product Data", productData)
-  
+  const { vendorId, ...productData } = validatedFields.data;
 
-  const productCollection = await getCollection("products");
-  if (!productCollection) return { errors: { email: "products collection not found" } };
+  const cookieStore = await cookies();
+  const session = cookieStore.get("session")?.value;
+    if (!session) return { errors: { session: "User session not found" } };
+
+  const payload = await decrypt(session);
+  if (!payload) return { errors: { session: "Invalid session data" } };
 
   try {
-    const result = await productCollection.insertOne(productData);
-    console.log("Result:" ,result)
+    const productCollection = await getCollection("products");
+    if (!productCollection) return { errors: { database: "Products collection not found" } };
+
+    await productCollection.insertOne({
+      ...productData,
+      vendorId: payload?.userId,
+    });
+
     return { success: true, message: "Product created successfully!" };
   } catch (error) {
-    return { errors: { database: "Failed to insert product", details: error.message } };
+    console.error("Error creating product:", error);
+    return { errors: { database: "Failed to create product", details: error.message } };
   }
 }
-;
-
-
 
 export async function getAllProducts() {
   try {
@@ -79,7 +63,6 @@ export async function getVendorProducts() {
 
     const productCollection = await getCollection("products");
     const products = await productCollection.find({vendorId: payload?.userId}).toArray()
-    console.log("Vendor Crated Products", products)
     return products.length ? products : []; 
 
   } catch (error) {
