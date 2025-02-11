@@ -1,21 +1,36 @@
 "use client";
-import React, { useActionState, useState } from "react";
+import React, { useActionState, useState, useEffect } from "react";
 import { createProduct } from "@/app/actions/products";
 import { startTransition } from "react";
+import { toast } from "react-toastify";
 
 const ProductForm = () => {
   const [state, action, pending] = useActionState(createProduct, undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [imageFile, setImageFile] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   const handleImageChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const files = Array.from(e.target.files);
+    setImageFiles(files);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setSelectedImages(previews);
+  };
+
+  const handleRemoveImage = (index) => {
+    setImageFiles((prevFiles) => prevFiles.filter((rem, i) => i !== index));
+    setSelectedImages((prevPreviews) => {
+      URL.revokeObjectURL(prevPreviews[index]);
+      return prevPreviews.filter((rem,i) => i !== index);
+    });
   };
 
   const handleSubmit = async (formData) => {
-    if (imageFile) {
+    if (imageFiles.length > 0) {
       const imageData = new FormData();
-      imageData.append("image", imageFile);
+      imageFiles.forEach((file) => {
+        imageData.append("image", file);
+      });
 
       const uploadResponse = await fetch("/api/upload", {
         method: "POST",
@@ -28,19 +43,21 @@ const ProductForm = () => {
         return;
       }
 
-      formData.append("image", uploadResult.cloudinaryUrl);
+      formData.append("images", JSON.stringify(uploadResult.uploads));
     }
 
     startTransition(() => {
       action(formData);
     });
-    setIsModalOpen(false); 
+    
+    setIsModalOpen(false);
+    toast.success("Product Created Successfully")
   };
 
   return (
     <div>
       <button
-        className="bg-indigo-800 text-white rounded-md p-3 mb-2"
+        className="bg-sky-500 text-white rounded-md p-2 mb-2 "
         onClick={() => setIsModalOpen(true)}
       >
         Add Product
@@ -57,6 +74,7 @@ const ProductForm = () => {
             </button>
 
             <form action={handleSubmit} className="grid grid-cols-3 gap-4">
+
               <div className="flex flex-col">
                 <label htmlFor="name" className="font-semibold mb-1">
                   Product Title
@@ -123,17 +141,38 @@ const ProductForm = () => {
 
               <div className="flex flex-col col-span-3">
                 <label htmlFor="image" className="font-semibold mb-1">
-                  Upload Image
+                  Upload Images
                 </label>
                 <input
                   type="file"
-                  name="image"
+                  name="images"
                   accept="image/*"
+                  multiple
                   onChange={handleImageChange}
-                  class="file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100 "
+                  className="file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100"
                 />
+                {selectedImages.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {selectedImages.map((src, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={src}
+                          alt={`Preview ${index}`}
+                          className="w-24 h-24 object-cover rounded-md border "
+                        />
+                        <button
+                          type="button"
+                          onClick={()=>handleRemoveImage(index)}
+                          className="absolute top-0 right-0  text-black bg-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
-               
+
               <div className="flex flex-col col-span-3">
                 <label htmlFor="description" className="font-semibold mb-1">
                   Product Description
@@ -141,8 +180,7 @@ const ProductForm = () => {
                 <textarea
                   id="description"
                   name="description"
-                  type="text"
-                  placeholder="fill out the details of your product"
+                  placeholder="Fill out the details of your product"
                   rows={3}
                   className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
@@ -151,13 +189,17 @@ const ProductForm = () => {
                 )}
               </div>
 
-
               <div className="col-span-3 mt-4 flex justify-between">
-                <p className="text-blue-600">Tips: <span className="text-sm text-gray-400">Choose a more detailed name of your product, but keep it short.</span></p>
+                <p className="text-blue-600">
+                  Tips:{" "}
+                  <span className="text-sm text-gray-400">
+                    Choose a detailed yet concise name for your product.
+                  </span>
+                </p>
                 <button
                   disabled={pending}
                   type="submit"
-                  className="bg-indigo-800 text-white p-2 font-bold rounded-md disabled:bg-slate-500"
+                  className="bg-sky-500 text-white p-2 font-bold rounded-md disabled:bg-slate-500"
                 >
                   {pending ? "Adding..." : "Add Product"}
                 </button>

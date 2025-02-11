@@ -1,10 +1,25 @@
+import Link from "next/link";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 
 export default function Home() {
   return (
     <>
-      <Header />
+     <Header
+     title="Expo"
+     navLinks={[
+      { label: "Home", href: "/" },
+      { label: "Dashbard", href: "/dashboard" },
+      { label: "Contact", href: "/" },
+      { label: "About", href: "/" },
+     ]}
+     rightContent={
+      <Link href="/pages/signup" className="px-6 py-2 rounded-full font-bold bg-gray-600 text-white  hover:bg-gray-800 transition duration-300 ease-in-out focus:ring-2 focus:ring-gray-500 shadow-md">
+           signup
+      </Link>
+     }
+     />
+     
       <div className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 bg-[url('/bgCar.png')] bg-cover bg-center bg-no-repeat">
 
         <div className="absolute inset-0 bg-black/50"></div>

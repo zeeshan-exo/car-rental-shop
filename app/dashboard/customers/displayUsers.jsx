@@ -49,7 +49,7 @@ export default async function DisplayUsers() {
                   {user.status}
                </td>
              
-                {/* <button onClick={deleteUser}></button> */}
+        
                
                </tr>
           )) 

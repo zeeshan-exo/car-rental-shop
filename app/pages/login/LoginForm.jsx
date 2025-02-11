@@ -1,11 +1,14 @@
 'use client'
 import { useActionState } from 'react'
-
 import { login } from '@/app/actions/auth'
 import Link from 'next/link'
+import { toast } from 'react-toastify'
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState(login, undefined)
+  const handleLogin=()=>{
+    toast.success("User loged in ")
+  }
   return (
     <div className="min-h-screen bg-gradient-to-tr from-violet-500 to-violet-900 flex items-center justify-center">
     <form action={action} className='max-w-sm mx-auto w-full p-8 rounded-md bg-slate-200'>
@@ -41,7 +44,7 @@ export default function LoginForm() {
      </div>
     
    
-      <button disabled={pending} type="submit" className='mb-2 w-full bg-blue-700 p-2 text-white font-bold rounded-md'>Login</button>
+      <button  disabled={pending} onClick={handleLogin} type="submit" className='mb-2 w-full bg-blue-700 p-2 text-white font-bold rounded-md'>Login</button>
     </form>
     </div>
   )

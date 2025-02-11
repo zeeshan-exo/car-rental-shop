@@ -8,10 +8,12 @@ cloudinary.config({
 
 export const uploads = async (file, folder) => {
   try {
-    const arrayBuffer = await file.arrayBuffer();
+  
+    const arrayBuffer = await new Response(file).arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-
-    const base64File = `data:${file.type};base64,${buffer.toString("base64")}`;
+    
+    const mimeType = file.type || "application/octet-stream";
+    const base64File = `data:${mimeType};base64,${buffer.toString("base64")}`;
 
     const result = await cloudinary.uploader.upload(base64File, {
       folder,

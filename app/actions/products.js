@@ -3,9 +3,21 @@ import { getCollection } from "@/lib/db";
 import { ProductSchema } from "@/lib/productDefinations/productDefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
+import { ObjectId } from 'mongodb';
+
 
 export async function createProduct(state, formData) {
   const rawData = Object.fromEntries(formData.entries());
+  delete rawData.image;
+  
+  if (rawData.images) {
+    try {
+      rawData.images = JSON.parse(rawData.images);
+    } catch (error) {
+      console.error("Error parsing images field:", error);
+      rawData.images = [];
+    }
+  }
 
   const validatedFields = ProductSchema.safeParse(rawData);
   if (!validatedFields.success) {
@@ -16,16 +28,15 @@ export async function createProduct(state, formData) {
 
   const cookieStore = await cookies();
   const session = cookieStore.get("session")?.value;
-    if (!session) return { errors: { session: "User session not found" } };
-
+  if (!session) return { errors: { session: "User session not found" } };
   const payload = await decrypt(session);
   if (!payload) return { errors: { session: "Invalid session data" } };
 
   try {
     const productCollection = await getCollection("products");
-    if (!productCollection) return { errors: { database: "Products collection not found" } };
-
-    await productCollection.insertOne({
+    if (!productCollection)
+      return { errors: { database: "Products collection not found" } };
+      await productCollection.insertOne({
       ...productData,
       vendorId: payload?.userId,
     });
@@ -33,9 +44,15 @@ export async function createProduct(state, formData) {
     return { success: true, message: "Product created successfully!" };
   } catch (error) {
     console.error("Error creating product:", error);
-    return { errors: { database: "Failed to create product", details: error.message } };
+    return {
+      errors: {
+        database: "Failed to create product",
+        details: error.message,
+      },
+    };
   }
 }
+
 
 export async function getAllProducts() {
   try {
@@ -53,7 +70,6 @@ export async function getAllProducts() {
 
 export async function getVendorProducts() {
   try {
-
     const session = (await cookies()).get('session').value
     if(!session){
       console.log("No session found in cookies")
@@ -70,10 +86,20 @@ export async function getVendorProducts() {
   }
 }
 
+export async function deleteProduct(_id) {
+  try {
+    const productCollection = await getCollection("products");
+    console.log("ID: " , _id)
+    const productId = new  ObjectId (_id)
 
+     await productCollection.deleteOne( {_id: productId});
 
-
-
-
-
-
+    // if (result.deletedCount === 1) {
+    //   console.log(`Product with id ${_id} deleted successfully.`);
+    // } else {
+    //   console.warn(`Product with id ${_id} was not found.`);
+    // }
+  } catch (error) {
+    console.error("Error while deleting product", error);
+  }
+}

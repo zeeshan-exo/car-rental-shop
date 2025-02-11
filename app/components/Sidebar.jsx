@@ -6,7 +6,6 @@ const Sidebar = () => {
   return (
     <div className='bg-slate-600 text-white font-bold max-w-60 min-h-screen'>
         <nav className='flex flex-col space-y-4 p-2'>
-            {/* <h1 className='text-3xl text-slate-900'>Dashboard</h1> */}
         
         <Link href="/" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Home</Link>
         <Link href="/dashboard/products" className='focus:outline-none rounded-md hover:bg-slate-900 p-2'>Products</Link>
