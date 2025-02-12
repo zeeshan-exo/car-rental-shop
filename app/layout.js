@@ -28,6 +28,8 @@ export default function RootLayout({ children }) {
           <ToastContainer/>
         </ReCaptchaProvider>
       </body>
+     
     </html>
+    
   );
 }

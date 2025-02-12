@@ -9,9 +9,10 @@ export default async function DisplayVendorProducts() {
   if (!products || products.length === 0) {
     return <p className="text-gray-500 text-center">No products found.</p>;
   }
-
+  
   return (
-    <div className="p-6">
+    <div className="p-4">
+
       <div className="grid grid-cols-3 gap-6">
         {products.map((product) => (
           <div
@@ -50,6 +51,8 @@ export default async function DisplayVendorProducts() {
           </div>
         ))}
       </div>
+    
+
     </div>
   );
 }

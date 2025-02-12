@@ -1,11 +1,10 @@
 
 import React from 'react'
 import { getUsers, deleteUser } from '@/app/actions/users'
-// import DeleteButton from '@/app/components/DeleteButton'
+import DeleteUserButton from './deleteButton';
 
 export default async function DisplayUsers() {
   const users = await getUsers()
-
 
   if (users.length === 0) {
     return <p className="text-gray-500">No users found.</p>;
@@ -48,9 +47,7 @@ export default async function DisplayUsers() {
                <td className="px-6 py-4">
                   {user.status}
                </td>
-             
-        
-               
+               <DeleteUserButton userId = {user._id.toString()}/>
                </tr>
           )) 
           }

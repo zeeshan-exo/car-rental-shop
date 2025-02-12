@@ -1,8 +1,22 @@
+"use client"
 import Link from "next/link";
-import Footer from "./components/Footer";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { logout } from "./actions/auth";
+import { RxExit } from "react-icons/rx";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [user, setUser] = useState(null)
+
+ useEffect(() => {
+    const getUserSession = async () => {
+      const response = await fetch("/api/auth/session"); 
+      const data = await response.json();
+      setUser(data?.user);
+    };
+    getUserSession();
+  },[]);
   return (
     <>
      <Header
@@ -14,25 +28,35 @@ export default function Home() {
       { label: "About", href: "/" },
      ]}
      rightContent={
-      <Link href="/pages/signup" className="px-6 py-2 rounded-full font-bold bg-gray-600 text-white  hover:bg-gray-800 transition duration-300 ease-in-out focus:ring-2 focus:ring-gray-500 shadow-md">
-           signup
-      </Link>
+            <div className="space-x-4 flex items-center">
+              {user ? (
+                  <button onClick={logout} className="text-red-500 font-bold text-xl">
+                    <RxExit/>
+                  </button>  
+              ) : (
+                <Link href="/pages/login" className="text-blue-500">Login</Link>
+              )}
+            </div>
      }
      />
      
-      <div className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 bg-[url('/bgCar.png')] bg-cover bg-center bg-no-repeat">
+      <div className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 bg-[url('/redcar.webp')] bg-cover bg-center bg-no-repeat">
 
         <div className="absolute inset-0 bg-black/50"></div>
 
         <div className="relative max-w-lg text-white drop-shadow-lg">
           <h1 className="text-5xl font-bold mb-4 text-start">Welcome to Expo</h1>
           <p className="mb-6 text-xl text-start text-gray-200">Let's explore with us this page</p>
-          <button className="px-6 py-2 rounded-md font-bold bg-gray-700 text-white hover:bg-gray-100 hover:text-gray-800 transition duration-300 ease-in-out focus:ring-2 focus:ring-gray-500 shadow-md">
+          <button className="px-6 py-2 text-black font-semibold rounded-lg shadow-md bg-white  hover:bg-black hover:text-white transition">
             Get Started
           </button>
         </div>
       </div>
-      <Footer />
+      <div className="min-h-96">
+        features
+      </div>
+      <Footer/>
+  
     </>
   );
 }

@@ -1,6 +1,8 @@
+"use server"
 import { getCollection } from "@/lib/db";
-
-
+import { decrypt } from "@/lib/session";
+import { cookies } from "next/headers";
+import {ObjectId} from "mongodb"
 
 export async function getUsers() {
     try {
@@ -15,15 +17,31 @@ export async function getUsers() {
     }
 }
 
-export async function deleteUser(id){
+export async function getUser(){
+    
     try {
-        const userCollection = await getCollection('users')
-        await userCollection.deleteOne({_id: id})
-
-        if(!id){
+        const session = (await cookies()).get('session').value
+        const payload = await decrypt(session)
+        const userCollection = await getCollection("users")
+        await userCollection.findOne({_id: new ObjectId(payload.userId)})
+        if(_id){
             console.log("No user found with such id")
         }
+    } catch (error) {
+        console.error("Error while getting user with this id")
+    }
+}
 
+export async function deleteUser(_id){
+    try {
+        const session = (await cookies()).get('session').value
+        const payload = await decrypt(session)
+        const userCollection = await getCollection('users')
+        await userCollection.deleteOne({_id: new ObjectId(payload.userId)})
+
+        if(!_id){
+            console.log("No user found with such id")
+        }
     } catch (error) {
         console.log("Error while deleting User",error)
     }

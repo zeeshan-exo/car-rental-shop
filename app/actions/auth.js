@@ -16,7 +16,6 @@ export async function signup(state, formData) {
     if (!validatedFields.success) {
         return { errors: validatedFields.error.flatten().fieldErrors,};
     }
-
     const { email, password, role, cars_quantity, idCard, name, address } = validatedFields.data;
     const userCollection = await getCollection("users");
     if (!userCollection) return { errors: { email: "User collection not found" } };
@@ -81,8 +80,11 @@ export async function login(state, formData){
     )
 
     await createSession(existingUser._id.toString(), existingUser.role.toString())
-    redirect ('/dashboard')
-
+    const session = (await cookies()).get('session')?.value;
+    const payload = await decrypt(session);
+    {payload?.role==="customer"?
+        redirect ('/dashboard'):  redirect ('/vendor')
+    }
 }
 
 export async function logout() {
@@ -100,7 +102,6 @@ export async function logout() {
             );
         }
     }
-
     deleteSession()
     redirect('/pages/login')
 }

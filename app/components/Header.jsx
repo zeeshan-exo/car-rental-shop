@@ -8,7 +8,7 @@ const Header = ({ title, navLinks, rightContent, className }) => {
     <nav className=' w-full max-auto  p-4 '>
       <div className='flex justify-between items-center'>
       
-        <div className='text-2xl font-bold tracking-wide'>{title}</div>
+        <div className='text-2xl font-bold font-sans tracking-wide'>{title}</div>
 
         <ul className='hidden md:flex space-x-6 text-lg font-medium'>
           {navLinks.map((link, idx) => (
