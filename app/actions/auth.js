@@ -79,7 +79,7 @@ export async function login(state, formData){
         {$set: {status: "active"}}
     )
 
-    await createSession(existingUser._id.toString(), existingUser.role.toString())
+    await createSession(existingUser._id.toString(), existingUser.name.toString(), existingUser.role.toString())
     const session = (await cookies()).get('session')?.value;
     const payload = await decrypt(session);
     {payload?.role==="customer"?

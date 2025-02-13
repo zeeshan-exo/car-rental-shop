@@ -39,6 +39,7 @@ export async function createProduct(state, formData) {
       await productCollection.insertOne({
       ...productData,
       vendorId: payload?.userId,
+      vendorName: payload?.name
     });
 
     return { success: true, message: "Product created successfully!" };
@@ -52,7 +53,6 @@ export async function createProduct(state, formData) {
     };
   }
 }
-
 
 export async function getAllProducts() {
   try {

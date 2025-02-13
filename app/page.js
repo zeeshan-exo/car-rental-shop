@@ -3,8 +3,8 @@ import Link from "next/link";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { logout } from "./actions/auth";
-import { RxExit } from "react-icons/rx";
 import { useEffect, useState } from "react";
+import { LogOut } from "lucide-react";
 
 export default function Home() {
   const [user, setUser] = useState(null)
@@ -31,7 +31,7 @@ export default function Home() {
             <div className="space-x-4 flex items-center">
               {user ? (
                   <button onClick={logout} className="text-red-500 font-bold text-xl">
-                    <RxExit/>
+                    <LogOut/>
                   </button>  
               ) : (
                 <Link href="/pages/login" className="text-blue-500">Login</Link>

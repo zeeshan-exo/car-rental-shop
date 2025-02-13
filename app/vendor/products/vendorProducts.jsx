@@ -32,7 +32,7 @@ export default async function DisplayVendorProducts() {
                 />
               )}
             </div>
-            <div className="mt-4">
+            <div className="mt-4 text-sm">
               <h2 className="text-lg font-semibold">{product.carName}</h2>
               <p className="text-gray-600">
                 Brand: <span className="font-medium">{product.brand}</span>
@@ -40,7 +40,13 @@ export default async function DisplayVendorProducts() {
               <p className="text-gray-600">
                 Model: <span className="font-medium">{product.model}</span>
               </p>
-              <p className="text-sm text-gray-500 mt-2">{product.description}</p>
+              <p className="text-gray-600">
+                Available Cars: <span className="font-medium">{product.carQuantity}</span>
+              </p>
+              <p className=" text-gray-500 line-clamp-1">{product.description}</p>
+              {/* <p className="text-gray-600 ">
+                Owner: <span >{product.vendorName}</span>
+              </p> */}
               <div className="mt-2 flex items-center justify-between">
                <p className="text-green-600 font-bold text-lg">
                   ${product.price}

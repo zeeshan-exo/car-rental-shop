@@ -139,6 +139,22 @@ const ProductForm = () => {
                 )}
               </div>
 
+              <div className="flex flex-col">
+                <label htmlFor="carQuantity" className="font-semibold mb-1">
+                  Car's Quantity
+                </label>
+                <input
+                  id="carQuantity"
+                  name="carQuantity"
+                  type="text"
+                  placeholder="Available Car's Quantity"
+                  className="p-2 rounded-md border bg-slate-200 focus:outline-none shadow-md focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+                {state?.errors?.carQuantity && (
+                  <p className="text-red-600 text-sm">{state.errors.carQuantity}</p>
+                )}
+              </div>
+
               <div className="flex flex-col col-span-3">
                 <label htmlFor="image" className="font-semibold mb-1">
                   Upload Images

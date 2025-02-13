@@ -5,6 +5,7 @@ import { logout } from "../actions/auth";
 import ProfileImage from "../components/ProfileImage";
 import Link from "next/link";
 import Footer from "../components/Footer";
+import { House, LogOut, Search } from "lucide-react";
 
 export default function VendorDashboardLayout({ children }) {
   const [user, setUser] = useState(null);
@@ -24,16 +25,18 @@ export default function VendorDashboardLayout({ children }) {
         <Header
           title="Expo"
           navLinks={[
-            { label: "Home", href: "/" },
+            { label: <House/>, href: "/" },
             { label: "Dashboard", href: "/vendor" },
             { label: "Products", href: "/vendor/products" },
+            { label: "Orders", href: "/vendor/orders" },
+            { label: <Search/>, href: "" },
           ]}
           rightContent={
             <div className="space-x-4 flex items-center">
               {user ? (
                 <>
                   <button onClick={logout} className="text-red-500 text-md hover:underline">
-                    Logout
+                    <LogOut/>
                   </button>
                   <ProfileImage/>
                 </>
@@ -47,7 +50,7 @@ export default function VendorDashboardLayout({ children }) {
         <main className="flex-1 p-6 overflow-auto bg-gray-50 shadow-inner rounded-lg">
           {children}
         </main>
-        <Footer/>
+ 
       </div>
     </div>
   );

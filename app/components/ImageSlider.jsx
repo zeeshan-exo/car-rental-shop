@@ -38,7 +38,7 @@ const ImageSlider = ({ images }) => {
             <img
               src={imageUrl}
               alt={`Slide ${index + 1}`}
-              className="w-full h-auto object-cover"
+              className="w-full h-64 object-cover"
             />
           </div>
         );
