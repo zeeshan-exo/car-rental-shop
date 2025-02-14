@@ -4,7 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
-const ImageSlider = ({ images }) => {
+const ImageSlider = ({ images}) => {
   const settings = {
     dots: true,             
     infinite: true,         
@@ -15,9 +15,8 @@ const ImageSlider = ({ images }) => {
     autoplaySpeed: 3000,    
     cssEase: "ease-in-out", 
     arrows: false,         
-    pauseOnHover: true,     
     pauseOnFocus: true,    
-    adaptiveHeight: true,  
+    adaptiveHeight: true,
     responsive: [
       {
         breakpoint: 768, 
@@ -38,7 +37,7 @@ const ImageSlider = ({ images }) => {
             <img
               src={imageUrl}
               alt={`Slide ${index + 1}`}
-              className="w-full h-64 object-cover"
+              className="w-full h-60 object-cover rounded-md"
             />
           </div>
         );

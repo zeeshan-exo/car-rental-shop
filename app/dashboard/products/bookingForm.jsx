@@ -1,6 +1,6 @@
 "use client";
 import { bookingOrder } from '@/services/actions/order';
-import ReusableForm from '@/app/components/Form';
+import ReusableForm from '@/components/Form';
 import { useState, useEffect, useActionState, startTransition } from 'react';
 
 const initialBookingFields = [
@@ -35,7 +35,7 @@ export default function BookingForm({ carModel, productName, productId }) {
     if (user && user.email) {
       setInitialValues((prev) => ({ ...prev, email: user.email }));
     }
-  }, []);
+  }, [user]);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);

@@ -1,6 +1,6 @@
 import React from "react";
 import { getAllProducts } from "@/services/actions/products";
-import ImageSlider from "@/app/components/ImageSlider";
+import ImageSlider from "@/components/ImageSlider";
 import Image from "next/image";
 import ViewProduct from "./viewProduct";
 import Link from "next/link";

@@ -1,7 +1,7 @@
 import React from "react";
 import { getVendorProducts } from "@/services/actions/products";
 import DeleteProductButton from "./deleteProduct";
-import ImageSlider from "@/app/components/ImageSlider";
+import ImageSlider from "@/components/ImageSlider";
 
 export default async function DisplayVendorProducts() {
   const products = await getVendorProducts();

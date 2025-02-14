@@ -62,7 +62,7 @@ export async function confirmOrder(id) {
         throw new Error("Orders collection not found");
       }
       const result = await orderCollection.updateOne(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId((string(id))) },
         {$set:{status: "confirmed"}}
     )
     return result
@@ -72,15 +72,14 @@ export async function confirmOrder(id) {
     }
 }
 
-
 export async function getOneOrder(id) { 
   try {
     const orderCollection = await getCollection("orders");
     if (!orderCollection) {
       throw new Error("Orders collection not found");
     }
-    
-    const order = await orderCollection.findOne({ _id: new ObjectId(id) });
+
+    const order = await orderCollection.findOne({ _id: new ObjectId(String(id)) });
     if (!order) {
       console.error("No order found with id:", id);
       return null;

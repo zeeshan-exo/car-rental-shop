@@ -1,8 +1,8 @@
 'use client'
 import React, { useState , useEffect} from "react";
-import Header from "../components/Header";
+import Header from "../../components/Header";
 import { logout } from "../../services/actions/auth";
-import ProfileImage from "../components/ProfileImage";
+import ProfileImage from "../../components/ProfileImage";
 import Link from "next/link";
 import { Search, LogOut, House, Heart, Package } from 'lucide-react';
 
