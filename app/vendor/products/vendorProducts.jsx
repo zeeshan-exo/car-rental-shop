@@ -1,5 +1,5 @@
 import React from "react";
-import { getVendorProducts } from "@/app/actions/products";
+import { getVendorProducts } from "@/services/actions/products";
 import DeleteProductButton from "./deleteProduct";
 import ImageSlider from "@/app/components/ImageSlider";
 

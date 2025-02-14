@@ -1,26 +1,22 @@
 "use client";
 import React, { useState } from "react";
-import { deleteProduct } from "@/app/actions/products";
+import { deleteProduct } from "@/services/actions/products";
 import { toast } from "react-toastify";
-import {  Trash2 } from "lucide-react";
-
+import { Trash2 } from "lucide-react";
 
 const DeleteProductButton = ({ productId }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleDelete = async () => {
     if (!productId) {
       toast.error("No product found with such id");
-      return;
-    }
-    
-    if (!confirm("Are you sure you want to delete this product?")) {
       return;
     }
 
     try {
       await deleteProduct(productId);
       toast.success("Product deleted successfully!");
-      console.log(`Product with id ${productId} deleted successfully.`);
-      
+      setIsOpen(false);
     } catch (error) {
       console.error("Error while deleting product", error);
       toast.error("Failed to delete product.");
@@ -28,12 +24,37 @@ const DeleteProductButton = ({ productId }) => {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className="text-red-500 text-2xl px-2 py-1 rounded"
-    >
-      <Trash2/>
-    </button>
+    <>
+      <button
+        onClick={() => setIsOpen(true)}
+        className="hover:text-red-500 transition text-2xl px-2 py-1 rounded"
+      >
+        <Trash2 />
+      </button>
+
+      {isOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <h2 className="text-lg font-semibold">Confirm Deletion</h2>
+            <p className="mt-2 text-gray-600">Are you sure you want to delete this product?</p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                onClick={() => setIsOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

@@ -2,7 +2,7 @@
 import { useActionState, useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios'
-import { signup } from '@/app/actions/auth'
+import { signup } from '@/services/actions/auth'
 import Link from 'next/link'
 
 export default function SignupForm() {

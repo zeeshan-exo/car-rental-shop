@@ -1,7 +1,7 @@
 'use client'
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
-import { logout } from "../actions/auth";
+import { logout } from "../../services/actions/auth";
 import ProfileImage from "../components/ProfileImage";
 import Link from "next/link";
 import Footer from "../components/Footer";

@@ -79,7 +79,7 @@ export async function login(state, formData){
         {$set: {status: "active"}}
     )
 
-    await createSession(existingUser._id.toString(), existingUser.name.toString(), existingUser.role.toString())
+    await createSession(existingUser._id.toString(), existingUser.name.toString(), existingUser.email.toString(), existingUser.role.toString())
     const session = (await cookies()).get('session')?.value;
     const payload = await decrypt(session);
     {payload?.role==="customer"?
@@ -105,3 +105,57 @@ export async function logout() {
     deleteSession()
     redirect('/pages/login')
 }
+
+// /app/actions/auth.js
+// 'use server'
+// import { SignupFormSchema, LoginformSchema } from "@/lib/definations";
+// import { registerUser, loginUser } from "@/services/authService";
+// import { deleteSession } from "@/lib/session";
+// import { redirect } from "next/navigation";
+// import { cookies } from "next/headers";
+// import { decrypt } from "@/lib/session";
+
+// export async function signup(formData) {
+//   const rawData = Object.fromEntries(formData.entries());
+//   const parsed = SignupFormSchema.safeParse(rawData);
+//   if (!parsed.success) {
+//     return { errors: parsed.error.flatten().fieldErrors };
+//   }
+  
+//   try {
+//     await registerUser(parsed.data);
+//     redirect("/pages/login");
+//   } catch (error) {
+//     return { errors: { general: error.message } };
+//   }
+// }
+
+// export async function login(state ,formData) {
+//   const parsed = LoginformSchema.safeParse({
+//     email: formData.get('email'),
+//     password: formData.get('password'),
+//   });
+//   if (!parsed.success) {
+//     return { errors: parsed.error.flatten().fieldErrors };
+//   }
+  
+//   try {
+//     const user = await loginUser(parsed.data.email, parsed.data.password);
+//     const session = (await cookies()).get('session')?.value;
+//     const payload = await decrypt(session);
+//     if (payload?.role === "customer") {
+//       redirect('/dashboard');
+//     } else {
+//       redirect('/vendor');
+//     }
+//   } catch (error) {
+//     return { errors: { general: error.message } };
+//   }
+// }
+
+// export async function logout() {
+//   const session = (await cookies()).get('session')?.value;
+//   // ... (similar error handling for logout)
+//   deleteSession();
+//   redirect('/pages/login');
+// }

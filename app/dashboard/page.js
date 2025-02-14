@@ -1,10 +1,12 @@
 
+import DisplayProducts from "./products/displayProducts"
+
 
 
 const page = () => {
   return (
     <div>
-         Welcome to dashboard
+        <DisplayProducts/>
     </div>
   )
 }

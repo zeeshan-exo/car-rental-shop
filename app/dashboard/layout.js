@@ -1,10 +1,10 @@
 'use client'
 import React, { useState , useEffect} from "react";
 import Header from "../components/Header";
-import { logout } from "../actions/auth";
+import { logout } from "../../services/actions/auth";
 import ProfileImage from "../components/ProfileImage";
 import Link from "next/link";
-import { Search, LogOut, House } from 'lucide-react';
+import { Search, LogOut, House, Heart, Package } from 'lucide-react';
 
 
 const DashboardLayout = ({ children }) => {
@@ -26,9 +26,10 @@ const DashboardLayout = ({ children }) => {
      title="Expo"
      navLinks={[
       { label: <House/>, href: "/" },
-      { label: "Dashbard", href: "/dashboard" },
-      { label: "Products", href: "/dashboard/products" },
+      { label: <Package/>, href: "/dashboard" },
+      { label: <Heart/>, href: "" },
       { label: <Search/>, href: "" },
+      // { label: "Products", href: "/dashboard/products" },
      ]}
       rightContent={
         <div className="flex justify-between items-center gap-14 flex-wrap">

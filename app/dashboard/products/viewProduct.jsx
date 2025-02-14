@@ -1,11 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { getProduct } from "@/app/actions/products";
+import { getProduct } from "@/services/actions/products";
 import { IoClose } from "react-icons/io5"; 
 import ImageSlider from "@/app/components/ImageSlider";
 import BookingForm from "./bookingForm";
 
-export default function ViewProduct({ productId, productName }) {
+
+export default function ViewProduct({ productId }) {
   const [isOpen, setIsOpen] = useState(false);
   const [product, setProduct] = useState(null);
 
@@ -69,7 +70,7 @@ export default function ViewProduct({ productId, productName }) {
                 Close
               </button>
               
-              <BookingForm onClick={closeModal} carModel={product.model} productName={product.carName}/>
+              <BookingForm onClick={closeModal} carModel={product.model} productName={product.carName} productId={product._id}/>
               
               
             </div>

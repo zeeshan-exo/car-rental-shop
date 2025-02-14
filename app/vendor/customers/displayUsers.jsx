@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { getUsers, deleteUser } from '@/app/actions/users'
+import { getUsers, deleteUser } from '@/services/actions/users'
 import DeleteUserButton from './deleteButton';
 
 export default async function DisplayUsers() {

@@ -1,8 +1,9 @@
 import React from "react";
-import { getAllProducts } from "@/app/actions/products";
+import { getAllProducts } from "@/services/actions/products";
 import ImageSlider from "@/app/components/ImageSlider";
 import Image from "next/image";
 import ViewProduct from "./viewProduct";
+import Link from "next/link";
 
 export default async function DisplayProducts() {
   const products = await getAllProducts();
@@ -21,9 +22,9 @@ export default async function DisplayProducts() {
             <button className="px-6 py-2 bg-yellow-500 text-black font-semibold rounded-lg shadow-md hover:bg-yellow-600 transition">
               Book Now
             </button>
-            <button className="px-6 py-2 border border-white text-white font-semibold rounded-lg shadow-md hover:bg-white hover:text-black transition">
-              Explore
-            </button>
+            <Link href="/dashboard" className="px-6 py-2 border border-white text-white font-semibold rounded-lg shadow-md hover:bg-white hover:text-black transition">
+              Explore 
+            </Link>
           </div>
         </div>
       </div>

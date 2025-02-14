@@ -7,12 +7,12 @@ const ProfileImage = () => {
     <div>
        <div className="flex items-center">
     <Image
-      src={"/"}
+      src={"/profile.png"}
       alt={"A"}
       width={40}
       height={40}
       className="rounded-full bg-slate-300"
-     />:
+     />
    </div>
    </div>
   )

@@ -1,6 +1,6 @@
 "use client";
 import React, { useActionState, useState, useEffect } from "react";
-import { createProduct } from "@/app/actions/products";
+import { createProduct } from "@/services/actions/products";
 import { startTransition } from "react";
 import { toast } from "react-toastify";
 
