@@ -3,15 +3,22 @@ import { bookingOrder } from '@/services/actions/order';
 import ReusableForm from '@/components/Form';
 import { useState, useEffect, useActionState, startTransition } from 'react';
 
+interface BookingFormProps {
+  carModel: string,
+  productName: string,
+  productId: string
+}
+
+
 const initialBookingFields = [
   { label: "Email", name: "email", type: "email", placeholder: "Enter your email" },
-  { label: "IdCard", name: "idcard", type: "text", placeholder: "Enter your ID card number" },
+  { label: "Id Card", name: "idcard", type: "text", placeholder: "Enter your ID card number" },
   { label: "Date", name: "date", type: "date", placeholder: "Select a date" },
   { label: "Time", name: "time", type: "time", placeholder: "Select a time" },
   { label: "Address", name: "address", type: "text", placeholder: "Enter your address" },
 ];
 
-export default function BookingForm({ carModel, productName, productId }) {
+export default function BookingForm({ carModel, productName, productId }: BookingFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [state, action, pending] = useActionState(bookingOrder, undefined);
@@ -40,7 +47,7 @@ export default function BookingForm({ carModel, productName, productId }) {
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (formData: any) => {
     console.log("Form submitted:", formData);
     const formDataWithProduct = { ...formData, carModel, productName, productId };
     

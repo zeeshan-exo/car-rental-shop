@@ -3,8 +3,21 @@ import React, { useState, useEffect } from "react";
 import { getVendorOrders } from "@/services/actions/order";
 import OrderModal from "./OrderModal";
 
+interface Order{
+  _id: string; 
+  userName: string;
+  productName: string;
+  carModel: string;
+  email: string;
+  idcard: string;
+  date: string;
+  time: string;
+  address: string;
+  status: string;
+}
+
 export default function DisplayOrder() {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const fetchOrders = async () => {
     const fetchedOrders = await getVendorOrders();
@@ -15,8 +28,7 @@ export default function DisplayOrder() {
     fetchOrders();
   }, []);
 
-  // Callback to update order status locally after confirmation
-  const updateOrderStatus = (orderId, newStatus) => {
+  const updateOrderStatus = (orderId:string, newStatus:string) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order._id === orderId ? { ...order, status: newStatus } : order

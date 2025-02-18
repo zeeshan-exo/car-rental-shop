@@ -17,7 +17,6 @@ export const SignupFormSchema = z.object({
     status: z.enum(["active", "inactive"]).default("inactive"), 
 });
 
-
 export const LoginformSchema = z.object({
     email:z.string().email({message: "Please enter a valid email"}).trim(),
     password:z

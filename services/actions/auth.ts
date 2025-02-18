@@ -1,15 +1,26 @@
 'use server'
 import { getCollection } from "@/lib/db";
-import { SignupFormSchema, LoginformSchema } from "@/lib/definations";
+import { SignupFormSchema, LoginformSchema } from "@/lib/definations/authDefinations";
 import { createSession, deleteSession } from "@/lib/session";
 import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt"
+
+interface User {
+    email: string;
+    password: string;
+    role: 'vendor' | 'customer';
+    name: string;
+    cars_quantity?: string;
+    idCard?: string;
+    address?: string;
+    status: string
+  }
 
 
-export async function signup(state, formData) {
+export async function signup(state: any, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
 
     const validatedFields = SignupFormSchema.safeParse(rawData);
@@ -30,7 +41,7 @@ export async function signup(state, formData) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userData = {
+    const userData: User = {
         email,
         name,
         password: hashedPassword,
@@ -47,7 +58,7 @@ export async function signup(state, formData) {
     redirect("/pages/login");
 }
 
-export async function login(state, formData){
+export async function login(state: any, formData: FormData){
     const validatedFields = LoginformSchema.safeParse({
         email: formData.get('email'),
         password: formData.get('password'),
@@ -87,75 +98,24 @@ export async function login(state, formData){
     }
 }
 
-export async function logout() {
+
+export async function logout(): Promise<void> {
     const session = (await cookies()).get('session')?.value;
-
+  
     if (session) {
-        const payload = await decrypt(session);
-
-        if (payload?.userId) {
-            const userCollection = await getCollection("users");
-
+      const payload = await decrypt(session);
+  
+      if (payload?.userId) {
+        const userCollection = await getCollection("users");
+        if(userCollection){
             await userCollection.updateOne(
-                { _id: new ObjectId(payload.userId) },  
-                { $set: { status: 'inactive' } }       
-            );
+                { _id: new ObjectId(payload.userId) },
+                { $set: { status: 'inactive' } }
+              );
         }
+      }
     }
     deleteSession()
     redirect('/pages/login')
 }
 
-// /app/actions/auth.js
-// 'use server'
-// import { SignupFormSchema, LoginformSchema } from "@/lib/definations";
-// import { registerUser, loginUser } from "@/services/authService";
-// import { deleteSession } from "@/lib/session";
-// import { redirect } from "next/navigation";
-// import { cookies } from "next/headers";
-// import { decrypt } from "@/lib/session";
-
-// export async function signup(formData) {
-//   const rawData = Object.fromEntries(formData.entries());
-//   const parsed = SignupFormSchema.safeParse(rawData);
-//   if (!parsed.success) {
-//     return { errors: parsed.error.flatten().fieldErrors };
-//   }
-  
-//   try {
-//     await registerUser(parsed.data);
-//     redirect("/pages/login");
-//   } catch (error) {
-//     return { errors: { general: error.message } };
-//   }
-// }
-
-// export async function login(state ,formData) {
-//   const parsed = LoginformSchema.safeParse({
-//     email: formData.get('email'),
-//     password: formData.get('password'),
-//   });
-//   if (!parsed.success) {
-//     return { errors: parsed.error.flatten().fieldErrors };
-//   }
-  
-//   try {
-//     const user = await loginUser(parsed.data.email, parsed.data.password);
-//     const session = (await cookies()).get('session')?.value;
-//     const payload = await decrypt(session);
-//     if (payload?.role === "customer") {
-//       redirect('/dashboard');
-//     } else {
-//       redirect('/vendor');
-//     }
-//   } catch (error) {
-//     return { errors: { general: error.message } };
-//   }
-// }
-
-// export async function logout() {
-//   const session = (await cookies()).get('session')?.value;
-//   // ... (similar error handling for logout)
-//   deleteSession();
-//   redirect('/pages/login');
-// }

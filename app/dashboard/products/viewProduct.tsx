@@ -5,9 +5,13 @@ import { IoClose } from "react-icons/io5";
 import ImageSlider from "@/components/ImageSlider";
 import BookingForm from "./bookingForm";
 
-export default function ViewProduct({ productId }) {
+interface ViewProductProps{
+  productId: string
+}
+
+export default function ViewProduct({productId}: ViewProductProps ) {
   const [isOpen, setIsOpen] = useState(false);
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<any>(null);
 
   const openModal = async () => {
     setIsOpen(true);

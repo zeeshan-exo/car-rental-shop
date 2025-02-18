@@ -7,6 +7,7 @@ export const ProductSchema = z.object({
     price: z.string(),
     description: z.string(),
     carQuantity:z.string(),
+    vendorId: z.string(),
     images: z.array(
       z.object({
         cloudinaryUrl: z.string().url(),

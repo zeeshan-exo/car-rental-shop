@@ -1,12 +1,12 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { ProductSchema } from "@/lib/productDefinations/productDefinations";
+import { ProductSchema } from "@/lib/definations/productDefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 
 
-export async function createProduct(state, formData) {
+export async function createProduct(state: any, formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   delete rawData.image;
   
@@ -60,26 +60,31 @@ export async function getAllProducts() {
     if (!productCollection) {
       console.error("Products collection not found.");
     }
-
-    const products = await productCollection.find().toArray();
-    return products.length ? products : []; 
+    if(productCollection){
+      const products = await productCollection.find().toArray();
+      return products.length ? products : []; 
+    }else{
+      console.log("Can't found any product Collection")
+    }
   } catch (error) {
     console.error("Error fetching products:", error);
   }
 }
 
 
-export async function getProduct(id) {
+export async function getProduct(id:string) {
   try {
     const productCollection = await getCollection("products");
-    const product = await productCollection.findOne({ _id: new ObjectId(id) });
+    if(productCollection){
+      const product = await productCollection.findOne({ _id: new ObjectId(id) });
 
-    if (!product) return null;
-
-    return {
-      ...product,
-      _id: product._id.toString(),
-    };
+      if (!product) return null;
+  
+      return {
+        ...product,
+        _id: product._id.toString(),
+      };
+    }
   } catch (error) {
     console.error("Error while fetching product:", error);
     return null;
@@ -89,7 +94,7 @@ export async function getProduct(id) {
 
 export async function getVendorProducts() {
   try {
-    const session = (await cookies()).get('session').value
+    const session = (await cookies()).get('session')?.value
     if(!session){
       console.log("No session found in cookies")
     }
@@ -97,21 +102,24 @@ export async function getVendorProducts() {
     if(!payload){console.log("data not found in payload")}
 
     const productCollection = await getCollection("products");
-    const products = await productCollection.find({vendorId: payload?.userId}).toArray()
-    return products.length ? products : []; 
+    if(productCollection){
+      const products = await productCollection.find({vendorId: payload?.userId}).toArray()   
+      return products.length ? products : [];
+    } 
 
   } catch (error) {
     console.error("Error fetching products:", error);
   }
 }
 
-export async function deleteProduct(_id) {
+export async function deleteProduct(_id: string) {
   try {
     const productCollection = await getCollection("products");
     console.log("ID: " , _id)
     const productId = new  ObjectId(_id)
-
-     await productCollection.deleteOne( {_id: productId});
+    if(productCollection){
+      await productCollection.deleteOne( {_id: productId});
+    }
 
   } catch (error) {
     console.error("Error while deleting product", error);

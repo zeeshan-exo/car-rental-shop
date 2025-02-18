@@ -1,11 +1,11 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { OrderSchema } from "@/lib/order/orderdefinations";
+import { OrderSchema } from "@/lib/definations/orderdefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 
-export async function bookingOrder(state, formData) {
+export async function bookingOrder(state:any, formData: FormData) {
     const rawData = formData;
 
     const validatedFields = OrderSchema.safeParse(rawData);
@@ -22,7 +22,8 @@ export async function bookingOrder(state, formData) {
 
     try {
         const orderCollection = await getCollection("orders");
-         await orderCollection.insertOne({
+        if(orderCollection){
+          await orderCollection.insertOne({
             ...orderData,
             userName: payload?.name,
             userId: payload?.userId, 
@@ -30,6 +31,7 @@ export async function bookingOrder(state, formData) {
             productId: rawData.productId, 
             productName: rawData.productName
         });
+        }
 
         return { success: true, message: "Order created successfully!" };
     } catch (error) {
@@ -40,7 +42,7 @@ export async function bookingOrder(state, formData) {
 
 export async function getOrders() {
     try {
-        const session = (await cookies()).get('session').value
+        const session = (await cookies()).get('session')?.value
         if(!session){
           console.log("No session found in cookies")
         }
@@ -48,21 +50,23 @@ export async function getOrders() {
         if(!payload){console.log("data not found in payload")}
 
         const orderCollection = await getCollection("orders")
-        const orders = await orderCollection.find().toArray()
-        return orders?.length ? orders: []
+        if(orderCollection){
+          const orders = await orderCollection.find().toArray()
+          return orders?.length ? orders: []
+        }
     } catch (error) {
         console.log("Error occured while fetching orders", error)
     }
 }
 
-export async function confirmOrder(id) { 
+export async function confirmOrder(id: string) { 
     try {
       const orderCollection = await getCollection("orders");
       if (!orderCollection) {
         throw new Error("Orders collection not found");
       }
       const result = await orderCollection.updateOne(
-        { _id: new ObjectId((string(id))) },
+        { _id: new ObjectId(id) },
         {$set:{status: "confirmed"}}
     )
     return result
@@ -72,7 +76,7 @@ export async function confirmOrder(id) {
     }
 }
 
-export async function getOneOrder(id) { 
+export async function getOneOrder(id:string) { 
   try {
     const orderCollection = await getCollection("orders");
     if (!orderCollection) {

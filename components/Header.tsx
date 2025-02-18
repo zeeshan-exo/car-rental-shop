@@ -1,9 +1,21 @@
 
 import Link from "next/link";
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
-const Header = ({ title, navLinks, rightContent, className }) => {
+interface NavLink{
+  label: string,
+  href?: string
+}
+
+interface HeaderProps{
+  title: string,
+  navLinks: NavLink[]
+  rightContent: React.ReactNode,
+  clasName: string
+}
+
+const Header = ({ title, navLinks, rightContent, className }: HeaderProps) => {
   return (
     <nav className=' w-full max-auto  p-4 '>
       <div className='flex justify-between items-center'>
@@ -28,17 +40,17 @@ const Header = ({ title, navLinks, rightContent, className }) => {
   );
 };
 
-Header.propTypes = {
-  title: PropTypes.string,
-  navLinks: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      href: PropTypes.string, 
-    })
-  ),
-  rightContent: PropTypes.node,
-  className: PropTypes.string,
-};
+// Header.propTypes = {
+//   title: PropTypes.string,
+//   navLinks: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       label: PropTypes.string.isRequired,
+//       href: PropTypes.string, 
+//     })
+//   ),
+//   rightContent: PropTypes.node,
+//   className: PropTypes.string,
+// };
 
 
 export default Header;

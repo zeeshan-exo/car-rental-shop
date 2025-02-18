@@ -2,8 +2,27 @@
 import React, { useState, useEffect } from "react";
 import { getOneOrder, confirmOrder } from "@/services/actions/order";
 
-export default function PreviewOrder({ orderId, onClose, onStatusUpdate }) {
-  const [order, setOrder] = useState(null);
+interface Order{
+  _id: string; 
+  userName: string;
+  productName: string;
+  carModel: string;
+  email: string;
+  idcard: string;
+  date: string;
+  time: string;
+  address: string;
+  status: string;
+}
+
+interface PreviewOrderProps{
+  orderId: string,
+  onClose: ()=> void,
+  onStatusUpdate: (newStatus: string)=>void
+}
+
+export default function PreviewOrder({ orderId, onClose, onStatusUpdate,}: PreviewOrderProps) {
+  const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
   const [confirming, setConfirming] = useState(false);
 
