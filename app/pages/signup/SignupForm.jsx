@@ -71,10 +71,6 @@ export default function SignupForm() {
     
         {role === 'vendor' && (
           <>
-            <div className='flex flex-col mt-4'>
-              <label htmlFor="cars_quantity">No. of Cars</label>
-              <input type="number" name="cars_quantity" id="cars_quantity" placeholder='Number of cars' className='p-2 mb-2 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-800'/>
-            </div>
             
             <div className='flex flex-col'>
               <label htmlFor="idCard">ID Card</label>

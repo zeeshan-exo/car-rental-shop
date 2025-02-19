@@ -1,11 +1,11 @@
 "use client";
 import React, { useActionState, useState, useEffect } from "react";
-import { createProduct } from "@/services/actions/products";
+import { addCar } from "@/services/actions/products";
 import { startTransition } from "react";
 import { toast } from "react-toastify";
 
 const ProductForm = () => {
-  const [state, action, pending] = useActionState(createProduct, undefined);
+  const [state, action, pending] = useActionState(addCar, undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageFiles, setImageFiles] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -25,7 +25,8 @@ const ProductForm = () => {
     });
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (formData: FormData) => {
+    console.log("Formdata:", formData)
     if (imageFiles.length > 0) {
       const imageData = new FormData();
       imageFiles.forEach((file) => {

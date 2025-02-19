@@ -1,6 +1,6 @@
 'use server'
 import { getCollection } from "@/lib/db";
-import { SignupFormSchema, LoginformSchema } from "@/lib/definations/authDefinations";
+import { SignupFormSchema, LoginformSchema, SignupType } from "@/lib/definations/authDefinations";
 import { createSession, deleteSession } from "@/lib/session";
 import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
@@ -8,16 +8,16 @@ import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 import bcrypt from "bcrypt"
 
-interface User {
-    email: string;
-    password: string;
-    role: 'vendor' | 'customer';
-    name: string;
-    cars_quantity?: string;
-    idCard?: string;
-    address?: string;
-    status: string
-  }
+// interface User {
+//     email: string;
+//     password: string;
+//     role: 'vendor' | 'customer';
+//     name: string;
+//     cars_quantity?: string;
+//     idCard?: string;
+//     address?: string;
+//     status: string
+//   }
 
 
 export async function signup(state: any, formData: FormData) {
@@ -27,7 +27,7 @@ export async function signup(state: any, formData: FormData) {
     if (!validatedFields.success) {
         return { errors: validatedFields.error.flatten().fieldErrors,};
     }
-    const { email, password, role, cars_quantity, idCard, name, address } = validatedFields.data;
+    const { email, password, role, idCard, name, address } = validatedFields.data;
     const userCollection = await getCollection("users");
     if (!userCollection) return { errors: { email: "User collection not found" } };
 
@@ -41,7 +41,7 @@ export async function signup(state: any, formData: FormData) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userData: User = {
+    const userData: SignupType = {
         email,
         name,
         password: hashedPassword,
@@ -50,7 +50,6 @@ export async function signup(state: any, formData: FormData) {
     };
 
     if (role === "vendor") {
-        if (cars_quantity) userData.cars_quantity = cars_quantity;
         if (idCard) userData.idCard = idCard;
         if (address) userData.address = address;
     }

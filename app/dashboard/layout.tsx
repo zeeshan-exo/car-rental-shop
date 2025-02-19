@@ -26,7 +26,7 @@ const DashboardLayout = ({ children }) => {
      title="Expo"
      navLinks={[
       { label: <House/>, href: "/" },
-      { label: <Package/>, href: "/dashboard" },
+      { label: <Package/>, href: "/dashboard/products" },
       { label: <Heart/>, href: "" },
       { label: <Search/>, href: "" },
       // { label: "Products", href: "/dashboard/products" },

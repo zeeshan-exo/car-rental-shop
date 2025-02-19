@@ -1,12 +1,10 @@
 "use server"
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-
 const uri = process.env.DB_CONN
 
 if(!uri) throw new Error ("No Mongodb connection string found")
 
-    //  mongoose.connect(uri).then(()=>console.log("Mongo DB Connected")).catch((error)=>console.log(error))
 const client= new MongoClient(uri,{
     serverApi:{
         version:ServerApiVersion.v1,

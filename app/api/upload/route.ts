@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { uploads } from "@/utils/cloudinary";
 
-export async function POST(req) {
+export async function POST(req: Request) {
   try {
     const formData = await req.formData();
     const files = formData.getAll("image");

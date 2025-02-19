@@ -1,12 +1,12 @@
 import React from "react";
-import { getAllProducts } from "@/services/actions/products";
+import { getAllCars } from "@/services/actions/products";
 import ImageSlider from "@/components/ImageSlider";
 import Image from "next/image";
 import ViewProduct from "./viewProduct";
 import Link from "next/link";
 
-export default async function DisplayProducts() {
-  const products = await getAllProducts();
+export default async function Displaycars({cars}: {cars: any[]}){
+
 
   return (
     <div className="p-6">
@@ -30,40 +30,40 @@ export default async function DisplayProducts() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product) => (
-          <div key={product._id} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all p-6">
+        {cars.map((car) => (
+          <div key={car._id.toString()} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all p-6">
             <div className="relative">
-              {product.images && Array.isArray(product.images) && product.images.length > 0 ? (
-                <ImageSlider images={product.images} />
+              {car.images && Array.isArray(car.images) && car.images.length > 0 ? (
+                <ImageSlider images={car.images} />
               ) : (
                 <img
-                  src={product.image}
-                  alt={product.carName}
+                  src={car.image}
+                  alt={car.carName}
                   className="w-full h-56 object-cover rounded-lg"
                 />
               )}
             </div>
 
             <div className="mt-4">
-              <h2 className="text-2xl font-semibold text-gray-900">{product.carName}</h2>
+              <h2 className="text-2xl font-semibold text-gray-900">{car.carName}</h2>
               <p className="text-gray-600">
-                <span className="font-medium text-gray-700">Brand:</span> {product.brand}
+                <span className="font-medium text-gray-700">Brand:</span> {car.brand}
               </p>
               <p className="text-gray-600">
-                <span className="font-medium text-gray-700">Model:</span> {product.model}
+                <span className="font-medium text-gray-700">Model:</span> {car.model}
               </p>
-              <p className="text-sm text-gray-500 mt-2 line-clamp-1">{product.description}</p>
+              <p className="text-sm text-gray-500 mt-2 line-clamp-1">{car.description}</p>
               <p className="text-gray-600">
-                <span className="text-sm text-gray-700">Owner:</span> {product.vendorName}
+                <span className="text-sm text-gray-700">Owner:</span> {car.vendorName}
               </p>
 
               <div className="flex justify-between items-center mt-4">
-                <p className="text-green-600 font-bold text-lg">${product.price}</p>
+                <p className="text-green-600 font-bold text-lg">${car.price}</p>
               </div>
             </div>
 
             <div className="mt-4">
-              <ViewProduct productId={product._id.toString()} />
+              <ViewProduct carId={car._id.toString()} />
             </div>
           </div>
         ))}

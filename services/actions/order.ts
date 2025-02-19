@@ -12,7 +12,7 @@ export async function bookingOrder(state:any, formData: FormData) {
     if (!validatedFields.success) {
         return { errors: validatedFields.error.flatten().fieldErrors };
     }
-    const { userName,productName, carModel, ...orderData } = validatedFields.data;
+    const { userName,carName, carModel, ...orderData } = validatedFields.data;
 
     const session = (await cookies()).get("session")?.value;
     const payload = session ? await decrypt(session) : null;
@@ -28,8 +28,8 @@ export async function bookingOrder(state:any, formData: FormData) {
             userName: payload?.name,
             userId: payload?.userId, 
             carModel: rawData.carModel,
-            productId: rawData.productId, 
-            productName: rawData.productName
+            carId: rawData.carId, 
+            carName: rawData.carName
         });
         }
 
@@ -120,23 +120,23 @@ export async function getVendorOrders() {
     const orders = await orderCollection.aggregate([
       {
         $addFields: {
-          productIdObj: { $toObjectId: "$productId" }
+          carIdObj: { $toObjectId: "$carId" }
         }
       },
       {
         $lookup: {
-          from: "products",        
-          localField: "productIdObj", 
+          from: "cars",        
+          localField: "carIdObj", 
           foreignField: "_id",        
-          as: "productDetails"
+          as: "carDetails"
         }
       },
       { 
-        $unwind: "$productDetails"  
+        $unwind: "$carDetails"  
       },
       {
         $match: {
-          "productDetails.vendorId": vendorId
+          "carDetails.vendorId": vendorId
         }
       },
     ]).toArray();

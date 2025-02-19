@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { deleteProduct } from "@/services/actions/products";
+import { deleteCar } from "@/services/actions/products";
 import { toast } from "react-toastify";
 import { Trash2 } from "lucide-react";
 
@@ -14,7 +14,7 @@ const DeleteProductButton = ({ productId }) => {
     }
 
     try {
-      await deleteProduct(productId);
+      await deleteCar(productId);
       toast.success("Product deleted successfully!");
       setIsOpen(false);
     } catch (error) {

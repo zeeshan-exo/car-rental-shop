@@ -5,10 +5,9 @@ import { useState, useEffect, useActionState, startTransition } from 'react';
 
 interface BookingFormProps {
   carModel: string,
-  productName: string,
-  productId: string
+  carName: string,
+  carId: string
 }
-
 
 const initialBookingFields = [
   { label: "Email", name: "email", type: "email", placeholder: "Enter your email" },
@@ -18,7 +17,7 @@ const initialBookingFields = [
   { label: "Address", name: "address", type: "text", placeholder: "Enter your address" },
 ];
 
-export default function BookingForm({ carModel, productName, productId }: BookingFormProps) {
+export default function BookingForm({ carModel, carName, carId }: BookingFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [state, action, pending] = useActionState(bookingOrder, undefined);
@@ -49,7 +48,7 @@ export default function BookingForm({ carModel, productName, productId }: Bookin
 
   const handleSubmit = async (formData: any) => {
     console.log("Form submitted:", formData);
-    const formDataWithProduct = { ...formData, carModel, productName, productId };
+    const formDataWithProduct = { ...formData, carModel, carName, carId };
     
     startTransition(() => {
       action(formDataWithProduct);

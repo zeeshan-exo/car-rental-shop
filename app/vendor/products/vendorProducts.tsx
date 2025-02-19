@@ -1,10 +1,10 @@
 import React from "react";
-import { getVendorProducts } from "@/services/actions/products";
+import { getVendorCars } from "@/services/actions/products";
 import DeleteProductButton from "./deleteProduct";
 import ImageSlider from "@/components/ImageSlider";
 
-export default async function DisplayVendorProducts() {
-  const products = await getVendorProducts();
+export default async function DisplayVendorCars() {
+  const products = await getVendorCars();
 
   if (!products || products.length === 0) {
     return <p className="text-gray-500 text-center">No products found.</p>;

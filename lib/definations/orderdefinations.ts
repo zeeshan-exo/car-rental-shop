@@ -7,6 +7,6 @@ export const OrderSchema = z.object({
     time: z.string(),
     address: z.string().min(5, "Address must be at least 5 characters"),
     carModel: z.string(),
-    productName:z.string(),
+    carName:z.string(),
     status:z.enum(["pending", "confirmed"]).default("pending")
 });
