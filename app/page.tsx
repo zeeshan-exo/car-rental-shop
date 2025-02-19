@@ -40,7 +40,7 @@ export default function Home() {
      }
      />
      
-      <div className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 bg-[url('/redcar.webp')] bg-cover bg-center bg-no-repeat">
+      <div className="relative min-h-screen flex flex-col justify-center px-6 sm:px-12 bg-[url('/pexels-derwin-edwards.jpg')] bg-cover bg-center bg-no-repeat">
 
         <div className="absolute inset-0 bg-black/50"></div>
 

@@ -2,13 +2,16 @@
 import { useActionState, useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios'
+import Image from 'next/image'
 import { signup } from '@/services/actions/auth'
 import Link from 'next/link'
+import { Eye, EyeOff, User, Mail, Lock, MapPin, CreditCard } from 'lucide-react'
 
 export default function SignupForm() {
   const [state, action, pending] = useActionState(signup, undefined)
   const [verified, setIsVerified] = useState(false)
-  const [role, setRole] = useState('customer') 
+  const [role, setRole] = useState('customer')
+  const [showPassword, setShowPassword] = useState(false)
   const recaptchaRef = useRef(null)
 
   async function handleSubmit(token) {
@@ -27,75 +30,204 @@ export default function SignupForm() {
     }
   }
 
-  
   const handleonChange = (token) => {
     handleSubmit(token)
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-violet-500 to-violet-900 flex items-center justify-center">
-      
-      <form action={action} className='max-w-sm mx-auto w-full p-8 rounded-md bg-slate-200'>
-        <h1 className='text-3xl mb-4 font-bold text-center'>Create Account</h1>
-
-        <div className='flex flex-col'>
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" placeholder="Enter Name" className='p-2 mb-2 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-800'/>
-          {state?.errors?.name && <p className='text-red-500 text-sm'>{state.errors.name}</p>}
-        </div>
-
-        <div className='flex flex-col'>
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="Email" className='p-2 mb-2 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-800'/>
-          {state?.errors?.email && <p className='text-red-500 text-sm'>{state.errors.email}</p>}
-        </div>
-
-        <div className='flex flex-col'>
-          <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" placeholder='Password' className='p-2 mb-3 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-800' />
-          {state?.errors?.password && <p className='text-red-500 text-sm'>{state.errors.password}</p>}
-        </div>
-
-      
-        <div className="flex gap-4 mb-3">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="role" value="vendor" checked={role === 'vendor'} onChange={(e) => setRole(e.target.value)} />
-            Vendor
-          </label>
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input type="radio" name="role" value="customer" checked={role === 'customer'} onChange={(e) => setRole(e.target.value)} />
-            Customer
-          </label>
-        </div>
-        {state?.errors?.role && <p className='text-red-500 text-sm'>{state.errors.role}</p>}
-
-    
-        {role === 'vendor' && (
-          <>
-            <div className='flex flex-col'>
-              <label htmlFor="idCard">ID Card</label>
-              <input type="text" name="idCard" id="idCard" placeholder='Vendor ID card' className='p-2 mb-2 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-800'/>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="flex w-full max-w-5xl shadow-2xl rounded-2xl overflow-hidden bg-white">
+        <div className="w-full md:w-1/2 p-8">
+          <form action={action} className="space-y-6">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-gray-900">Welcome!</h1>
+              <p className="text-gray-600 mt-2">Create your account to get started</p>
             </div>
-            
-            <div className='flex flex-col'>
-              <label htmlFor="address">Address</label>
-              <input type="text" name="address" id="address" placeholder='Vendor address' className='p-2 mb-2 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-800'/>
+
+            <div className="relative">
+              <label htmlFor="name" className="text-sm font-medium text-gray-700 mb-1 block">
+                Full Name
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="John Doe"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300  transition-colors"
+                />
+              </div>
+              {state?.errors?.name && 
+                <p className="text-red-500 text-sm mt-1">{state.errors.name}</p>
+              }
             </div>
-          </>
-        )}
 
-        <ReCAPTCHA
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-          ref={recaptchaRef}
-          onChange={handleonChange}
-        />
+            <div className="relative">
+              <label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1 block">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 transition-colors"
+                />
+              </div>
+              {state?.errors?.email && 
+                <p className="text-red-500 text-sm mt-1">{state.errors.email}</p>
+              }
+            </div>
 
-        <button disabled={pending || !verified} type="submit" className='mb-2 mt-2 w-full bg-blue-700 p-2 text-white font-bold rounded-md disabled:bg-slate-500'>Register</button>
+            <div className="relative">
+              <label htmlFor="password" className="text-sm font-medium text-gray-700 mb-1 block">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  className="w-full pl-10 pr-12 py-2.5 rounded-lg border border-gray-300   transition-colors"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+              {state?.errors?.password && 
+                <p className="text-red-500 text-sm mt-1">{state.errors.password}</p>
+              }
+            </div>
 
-        <div className='mt-2 text-sm'>
-          <Link href='/pages/login' className='text-blue-600 underline'>Already have an account?</Link>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700 block">Account Type</label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="vendor"
+                      checked={role === 'vendor'}
+                      onChange={(e) => setRole(e.target.value)}
+                      className="hidden"
+                    />
+                    <div className={`w-4 h-4 rounded-full border ${role === 'vendor' ? 'border-blue-500 bg-blue-500' : 'border-gray-300'} group-hover:border-blue-400 transition-colors`}>
+                      {role === 'vendor' && <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>}
+                    </div>
+                  </div>
+                  <span className="text-gray-700">Vendor</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer group">
+                  <div className="relative">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="customer"
+                      checked={role === 'customer'}
+                      onChange={(e) => setRole(e.target.value)}
+                      className="hidden"
+                    />
+                    <div className={`w-4 h-4 rounded-full border ${role === 'customer' ? 'border-blue-500 bg-blue-500' : 'border-gray-300'} group-hover:border-blue-400 transition-colors`}>
+                      {role === 'customer' && <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>}
+                    </div>
+                  </div>
+                  <span className="text-gray-700">Customer</span>
+                </label>
+              </div>
+            </div>
+
+            {role === 'vendor' && (
+              <div className="space-y-4">
+                <div className="relative">
+                  <label htmlFor="idCard" className="text-sm font-medium text-gray-700 mb-1 block">
+                    ID Card Number
+                  </label>
+                  <div className="relative">
+                    <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                    <input
+                      type="text"
+                      name="idCard"
+                      id="idCard"
+                      placeholder="Enter your ID card number"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <label htmlFor="address" className="text-sm font-medium text-gray-700 mb-1 block">
+                    Business Address
+                  </label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                    <input
+                      type="text"
+                      name="address"
+                      id="address"
+                      placeholder="Enter your business address"
+                      className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="flex justify-center">
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                ref={recaptchaRef}
+                onChange={handleonChange}
+              />
+            </div>
+
+            <button
+              disabled={pending || !verified}
+              type="submit"
+              className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            >
+              {pending ? (
+                <span className="flex items-center justify-center">
+                  {/* <svg className="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg> */}
+                  Processing...
+                </span>
+              ) : (
+                'Create Account'
+              )}
+            </button>
+
+            <p className="text-center text-sm text-gray-600">
+              Already have an account?{' '}
+              <Link href="/pages/login" className="text-blue-600 hover:text-blue-700 font-medium">
+                Sign in
+              </Link>
+            </p>
+          </form>
         </div>
-      </form>
+
+        <div className="hidden md:block md:w-1/2 relative">
+                    <Image
+                      src="/pexels-floristony.jpg"
+                      width={600}
+                      height={950}
+                      objectFit='cover'
+                      alt="Signup illustration"
+                      className="rounded-r-2xl shadow-lg transform "
+                    />
+        </div>
+      </div>
     </div>
   )
 }
