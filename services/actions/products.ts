@@ -67,7 +67,7 @@ export async function addCar(state: any, formData: FormData) {
 }
 
 
-export async function getAllCars(query = "", page = 1, limit = 3) {
+export async function getAllCars(query = "", page = '', limit = 3) {
   try {
     const carsCollection = await getCollection("cars");
     if (!carsCollection) {

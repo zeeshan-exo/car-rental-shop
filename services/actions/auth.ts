@@ -7,55 +7,57 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 import bcrypt from "bcrypt"
-
-// interface User {
-//     email: string;
-//     password: string;
-//     role: 'vendor' | 'customer';
-//     name: string;
-//     cars_quantity?: string;
-//     idCard?: string;
-//     address?: string;
-//     status: string
-//   }
-
+import { sendMail } from "@/utils/email";
+import { randomInt } from "crypto";
 
 export async function signup(state: any, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
 
     const validatedFields = SignupFormSchema.safeParse(rawData);
     if (!validatedFields.success) {
-        return { errors: validatedFields.error.flatten().fieldErrors,};
+        return { errors: validatedFields.error.flatten().fieldErrors };
     }
+
     const { email, password, role, idCard, name, address } = validatedFields.data;
     const userCollection = await getCollection("users");
+
     if (!userCollection) return { errors: { email: "User collection not found" } };
 
     const existingUser = await userCollection.findOne({ email });
     if (existingUser) {
-        return {
-            errors: {
-                email: "Email already exists",
-            },
-        };
+        return { errors: { email: "Email already exists" } };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const userData: SignupType = {
+    const otp = randomInt(100000, 999999).toString();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); 
+    
+    const newUser = {
         email,
         name,
         password: hashedPassword,
         role,
-        status: "inactive", 
+        status: "inactive",
+        otp,
+        otpExpires
     };
 
     if (role === "vendor") {
-        if (idCard) userData.idCard = idCard;
-        if (address) userData.address = address;
+        if (idCard) newUser.idCard = idCard;
+        if (address) newUser.address = address;
     }
-    await userCollection.insertOne(userData);
-    redirect("/pages/login");
+
+    await userCollection.insertOne(newUser);
+
+    await sendMail({
+        to: email,
+        subject: "Verify Your Email",
+        message: `<h1>Hello ${name},</h1><p>Your OTP is <strong>${otp}</strong> This OTP will expire in 10 minutes.</p>`,
+    });
+
+    redirect(`/pages/verify-otp?email=${email}`);
 }
+
 
 export async function login(state: any, formData: FormData){
     const validatedFields = LoginformSchema.safeParse({

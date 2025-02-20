@@ -1,12 +1,10 @@
 import React from "react";
-import { getAllCars } from "@/services/actions/products";
 import ImageSlider from "@/components/ImageSlider";
 import Image from "next/image";
 import ViewProduct from "./viewProduct";
 import Link from "next/link";
 
 export default async function Displaycars({cars}: {cars: any[]}){
-
 
   return (
     <div className="p-6">
@@ -28,7 +26,7 @@ export default async function Displaycars({cars}: {cars: any[]}){
           </div>
         </div>
       </div>
-
+  
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {cars.map((car) => (
           <div key={car._id.toString()} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all p-6">

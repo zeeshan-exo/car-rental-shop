@@ -20,7 +20,7 @@ export default async function (props:{
 
     <div >
        <div className="mb-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search Products"/>
+        <Search placeholder="Search Cars"/>
       </div>
       
       <Displaycars cars={cars}/>

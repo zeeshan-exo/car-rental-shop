@@ -1,20 +1,22 @@
-import postmark from 'postmark';
-const postmarkClient = new postmark.ServerClient(process.env.POSTMARK_SERVER_TOKEN);
+import nodemailer from "nodemailer"
 
-export async function sendEmail ({to, from, subject, message}){
-     const emailData={
-        From: from,
-        To: to,
-        Subject: subject,
-        HtmlBody: message,
-      }
+export async  function sendMail ({to, subject, message}){
 
-      try {
-        const result = await postmarkClient.sendEmail(emailData)
-        console.log("Email sent successfully")
-        return result
-      } catch (error) {
-        console.error("Error Sending Email", error)
-        throw error
-      }
+  const transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+        port: 587,
+        secure: false,
+        auth:{
+          user: process.env.ETHEREAL_MAIL,
+          pass: process.env.ETHEREAL_APP_PASSWAORD
+         }
+      })
+                
+   const info = await transporter.sendMail({
+      from: process.env.ETHEREAL_MAIL,
+      to: to,
+      subject: subject,
+      html: message
+    })
+    console.log("Email sent :", info)
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function POST(req: Request) {
     const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 
     if (!secretKey) {

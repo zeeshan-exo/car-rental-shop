@@ -14,7 +14,7 @@ export default function SignupForm() {
   async function handleSubmit(token) {
     try {
       if (token) {
-        await axios.post("/api/route", { token }, {
+        await axios.post("/api/recaptcha", { token }, {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -34,8 +34,9 @@ export default function SignupForm() {
 
   return (
     <div className="min-h-screen bg-gradient-to-tr from-violet-500 to-violet-900 flex items-center justify-center">
+      
       <form action={action} className='max-w-sm mx-auto w-full p-8 rounded-md bg-slate-200'>
-        <h1 className='text-3xl mb-2 font-bold text-blue-700 text-center'>Register</h1>
+        <h1 className='text-3xl mb-4 font-bold text-center'>Create Account</h1>
 
         <div className='flex flex-col'>
           <label htmlFor="name">Name</label>
@@ -71,7 +72,6 @@ export default function SignupForm() {
     
         {role === 'vendor' && (
           <>
-            
             <div className='flex flex-col'>
               <label htmlFor="idCard">ID Card</label>
               <input type="text" name="idCard" id="idCard" placeholder='Vendor ID card' className='p-2 mb-2 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-800'/>
@@ -84,10 +84,6 @@ export default function SignupForm() {
           </>
         )}
 
-        <div className='mb-4 text-sm'>
-          <Link href='/pages/login' className='text-blue-600 underline'>Already have an account?</Link>
-        </div>
-
         <ReCAPTCHA
           sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
           ref={recaptchaRef}
@@ -95,6 +91,10 @@ export default function SignupForm() {
         />
 
         <button disabled={pending || !verified} type="submit" className='mb-2 mt-2 w-full bg-blue-700 p-2 text-white font-bold rounded-md disabled:bg-slate-500'>Register</button>
+
+        <div className='mt-2 text-sm'>
+          <Link href='/pages/login' className='text-blue-600 underline'>Already have an account?</Link>
+        </div>
       </form>
     </div>
   )
