@@ -1,40 +1,55 @@
 import React, { useState } from "react";
 
-export default function ReusableForm({ title="form", fields, onSubmit, initialValues = {}, errors = {}, pending = false }) {
+interface FormField {
+  label: string;
+  name: string;
+  type: string;
+  placeholder: string;
+  icon: React.ReactNode;
+  required?: boolean;
+}
+
+interface ReusableFormProps {
+  fields: FormField[];
+  onSubmit: (formData: any) => void;
+  initialValues?: Record<string, string>;
+  errors?: Record<string, string>;
+  pending?: boolean;
+}
+
+export default function ReusableForm({
+  fields,
+  onSubmit,
+  initialValues = {},
+  errors = {},
+  pending = false,
+}: ReusableFormProps) {
   const [formData, setFormData] = useState(initialValues);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(formData);
   };
 
   return (
-    <div>
-    <h1 className="text-2xl items-center text-center  font-bold mb-2 flex flex-1">{title}</h1>
-    <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4 bg-white p-6 rounded-lg">
-      
-      {fields.map(({label, name, type, placeholder }) => (
-       
-        <div key={name} className={`flex flex-col ${type === "textarea" ? "col-span-3" : ""}`}>
-          <label htmlFor={name} className="font-semibold mb-1">
-            {label}
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {fields.map(({ label, name, type, placeholder, icon, required }) => (
+        <div key={name} className="relative">
+          <label
+            htmlFor={name}
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
+            {label} {required && <span className="text-red-500">*</span>}
           </label>
-          {type === "textarea" ? (
-            <textarea
-              id={name}
-              name={name}
-              rows={3}
-              placeholder={placeholder}
-              value={formData[name] || ""}
-              onChange={handleChange}
-              className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
-            />
-          ) : (
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
+              {icon}
+            </span>
             <input
               id={name}
               name={name}
@@ -42,25 +57,34 @@ export default function ReusableForm({ title="form", fields, onSubmit, initialVa
               placeholder={placeholder}
               value={formData[name] || ""}
               onChange={handleChange}
-              className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+              required={required}
+              disabled={pending}
+              className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
+                errors[name] ? "border-red-300" : "border-gray-300"
+              }   transition-all disabled:bg-gray-100 disabled:cursor-not-allowed`}
             />
+          </div>
+          {errors[name] && (
+            <p className="mt-1 text-red-600 text-sm">{errors[name]}</p>
           )}
-          {errors[name] && <p className="text-red-600 text-sm">{errors[name]}</p>}
         </div>
       ))}
 
-      <div className="col-span-3 mt-4 flex justify-between">
-      <p className="text-sky-600 text-sm hover:underline">Terms & Conditions</p>
-        <button
-          disabled={pending}
-          type="submit"
-          className="bg-sky-500 text-white p-2 font-bold rounded-md disabled:bg-slate-500"
+      <div className="pt-2 flex items-center justify-between">
+        <a
+          href="/terms"
+          className="text-sm text-sky-600 hover:underline"
         >
-          {pending ? "Submitting..." : "Book"}
+          Terms & Conditions
+        </a>
+        <button
+          type="submit"
+          disabled={pending}
+          className="px-6 py-2.5 bg-yellow-400 text-black font-semibold rounded-lg shadow-md hover:bg-yellow-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {pending ? "Booking..." : "Confirm Booking"}
         </button>
-      
       </div>
     </form>
-    </div>
   );
 }

@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Features from "@/components/Features"
 import { logout } from "../services/actions/auth";
 import { useEffect, useState } from "react";
-import { LogOut } from "lucide-react"; // Import Lucide icons
+import { LogOut } from "lucide-react"; 
 import { MdFeaturedPlayList } from "react-icons/md";
 
 export default function Home() {

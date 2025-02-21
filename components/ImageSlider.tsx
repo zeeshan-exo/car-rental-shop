@@ -17,6 +17,8 @@ const ImageSlider = ({ images}) => {
     arrows: false,         
     pauseOnFocus: true,    
     adaptiveHeight: true,
+    lazyLoad: "ondemand",
+    dotsClass: "slick-dots mt-2 flex justify-center gap-2",
     responsive: [
       {
         breakpoint: 768, 
