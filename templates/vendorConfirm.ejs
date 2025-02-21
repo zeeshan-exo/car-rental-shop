@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      h1 {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 16px;
+        text-align: center;
+      }
+      .section-title {
+        font-size: 18px;
+        color: #333;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 4px;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+      p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.5;
+        margin: 8px 0;
+      }
+      p strong {
+        color: #000;
+      }
+      .link {
+        display: inline-block;
+        background-color: #d2691e; 
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+      }
+      .link:hover {
+        background-color: #a0522d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Request for Your Car</h1>
+      
+      <div class="user-info">
+        <p class="section-title">User Information</p>
+        <p>Name: <%= userName %></p>
+        <p>Email: <%= email %></p>
+        <p>Address: <%= address %></p>
+      </div>
+      
+      <div class="car-details">
+        <p class="section-title">Car Details</p>
+        <p>Car: <%= carName %></p>
+        <p>Model: <%= carModel %></p>
+        <p>Required at: <strong><%= date %></strong> at <strong><%= time %></strong></p>
+      </div>
+      
+      <p>Please check your orders for more details.</p>
+      <a href="http://localhost:3000/vendor/orders" class="link">View Orders</a>
+    </div>
+  </body>
+</html>

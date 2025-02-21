@@ -4,6 +4,9 @@ import { OrderSchema } from "@/lib/definations/orderdefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
+import ejs from 'ejs'
+import path from "path";
+import { sendMail } from "@/utils/email";
 
 export async function bookingOrder(state:any, formData: FormData) {
     const rawData = formData;
@@ -12,26 +15,43 @@ export async function bookingOrder(state:any, formData: FormData) {
     if (!validatedFields.success) {
         return { errors: validatedFields.error.flatten().fieldErrors };
     }
-    const { userName,carName, carModel, ...orderData } = validatedFields.data;
+    const {carName, carModel, ...orderData } = validatedFields.data;
 
     const session = (await cookies()).get("session")?.value;
     const payload = session ? await decrypt(session) : null;
     if (!payload) {
         return { errors: { session: "User session not found" } };
     }
+    const userName = payload?.name
 
     try {
         const orderCollection = await getCollection("orders");
-        if(orderCollection){
-          await orderCollection.insertOne({
+        // if(orderCollection)
+        await orderCollection.insertOne({
             ...orderData,
             userName: payload?.name,
-            userId: payload?.userId, 
+            userId: payload?.userId,
             carModel: rawData.carModel,
             carId: rawData.carId, 
-            carName: rawData.carName
+            carName: rawData.carName,
+            vendorEmail: rawData.vendorEmail
         });
-        }
+
+
+        const vendorEmail = rawData.vendorEmail
+        const address = rawData.address
+        const email = rawData.email
+        const date = rawData.date
+        const time = rawData.time
+        
+        const templatePath = path.join(process.cwd(), "templates", "vendorConfirm.ejs")
+        const confirmOrder = await ejs.renderFile(templatePath, {userName, carModel, carName, address, email, date, time})
+
+        await sendMail({
+          to:vendorEmail,
+          subject:"New Order",
+          message:confirmOrder
+        })
 
         return { success: true, message: "Order created successfully!" };
     } catch (error) {
@@ -65,10 +85,25 @@ export async function confirmOrder(id: string) {
       if (!orderCollection) {
         throw new Error("Orders collection not found");
       }
+
       const result = await orderCollection.updateOne(
         { _id: new ObjectId(id) },
         {$set:{status: "confirmed"}}
     )
+
+    const order = await orderCollection.findOne({_id: new ObjectId(id)})
+
+    const {email, userName, address, carName } = order
+
+    const templatePath = path.join(process.cwd(), "templates", "orderConfirmation.ejs")
+    const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName})
+
+
+    await sendMail ({
+      to: email,
+      subject: "Order Confirmation",
+      message: OrderConfirmed
+    })
     return result
     } catch (error) {
         console.error("Error in getOneOrder:", error);
@@ -140,7 +175,7 @@ export async function getVendorOrders() {
         }
       },
     ]).toArray();
-    
+
     return orders;
   } catch (error) {
     console.error("Error fetching vendor orders:", error);

@@ -7,6 +7,7 @@ interface Order{
   _id: string; 
   userName: string;
   productName: string;
+  carName: string;
   carModel: string;
   email: string;
   idcard: string;
@@ -31,7 +32,7 @@ export default function DisplayOrder() {
   const updateOrderStatus = (orderId:string, newStatus:string) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
-        order._id === orderId ? { ...order, status: newStatus } : order
+        order._id.toString() === orderId ? { ...order, status: newStatus } : order
       )
     );
   };
@@ -43,7 +44,7 @@ export default function DisplayOrder() {
         <thead className="text-xs text-white uppercase bg-orange-500">
           <tr>
             <th scope="col" className="px-6 py-3">Name</th>
-            <th scope="col" className="px-6 py-3">Car name</th>
+            <th scope="col" className="px-6 py-3">Car</th>
             <th scope="col" className="px-6 py-3">Model</th>
             <th scope="col" className="px-6 py-3">Email</th>
             <th scope="col" className="px-6 py-3">Id Card</th>
@@ -56,9 +57,9 @@ export default function DisplayOrder() {
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order._id} className="bg-white border-b text-gray-700">
+            <tr key={order._id.toString()} className="bg-white border-b text-gray-700">
               <th scope="row" className="px-6 py-4 font-medium text-gray-900">{order.userName}</th>
-              <td className="px-6 py-4">{order.productName}</td>
+              <td className="px-6 py-4">{order.carName}</td>
               <td className="px-6 py-4">{order.carModel}</td>
               <td className="px-6 py-4">{order.email}</td>
               <td className="px-6 py-4">{order.idcard}</td>

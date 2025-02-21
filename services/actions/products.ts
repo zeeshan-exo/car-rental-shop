@@ -50,6 +50,7 @@ export async function addCar(state: any, formData: FormData) {
       ...carData,
       vendorId: payload?.userId, 
       vendorName: payload?.name,
+      vendorEmail: payload?.email
     });
 
     console.log("Data:", result)

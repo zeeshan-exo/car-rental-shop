@@ -1,6 +1,12 @@
 import nodemailer from "nodemailer"
 
-export async  function sendMail ({to, subject, message}){
+interface SendEmailProps{
+   to: string,
+   subject: string,
+   message: string
+}
+
+export async  function sendMail ({to, subject, message}: SendEmailProps){
 
   const transporter = nodemailer.createTransport({
       host: 'smtp.ethereal.email',
@@ -18,5 +24,4 @@ export async  function sendMail ({to, subject, message}){
       subject: subject,
       html: message
     })
-    console.log("Email sent :", info)
 }

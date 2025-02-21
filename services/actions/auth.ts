@@ -9,54 +9,62 @@ import { decrypt } from "@/lib/session";
 import bcrypt from "bcrypt"
 import { sendMail } from "@/utils/email";
 import { randomInt } from "crypto";
+import ejs from 'ejs'
+import path from "path";
+
 
 export async function signup(state: any, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
-
     const validatedFields = SignupFormSchema.safeParse(rawData);
+  
     if (!validatedFields.success) {
-        return { errors: validatedFields.error.flatten().fieldErrors };
+      return { errors: validatedFields.error.flatten().fieldErrors };
     }
-
+  
     const { email, password, role, idCard, name, address } = validatedFields.data;
+  
     const userCollection = await getCollection("users");
-
-    if (!userCollection) return { errors: { email: "User collection not found" } };
-
+    if (!userCollection) {
+      return { errors: { email: "User collection not found" } };
+    }
+  
     const existingUser = await userCollection.findOne({ email });
     if (existingUser) {
-        return { errors: { email: "Email already exists" } };
+      return { errors: { email: "Email already exists" } };
     }
-
+  
     const hashedPassword = await bcrypt.hash(password, 10);
-    const otp = randomInt(100000, 999999).toString();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); 
-    
+    const otp = randomInt(100000, 999999).toString(); 
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+  
     const newUser = {
-        email,
-        name,
-        password: hashedPassword,
-        role,
-        status: "inactive",
-        otp,
-        otpExpires
+      email,
+      name,
+      password: hashedPassword,
+      role,
+      status: "inactive",
+      otp,
+      otpExpires,
     };
-
+  
     if (role === "vendor") {
-        if (idCard) newUser.idCard = idCard;
-        if (address) newUser.address = address;
+      if (idCard) newUser.idCard = idCard;
+      if (address) newUser.address = address;
     }
-
+  
     await userCollection.insertOne(newUser);
 
-    await sendMail({
-        to: email,
-        subject: "Verify Your Email",
-        message: `<h1>Hello ${name},</h1><p>Your OTP is <strong>${otp}</strong> This OTP will expire in 10 minutes.</p>`,
-    });
+    const templatePath = path.join(process.cwd(), "templates", "verifyEmail.ejs")
+    const emailHtml = await ejs.renderFile(templatePath, {name, otp})
 
+    await sendMail({
+      to: email,
+      subject: "Verify Your Email",
+      message: emailHtml, 
+    });
+  
     redirect(`/pages/verify-otp?email=${email}`);
-}
+  }
 
 
 export async function login(state: any, formData: FormData){

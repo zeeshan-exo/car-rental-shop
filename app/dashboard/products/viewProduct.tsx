@@ -74,7 +74,7 @@ export default function Viewcar({carId}: ViewcarProps ) {
                   <button onClick={closeModal} className="px-4 py-2 border border-gray-500 text-gray-600 rounded-md hover:bg-gray-200 transition">
                     Close
                   </button>
-                  <BookingForm onClick={closeModal} carModel={car.model} carName={car.carName} carId={car._id}/>
+                  <BookingForm onClick={closeModal} carModel={car.model} carName={car.carName} carId={car._id} vendorEmail={car.vendorEmail}/>
                 </div>
               </div>
             </div>
