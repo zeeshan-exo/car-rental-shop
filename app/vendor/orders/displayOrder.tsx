@@ -1,10 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getVendorOrders } from "@/services/actions/order";
-import OrderModal from "./OrderModal";
+import { getVendorOrders, updateOrderStatus } from "@/services/actions/order"; 
 
-interface Order{
-  _id: string; 
+interface Order {
+  _id: string;
   userName: string;
   productName: string;
   carName: string;
@@ -29,12 +28,17 @@ export default function DisplayOrder() {
     fetchOrders();
   }, []);
 
-  const updateOrderStatus = (orderId:string, newStatus:string) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order._id.toString() === orderId ? { ...order, status: newStatus } : order
-      )
-    );
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    const success = await updateOrderStatus(orderId, newStatus);
+    if (success) {
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+    } else {
+      alert("Failed to update order status.");
+    }
   };
 
   return (
@@ -43,22 +47,21 @@ export default function DisplayOrder() {
       <table className="w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-white uppercase bg-orange-500">
           <tr>
-            <th scope="col" className="px-6 py-3">Name</th>
-            <th scope="col" className="px-6 py-3">Car</th>
-            <th scope="col" className="px-6 py-3">Model</th>
-            <th scope="col" className="px-6 py-3">Email</th>
-            <th scope="col" className="px-6 py-3">Id Card</th>
-            <th scope="col" className="px-6 py-3">Date</th>
-            <th scope="col" className="px-6 py-3">Time</th>
-            <th scope="col" className="px-6 py-3">Address</th>
-            <th scope="col" className="px-6 py-3">Status</th>
-            <th scope="col" className="px-6 py-3">Action</th>
+            <th className="px-6 py-3">Name</th>
+            <th className="px-6 py-3">Car</th>
+            <th className="px-6 py-3">Model</th>
+            <th className="px-6 py-3">Email</th>
+            <th className="px-6 py-3">Id Card</th>
+            <th className="px-6 py-3">Date</th>
+            <th className="px-6 py-3">Time</th>
+            <th className="px-6 py-3">Address</th>
+            <th className="px-6 py-3">Status</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order._id.toString()} className="bg-white border-b text-gray-700">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900">{order.userName}</th>
+            <tr key={order._id} className="bg-white border-b text-gray-700">
+              <td className="px-6 py-4 font-medium text-gray-900">{order.userName}</td>
               <td className="px-6 py-4">{order.carName}</td>
               <td className="px-6 py-4">{order.carModel}</td>
               <td className="px-6 py-4">{order.email}</td>
@@ -66,12 +69,17 @@ export default function DisplayOrder() {
               <td className="px-6 py-4">{order.date}</td>
               <td className="px-6 py-4">{order.time}</td>
               <td className="px-6 py-4">{order.address}</td>
-              <td className="px-6 py-4">{order.status}</td>
               <td className="px-6 py-4">
-                <OrderModal 
-                  orderId={order._id.toString()}
-                  onStatusUpdate={(newStatus) => updateOrderStatus(order._id.toString(), newStatus)}
-                />
+                <select
+                  className="border p-1 rounded bg-gray-100"
+                  value={order.status}
+                  onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                >
+                  <option value="pending">Pending</option>
+                  <option value="confirmed">Confirmed</option>
+                  <option value="dispatched">Dispatched</option>
+                  <option value="delivered">Delivered</option>
+                </select>
               </td>
             </tr>
           ))}

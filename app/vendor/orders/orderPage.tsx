@@ -9,7 +9,7 @@ export default async function OrdersPage() {
   const payload = sessionCookie ? await decrypt(sessionCookie) : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+    <div className="min-h-screen ">
       {payload?.userId && payload.role === "vendor" ? (
           <DisplayOrder />
       ) : (

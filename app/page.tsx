@@ -7,21 +7,58 @@ import { logout } from "../services/actions/auth";
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react"; 
 import { MdFeaturedPlayList } from "react-icons/md";
+import { socket } from "./socket";
+
 
 export default function Home() {
   const [user, setUser] = useState(null);
+  const [isConnected, setIsConnected] = useState(false)
+  const [transport, setTransport] = useState("N/A")
 
   useEffect(() => {
+    if (socket.connected) {
+      onConnect();
+    }
+
+    function onConnect(){
+      setIsConnected(true)
+      setTransport(socket.io.engine.transport.name)
+
+      socket.io.engine.on("upgrade", (transport)=>{
+        setTransport(transport.name)
+      })
+    }
+
+    function onDisConnect(){
+      setIsConnected(false)
+      setTransport("N/A")
+
+    }
+    
+     socket.on("connect", onConnect)
+     socket.on("disconnected", onDisConnect)
+
+
     const getUserSession = async () => {
       const response = await fetch("/api/auth/session");
       const data = await response.json();
       setUser(data?.user);
     };
     getUserSession();
+
+    return()=>{
+      socket.off("connect", onConnect)
+      socket.off("disconnect", onDisConnect)
+    }
   }, []);
 
   return (
     <>
+
+      <p>Status: {isConnected ? "connected": "disconnected"}</p>
+      <p>Transport: {transport}</p>
+
+
       <Header
         title="Expo"
         navLinks={[

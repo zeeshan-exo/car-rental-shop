@@ -79,37 +79,41 @@ export async function getOrders() {
     }
 }
 
-export async function confirmOrder(id: string) { 
-    try {
-      const orderCollection = await getCollection("orders");
-      if (!orderCollection) {
-        throw new Error("Orders collection not found");
-      }
+export async function updateOrderStatus(orderId: string, newStatus: string) {
+  try {
+    const orderCollection = await getCollection("orders");
+    if (!orderCollection) {
+      throw new Error("Orders collection not found");
+    }
 
-      const result = await orderCollection.updateOne(
-        { _id: new ObjectId(id) },
-        {$set:{status: "confirmed"}}
-    )
+    const result = await orderCollection.updateOne(
+      { _id: new ObjectId(orderId) },
+      { $set: { status: newStatus } }
+    );
+     console.log("Car Data:", result)
 
-    const order = await orderCollection.findOne({_id: new ObjectId(id)})
+    const order = await orderCollection.findOne({_id: new ObjectId(orderId)})
 
-    const {email, userName, address, carName } = order
+    const {email, userName, address, carName, status, date, time, carModel } = order
 
-    const templatePath = path.join(process.cwd(), "templates", "orderConfirmation.ejs")
-    const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName})
+    const templatePath = path.join(process.cwd(), "templates", "orderStatus.ejs")
+    const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName, status, carModel, date, time})
 
 
     await sendMail ({
       to: email,
-      subject: "Order Confirmation",
+      subject: "Order Status",
       message: OrderConfirmed
     })
-    return result
-    } catch (error) {
-        console.error("Error in getOneOrder:", error);
-        return null;
-    }
+
+
+    return result.modifiedCount > 0;
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    return false;
+  }
 }
+
 
 export async function getOneOrder(id:string) { 
   try {
