@@ -7,58 +7,59 @@ import { ObjectId } from "mongodb";
 import ejs from 'ejs'
 import path from "path";
 import { sendMail } from "@/utils/email";
+import {io} from "@/app/api/socket"
 
-export async function bookingOrder(state:any, formData: FormData) {
-    const rawData = formData;
+export async function bookingOrder(state: any, formData: FormData) {
+  const rawData = formData;
+  const validatedFields = OrderSchema.safeParse(rawData);
+  if (!validatedFields.success) {
+      return { errors: validatedFields.error.flatten().fieldErrors };
+  }
+  
+  const { carName, carModel, ...orderData } = validatedFields.data;
+  const session = (await cookies()).get("session")?.value;
+  const payload = session ? await decrypt(session) : null;
+  if (!payload) {
+      return { errors: { session: "User session not found" } };
+  }
+  
+  const userName = payload?.name;
+  const vendorEmail = rawData.vendorEmail;
+  
+  try {
+      const orderCollection = await getCollection("orders");
+      await orderCollection.insertOne({
+          ...orderData,
+          userName: payload?.name,
+          userId: payload?.userId,
+          carModel: rawData.carModel,
+          carId: rawData.carId, 
+          carName: rawData.carName,
+          vendorEmail: rawData.vendorEmail
+      });
 
-    const validatedFields = OrderSchema.safeParse(rawData);
-    if (!validatedFields.success) {
-        return { errors: validatedFields.error.flatten().fieldErrors };
-    }
-    const {carName, carModel, ...orderData } = validatedFields.data;
+      const templatePath = path.join(process.cwd(), "templates", "vendorConfirm.ejs");
+      const confirmOrder = await ejs.renderFile(templatePath, { userName, carModel, carName });
 
-    const session = (await cookies()).get("session")?.value;
-    const payload = session ? await decrypt(session) : null;
-    if (!payload) {
-        return { errors: { session: "User session not found" } };
-    }
-    const userName = payload?.name
+      await sendMail({
+          to: vendorEmail,
+          subject: "New Order",
+          message: confirmOrder
+      });
 
-    try {
-        const orderCollection = await getCollection("orders");
-        // if(orderCollection)
-        await orderCollection.insertOne({
-            ...orderData,
-            userName: payload?.name,
-            userId: payload?.userId,
-            carModel: rawData.carModel,
-            carId: rawData.carId, 
-            carName: rawData.carName,
-            vendorEmail: rawData.vendorEmail
-        });
+  
+      io.emit("sendNotification", {
+        vendorEmail: rawData.vendorEmail,
+        message: `New order placed for ${rawData.carName}!`,
+      });
 
-
-        const vendorEmail = rawData.vendorEmail
-        const address = rawData.address
-        const email = rawData.email
-        const date = rawData.date
-        const time = rawData.time
-        
-        const templatePath = path.join(process.cwd(), "templates", "vendorConfirm.ejs")
-        const confirmOrder = await ejs.renderFile(templatePath, {userName, carModel, carName, address, email, date, time})
-
-        await sendMail({
-          to:vendorEmail,
-          subject:"New Order",
-          message:confirmOrder
-        })
-
-        return { success: true, message: "Order created successfully!" };
-    } catch (error) {
-        console.error("Error while creating order:", error);
-        return { errors: { server: "Failed to create order. Please try again." } };
-    }
+      return { success: true, message: "Order created successfully!" };
+  } catch (error) {
+      console.error("Error while creating order:", error);
+      return { errors: { server: "Failed to create order. Please try again." } };
+  }
 }
+
 
 export async function getOrders() {
     try {

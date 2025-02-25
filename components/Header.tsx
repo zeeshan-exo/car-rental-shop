@@ -34,23 +34,12 @@ const Header = ({ title, navLinks, rightContent, className }: HeaderProps) => {
           ))}
         </ul>
 
-        <div>{rightContent}</div>
+        <div>
+          {rightContent}
+          </div>
       </div>
     </nav>
   );
 };
-
-// Header.propTypes = {
-//   title: PropTypes.string,
-//   navLinks: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       label: PropTypes.string.isRequired,
-//       href: PropTypes.string, 
-//     })
-//   ),
-//   rightContent: PropTypes.node,
-//   className: PropTypes.string,
-// };
-
 
 export default Header;

@@ -1,19 +1,34 @@
-// app/api/socket/route.ts
-import { Server } from "socket.io";
 import { NextRequest } from "next/server";
+import { Server } from "socket.io";
 
-export function GET(req: NextRequest) {
-    if (!global.io) {
-        global.io = new Server(3001, { cors: { origin: "*" } });
-        global.io.on("connection", (socket) => {
-            console.log("User connected:", socket.id);
 
-            socket.on("sendNotification", (data) => {
-                global.io.emit("receiveNotification", data);
-            });
+export const GET = async (req: NextRequest) => {
+  if (!(global as any).io) {
+    console.log("🚀 Starting Socket.io server...");
 
-            socket.on("disconnect", () => console.log("User disconnected"));
-        });
-    }
-    return new Response("WebSocket Server Running");
-}
+    const io = new Server(3001, {
+      path: "/api/socket",
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+      },
+    });
+
+    io.on("connection", (socket) => {
+      console.log("Client connected:", socket.id);
+
+      socket.on("message", (msg) => {
+        console.log("📩 Received message:", msg);
+        io.emit("message", ` Server says: ${msg}`);
+      });
+
+      socket.on("disconnect", () => {
+        console.log(" Client disconnected:", socket.id);
+      });
+    });
+
+    (global as any).io = io;
+  }
+
+  return new Response("Socket.io server is running", { status: 200 });
+};

@@ -7,38 +7,13 @@ import { logout } from "../services/actions/auth";
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react"; 
 import { MdFeaturedPlayList } from "react-icons/md";
-import { socket } from "./socket";
 
 
 export default function Home() {
   const [user, setUser] = useState(null);
-  const [isConnected, setIsConnected] = useState(false)
-  const [transport, setTransport] = useState("N/A")
-
+  
   useEffect(() => {
-    if (socket.connected) {
-      onConnect();
-    }
-
-    function onConnect(){
-      setIsConnected(true)
-      setTransport(socket.io.engine.transport.name)
-
-      socket.io.engine.on("upgrade", (transport)=>{
-        setTransport(transport.name)
-      })
-    }
-
-    function onDisConnect(){
-      setIsConnected(false)
-      setTransport("N/A")
-
-    }
-    
-     socket.on("connect", onConnect)
-     socket.on("disconnected", onDisConnect)
-
-
+ 
     const getUserSession = async () => {
       const response = await fetch("/api/auth/session");
       const data = await response.json();
@@ -46,21 +21,14 @@ export default function Home() {
     };
     getUserSession();
 
-    return()=>{
-      socket.off("connect", onConnect)
-      socket.off("disconnect", onDisConnect)
-    }
+ 
   }, []);
 
   return (
     <>
 
-      <p>Status: {isConnected ? "connected": "disconnected"}</p>
-      <p>Transport: {transport}</p>
-
-
       <Header
-        title="Expo"
+        title="AutoNex"
         navLinks={[
           { label: "Home", href: "/" },
           { label: "Dashboard", href: "/dashboard" },
@@ -89,7 +57,7 @@ export default function Home() {
 
         <div className="relative max-w-2xl mx-auto text-white z-10 drop-shadow-lg">
           <h1 className="text-5xl sm:text-6xl font-bold mb-4 text-start">
-            Welcome to Expo
+            Welcome to AutoNex
           </h1>
           <p className="text-2xl sm:text-3xl font-semibold text-gray-200 mb-4">
             Your Ultimate Car Rental Experience
