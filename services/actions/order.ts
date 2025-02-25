@@ -41,13 +41,13 @@ export async function bookingOrder(state: any, formData: FormData) {
 
     const socket = getSocket();
     if (socket) {
-      console.log(" Emitting order_placed event:", newOrder);
+      console.log("Emitting order_placed event:", newOrder);
       socket.emit("order_placed", {
         message: `New order placed for ${newOrder.carName}`,
         order: newOrder,
       });
     } else {
-      console.warn(" Socket not connected. Unable to send order notification.");
+      console.warn("Socket not connected. Unable to send order notification.");
     }
     
     return { success: true, message: "Order created successfully!" };
@@ -100,12 +100,13 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
     const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName, status, carModel, date, time})
 
 
-    const socket = getSocket()
-    if(socket) {
-      console.log("Emitting Order status Event")
+    const socket = getSocket();
+    if (socket) {
+      console.log("Emitting order_updated event");
       socket.emit("order_updated", {
-        message: `Your Order is been ${status} for ${carName}.`
-      })
+        message: `Your order for ${order.carName} has been ${newStatus}.`,
+        order,
+      });
     }
 
 

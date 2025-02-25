@@ -1,49 +1,46 @@
+// components/Notifications.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { socket } from "@/app/socket"; 
 import { getSocket } from "@/lib/socket";
 import { Bell, X } from "lucide-react";
 
-export default function Notifications() {
+export default function Notifications({ userId, role }: { userId: string; role: "user" | "vendor" }) {
   const [notifications, setNotifications] = useState<{ message: string }[]>([]);
   const [openModal, setModal] = useState(false);
 
   useEffect(() => {
-    const socket = getSocket();
+    const socket = getSocket(userId, role);
     if (!socket) {
-      console.warn(" Socket is not connected.");
+      console.warn("Socket is not connected.");
       return;
     }
-  
-    const handleOrderCreated = (data: { message: string }) => {
-      console.log(" Notification received:", data);
+
+    const handleOrderEvent = (data: { message: string }) => {
+      console.log("Notification received:", data);
       setNotifications((prev) => [...prev, data]);
     };
-  
-    socket.on("order_placed", handleOrderCreated);
-    socket.on("order_updated", handleOrderCreated);
-  
+
+    socket.on("order_placed", handleOrderEvent);
+    socket.on("order_updated", handleOrderEvent);
+
     return () => {
-      socket.off("order_placed", handleOrderCreated);
-      socket.off("order_updated", handleOrderCreated);
+      socket.off("order_placed", handleOrderEvent);
+      socket.off("order_updated", handleOrderEvent);
     };
-  }, []);
-  
+  }, [userId, role]);
+
   return (
     <div className="fixed z-50">
       <button
-     className="p-2 bg-white shadow-md rounded-full flex items-center justify-center hover:bg-gray-100 mr-4"
-     onClick={() => setModal(!openModal)}
->
-    <Bell className="w-6 h-6 text-gray-700" />
-     {notifications.length > 0 && (
-      <span className="ml-1 text-xs text-red-600 font-bold">
-      {notifications.length}
-       </span>
-     )}
-     </button>
-
+        className="p-2 bg-white shadow-md rounded-full flex items-center justify-center hover:bg-gray-100 mr-4"
+        onClick={() => setModal(!openModal)}
+      >
+        <Bell className="w-6 h-6 text-gray-700" />
+        {notifications.length > 0 && (
+          <span className="ml-1 text-xs text-red-600 font-bold">{notifications.length}</span>
+        )}
+      </button>
 
       {openModal && (
         <div className="absolute top-12 right-0 w-80 bg-white shadow-lg rounded-lg p-4">
@@ -56,10 +53,7 @@ export default function Notifications() {
           <ul className="mt-2 space-y-2 max-h-60 overflow-y-auto">
             {notifications.length > 0 ? (
               notifications.map((notification, index) => (
-                <li
-                  key={index}
-                  className="p-2 border rounded-md bg-gray-100 text-sm"
-                >
+                <li key={index} className="p-2 border rounded-md bg-gray-100 text-sm">
                   {notification.message}
                 </li>
               ))
