@@ -16,13 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [socketInitialized, setSocketInitialized] = useState(false);
 
-  useEffect(() => {
- 
-      fetch("/api/socket").then(() => setSocketInitialized(true));
-    
-  }, [socketInitialized]);
 
   return (
     <html lang="en">

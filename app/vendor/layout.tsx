@@ -6,7 +6,7 @@ import ProfileImage from "../../components/ProfileImage";
 import Link from "next/link";
 import Footer from "../../components/Footer";
 import { House, LogOut, Search, Bell } from "lucide-react";
-import Notification from "@/components/Notifications";
+import Notifications from "@/components/Notifications";
 
 export default function VendorDashboardLayout({ children }) {
   const [user, setUser] = useState(null);
@@ -37,11 +37,12 @@ export default function VendorDashboardLayout({ children }) {
             <div className="space-x-4 flex items-center">
               {user ? (
                 <>
-                
+                  <Notifications/>
                   <button onClick={logout} className="text-red-500 text-md hover:underline">
                     <LogOut/>
                   </button>
                   <ProfileImage/>
+
                 </>
               ) : (
                 <Link href="/pages/login" className="text-blue-500">Login</Link>

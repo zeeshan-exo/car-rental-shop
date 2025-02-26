@@ -7,58 +7,57 @@ import { ObjectId } from "mongodb";
 import ejs from 'ejs'
 import path from "path";
 import { sendMail } from "@/utils/email";
-import {io} from "@/app/api/socket"
+import { getSocket } from "@/lib/socket";
+
 
 export async function bookingOrder(state: any, formData: FormData) {
   const rawData = formData;
   const validatedFields = OrderSchema.safeParse(rawData);
   if (!validatedFields.success) {
-      return { errors: validatedFields.error.flatten().fieldErrors };
+    return { errors: validatedFields.error.flatten().fieldErrors };
   }
-  
+
   const { carName, carModel, ...orderData } = validatedFields.data;
   const session = (await cookies()).get("session")?.value;
   const payload = session ? await decrypt(session) : null;
   if (!payload) {
-      return { errors: { session: "User session not found" } };
+    return { errors: { session: "User session not found" } };
   }
-  
-  const userName = payload?.name;
-  const vendorEmail = rawData.vendorEmail;
-  
+
   try {
-      const orderCollection = await getCollection("orders");
-      await orderCollection.insertOne({
-          ...orderData,
-          userName: payload?.name,
-          userId: payload?.userId,
-          carModel: rawData.carModel,
-          carId: rawData.carId, 
-          carName: rawData.carName,
-          vendorEmail: rawData.vendorEmail
+    const orderCollection = await getCollection("orders");
+    const newOrder = {
+      ...orderData,
+      userName: payload?.name,
+      userId: payload?.userId,
+      carModel: rawData.carModel,
+      carId: rawData.carId,
+      carName: rawData.carName,
+      vendorEmail: rawData.vendorEmail,
+    }
+    await orderCollection.insertOne(
+       newOrder
+    );
+
+    const socket = getSocket();
+    if (socket) {
+      console.log(" Emitting order_placed event:", newOrder);
+      socket.emit("order_placed", {
+        message: `New order placed for ${newOrder.carName}`,
+        order: newOrder,
       });
-
-      const templatePath = path.join(process.cwd(), "templates", "vendorConfirm.ejs");
-      const confirmOrder = await ejs.renderFile(templatePath, { userName, carModel, carName });
-
-      await sendMail({
-          to: vendorEmail,
-          subject: "New Order",
-          message: confirmOrder
-      });
-
-  
-      io.emit("sendNotification", {
-        vendorEmail: rawData.vendorEmail,
-        message: `New order placed for ${rawData.carName}!`,
-      });
-
-      return { success: true, message: "Order created successfully!" };
+    } else {
+      console.warn(" Socket not connected. Unable to send order notification.");
+    }
+    
+    return { success: true, message: "Order created successfully!" };
   } catch (error) {
-      console.error("Error while creating order:", error);
-      return { errors: { server: "Failed to create order. Please try again." } };
+    console.error("Error while creating order:", error);
+    return { errors: { server: "Failed to create order. Please try again." } };
   }
 }
+
+
 
 
 export async function getOrders() {
@@ -101,11 +100,20 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
     const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName, status, carModel, date, time})
 
 
-    await sendMail ({
-      to: email,
-      subject: "Order Status",
-      message: OrderConfirmed
-    })
+    const socket = getSocket()
+    if(socket) {
+      console.log("Emitting Order status Event")
+      socket.emit("order_updated", {
+        message: `Your Order is been ${status} for ${carName}.`
+      })
+    }
+
+
+    // await sendMail ({
+    //   to: email,
+    //   subject: "Order Status",
+    //   message: OrderConfirmed
+    // })
 
 
     return result.modifiedCount > 0;
@@ -180,6 +188,7 @@ export async function getVendorOrders() {
         }
       },
     ]).toArray();
+
 
     return orders;
   } catch (error) {

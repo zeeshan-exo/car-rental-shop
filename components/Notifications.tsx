@@ -1,47 +1,74 @@
-// "use client";
-// import { useState, useEffect } from "react";
-// import { Bell } from "lucide-react";
-// import {socket} from "@/app/socket"
+"use client";
 
-// export default function Notification() {
-//   const [notifications, setNotifications] = useState<string[]>([]);
+import { useEffect, useState } from "react";
+import { socket } from "@/app/socket"; 
+import { getSocket } from "@/lib/socket";
+import { Bell, X } from "lucide-react";
 
-//   useEffect(() => {
-//     socket.connect(); 
+export default function Notifications() {
+  const [notifications, setNotifications] = useState<{ message: string }[]>([]);
+  const [openModal, setModal] = useState(false);
 
-//     socket.on("notification", (data) => {
-//       setNotifications((prev) => [data.message, ...prev]); 
-//     });
+  useEffect(() => {
+    const socket = getSocket();
+    if (!socket) {
+      console.warn(" Socket is not connected.");
+      return;
+    }
+  
+    const handleOrderCreated = (data: { message: string }) => {
+      console.log(" Notification received:", data);
+      setNotifications((prev) => [...prev, data]);
+    };
+  
+    socket.on("order_placed", handleOrderCreated);
+    socket.on("order_updated", handleOrderCreated);
+  
+    return () => {
+      socket.off("order_placed", handleOrderCreated);
+      socket.off("order_updated", handleOrderCreated);
+    };
+  }, []);
+  
+  return (
+    <div className="fixed z-50">
+      <button
+     className="p-2 bg-white shadow-md rounded-full flex items-center justify-center hover:bg-gray-100 mr-4"
+     onClick={() => setModal(!openModal)}
+>
+    <Bell className="w-6 h-6 text-gray-700" />
+     {notifications.length > 0 && (
+      <span className="ml-1 text-xs text-red-600 font-bold">
+      {notifications.length}
+       </span>
+     )}
+     </button>
 
-//     return () => {
-//       socket.off("notification"); 
-//       socket.disconnect();
-//     };
-//   }, []);
 
-//   return (
-//     <div className="relative">
-//       <button className="relative p-2 rounded-full bg-gray-200 hover:bg-gray-300">
-//         <Bell size={24} />
-//         {notifications.length > 0 && (
-//           <span className="absolute top-0 right-0 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-//             {notifications.length}
-//           </span>
-//         )}
-//       </button>
-
-//       {notifications.length > 0 && (
-//         <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4">
-//           <h4 className="font-bold mb-2">Notifications</h4>
-//           <ul>
-//             {notifications.map((msg, index) => (
-//               <li key={index} className="text-sm text-gray-700 border-b py-1">
-//                 {msg}
-//               </li>
-//             ))}
-//           </ul>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
+      {openModal && (
+        <div className="absolute top-12 right-0 w-80 bg-white shadow-lg rounded-lg p-4">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold">Notifications</h3>
+            <button onClick={() => setModal(false)}>
+              <X className="w-5 h-5 text-gray-600 hover:text-gray-800" />
+            </button>
+          </div>
+          <ul className="mt-2 space-y-2 max-h-60 overflow-y-auto">
+            {notifications.length > 0 ? (
+              notifications.map((notification, index) => (
+                <li
+                  key={index}
+                  className="p-2 border rounded-md bg-gray-100 text-sm"
+                >
+                  {notification.message}
+                </li>
+              ))
+            ) : (
+              <p className="text-gray-500 text-sm text-center">No notifications</p>
+            )}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
