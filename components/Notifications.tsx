@@ -1,4 +1,3 @@
-// components/Notifications.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,27 +14,27 @@ export default function Notifications({ userId, role }: { userId: string; role: 
       console.warn("Socket is not connected.");
       return;
     }
-  
+
     socket.emit("register", { userId, role });
-  
+
     const handleOrderEvent = (data: { message: string }) => {
       console.log("Notification received:", data);
       setNotifications((prev) => [...prev, data]);
     };
-  
+
     socket.on("order_placed", handleOrderEvent);
     socket.on("order_updated", handleOrderEvent);
-  
+
     return () => {
       socket.off("order_placed", handleOrderEvent);
       socket.off("order_updated", handleOrderEvent);
     };
   }, [userId, role]);
-  
+
   return (
-    <div className="fixed z-50">
+    <div className="relative">
       <button
-        className="p-2 bg-white shadow-md rounded-full flex items-center justify-center hover:bg-gray-100 mr-4"
+        className="p-2   rounded-full flex items-center justify-center hover:text-gray-100"
         onClick={() => setModal(!openModal)}
       >
         <Bell className="w-6 h-6 text-gray-700" />
@@ -45,8 +44,8 @@ export default function Notifications({ userId, role }: { userId: string; role: 
       </button>
 
       {openModal && (
-        <div className="absolute top-12 right-0 w-80 bg-white shadow-lg rounded-lg p-4">
-          <div className="flex justify-between items-center">
+        <div className="absolute bg-white top-12 right-0 w-80 shadow-lg rounded-lg p-4 z-50">
+          <div className="flex justify-between items-center border-b pb-2">
             <h3 className="text-lg font-semibold">Notifications</h3>
             <button onClick={() => setModal(false)}>
               <X className="w-5 h-5 text-gray-600 hover:text-gray-800" />
@@ -55,7 +54,7 @@ export default function Notifications({ userId, role }: { userId: string; role: 
           <ul className="mt-2 space-y-2 max-h-60 overflow-y-auto">
             {notifications.length > 0 ? (
               notifications.map((notification, index) => (
-                <li key={index} className="p-2 border rounded-md bg-gray-100 text-sm">
+                <li key={index} className="p-3 border rounded-md bg-gray-100 text-sm">
                   {notification.message}
                 </li>
               ))

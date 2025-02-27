@@ -36,13 +36,13 @@ export async function bookingOrder(state: any, formData: FormData) {
       vendorEmail: rawData.vendorEmail,
       vendorId: rawData.vendorId
     }
+    if(orderCollection)
     await orderCollection.insertOne(
        newOrder
     );
 
     const socket = getSocket(newOrder.vendorId, "vendor");
     if (socket) {
-      console.log("Emitting order_placed event:", newOrder);
       socket.emit("order_placed", {
         message: `New order placed for ${newOrder.carName}`,
         order: newOrder,
@@ -89,7 +89,6 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
       { _id: new ObjectId(orderId) },
       { $set: { status: newStatus } }
     );
-     console.log("Car Data:", result)
 
      const session = (await cookies()).get("session")?.value;
      const payload = session ? await decrypt(session) : null;
@@ -99,17 +98,14 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
 
     const order = await orderCollection.findOne({_id: new ObjectId(orderId)})
 
-    const {email, userName, address, carName, status, date, time, carModel, userId } = order
-
-    console.log("USerID", userId)
-
-    const socket = getSocket(order.userId, "customer");
-    if (socket) {
-      console.log("Emitting order_updated event");
-      socket.emit("order_updated", {
-        message: `Your order for ${carName} has been ${status}.`,
-        order: order,
-      });
+    if(order){
+      const socket = getSocket(order.userId, "customer");
+      if (socket) {
+        socket.emit("order_updated", {
+          message: `Your order for ${order.carName} has been ${order.status}.`,
+          order: order,
+        });
+      }
     }
 
     // const templatePath = path.join(process.cwd(), "templates", "orderStatus.ejs")
@@ -194,8 +190,18 @@ export async function getVendorOrders() {
       },
     ]).toArray();
 
+    const sanitizedOrders = orders.map(order => ({
+      ...order,
+      _id: order._id.toString(), 
+      carIdObj: order.carIdObj.toString(), 
+      carDetails: {
+        ...order.carDetails,
+        _id: order.carDetails._id.toString() 
+      }
+    }));
 
-    return orders;
+
+    return sanitizedOrders;
   } catch (error) {
     console.error("Error fetching vendor orders:", error);
     throw error;

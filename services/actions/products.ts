@@ -101,7 +101,6 @@ export async function getCar(id:string) {
     const carsCollection = await getCollection("cars");
     if(carsCollection){
       const car = await carsCollection.findOne({ _id: new ObjectId(id) });
-      console.log("Car data:", car)
 
       if (!car) return null;
   

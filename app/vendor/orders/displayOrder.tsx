@@ -9,7 +9,7 @@ interface Order {
   carName: string;
   carModel: string;
   email: string;
-  idcard: string;
+  contact: string;
   date: string;
   time: string;
   address: string;
@@ -51,7 +51,7 @@ export default function DisplayOrder() {
             <th className="px-6 py-3">Car</th>
             <th className="px-6 py-3">Model</th>
             <th className="px-6 py-3">Email</th>
-            <th className="px-6 py-3">Id Card</th>
+            <th className="px-6 py-3">Contact</th>
             <th className="px-6 py-3">Date</th>
             <th className="px-6 py-3">Time</th>
             <th className="px-6 py-3">Address</th>
@@ -65,7 +65,7 @@ export default function DisplayOrder() {
               <td className="px-6 py-4">{order.carName}</td>
               <td className="px-6 py-4">{order.carModel}</td>
               <td className="px-6 py-4">{order.email}</td>
-              <td className="px-6 py-4">{order.idcard}</td>
+              <td className="px-6 py-4">{order.contact}</td>
               <td className="px-6 py-4">{order.date}</td>
               <td className="px-6 py-4">{order.time}</td>
               <td className="px-6 py-4">{order.address}</td>

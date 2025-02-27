@@ -24,10 +24,10 @@ const initialBookingFields = [
     required: true,
   },
   {
-    label: "ID Card",
-    name: "idcard",
+    label: "Contact",
+    name: "contact",
     type: "text",
-    placeholder: "Enter your ID card number",
+    placeholder: "Enter your contact number",
     icon: <CreditCard className="w-5 h-5 text-gray-400" />,
     required: true,
   },

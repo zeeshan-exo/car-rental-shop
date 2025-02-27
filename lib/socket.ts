@@ -39,7 +39,6 @@ export function getSocket(userId: string, role: "customer" | "vendor") {
       console.warn(" Socket disconnected.");
     });
   }
-
   return socket;
 }
 

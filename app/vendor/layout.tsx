@@ -37,10 +37,11 @@ export default function VendorDashboardLayout({ children }) {
             <div className="space-x-4 flex items-center">
               {user ? (
                 <>
-                  <Notifications userId={user.userId} role={user.role || "vendor"} />
-                  <button onClick={logout} className="text-red-500 text-md hover:underline">
+                  
+                  {/* <button onClick={logout} className="text-red-500 text-md hover:underline">
                     <LogOut/>
-                  </button>
+                  </button> */}
+                  <Notifications userId={user.userId} role={user.role || "vendor"} />
                   <ProfileImage/>
 
                 </>

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const OrderSchema = z.object({
     email: z.string().email("Invalid email format"),
-    idcard: z.string().min(5, "ID card must be at least 5 characters"),
+    contact: z.string().min(11, "Contact number must be at least 5 characters"),
     date: z.string(),
     time: z.string(),
     address: z.string().min(5, "Address must be at least 5 characters"),

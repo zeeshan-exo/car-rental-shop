@@ -8,7 +8,7 @@ interface Order{
   productName: string;
   carModel: string;
   email: string;
-  idcard: string;
+  contact: string;
   date: string;
   time: string;
   address: string;
@@ -78,7 +78,7 @@ export default function PreviewOrder({ orderId, onClose, onStatusUpdate,}: Previ
         <div className="space-y-2">
           <p><strong>User Name:</strong> {order.userName}</p>
           <p><strong>Email:</strong> {order.email}</p>
-          <p><strong>ID Card:</strong> {order.idcard}</p>
+          <p><strong>ID Card:</strong> {order.contact}</p>
           <p><strong>Date:</strong> {order.date}</p>
           <p><strong>Time:</strong> {order.time}</p>
           <p><strong>Address:</strong> {order.address}</p>

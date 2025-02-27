@@ -37,10 +37,11 @@ const DashboardLayout = ({ children }) => {
         <div className="flex items-center space-x-4">
           {user ? (
             <>
-              <Notifications userId={user.userId} role={user.role || "customer"} />
-              <button onClick={logout} className="text-red-500 text-md hover:underline">
+              
+              {/* <button onClick={logout} className="text-red-500 text-md hover:underline">
                 <LogOut/>
-              </button>
+              </button> */}
+              <Notifications userId={user.userId} role={user.role || "customer"} />
               <ProfileImage/>
               
             </>
