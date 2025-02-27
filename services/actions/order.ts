@@ -34,12 +34,13 @@ export async function bookingOrder(state: any, formData: FormData) {
       carId: rawData.carId,
       carName: rawData.carName,
       vendorEmail: rawData.vendorEmail,
+      vendorId: rawData.vendorId
     }
     await orderCollection.insertOne(
        newOrder
     );
 
-    const socket = getSocket();
+    const socket = getSocket(newOrder.vendorId, "vendor");
     if (socket) {
       console.log("Emitting order_placed event:", newOrder);
       socket.emit("order_placed", {
@@ -56,8 +57,6 @@ export async function bookingOrder(state: any, formData: FormData) {
     return { errors: { server: "Failed to create order. Please try again." } };
   }
 }
-
-
 
 
 export async function getOrders() {
@@ -92,30 +91,35 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
     );
      console.log("Car Data:", result)
 
+     const session = (await cookies()).get("session")?.value;
+     const payload = session ? await decrypt(session) : null;
+     if (!payload) {
+       return { errors: { session: "User session not found" } };
+     }
+
     const order = await orderCollection.findOne({_id: new ObjectId(orderId)})
 
-    const {email, userName, address, carName, status, date, time, carModel } = order
+    const {email, userName, address, carName, status, date, time, carModel, userId } = order
 
-    const templatePath = path.join(process.cwd(), "templates", "orderStatus.ejs")
-    const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName, status, carModel, date, time})
+    console.log("USerID", userId)
 
-
-    const socket = getSocket();
+    const socket = getSocket(order.userId, "customer");
     if (socket) {
       console.log("Emitting order_updated event");
       socket.emit("order_updated", {
-        message: `Your order for ${order.carName} has been ${newStatus}.`,
-        order,
+        message: `Your order for ${carName} has been ${status}.`,
+        order: order,
       });
     }
 
+    // const templatePath = path.join(process.cwd(), "templates", "orderStatus.ejs")
+    // const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName, status, carModel, date, time})
 
     // await sendMail ({
     //   to: email,
     //   subject: "Order Status",
     //   message: OrderConfirmed
     // })
-
 
     return result.modifiedCount > 0;
   } catch (error) {

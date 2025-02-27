@@ -11,6 +11,7 @@ interface BookingFormProps {
   carName: string;
   carId: string;
   vendorEmail: string;
+  vendorId: string
 }
 
 const initialBookingFields = [
@@ -61,6 +62,7 @@ export default function BookingForm({
   carName,
   carId,
   vendorEmail,
+  vendorId
 }: BookingFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -87,7 +89,7 @@ export default function BookingForm({
   }, [user]);
 
   const handleSubmit = (formData: any) => {
-    const bookingData = { ...formData, carModel, carName, carId, vendorEmail };
+    const bookingData = { ...formData, carModel, carName, carId, vendorEmail, vendorId };
     startTransition(() => action(bookingData));
     closeModal();
   };

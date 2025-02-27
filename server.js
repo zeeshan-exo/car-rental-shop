@@ -14,34 +14,38 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
   console.log("io")
 
-
-
-
   io.on("connection", (socket) => {
-    console.log("A user connected");
-    console.log("Socket ID:", socket.id)
-
+    console.log("A user connected with Socket ID:", socket.id);
+    console.log(` Rooms before emitting:`, io.sockets.adapter.rooms);
 
     socket.on("register", ({ userId, role }) => {
-      if (role === "vendor") {
-        socket.join(`vendor:${userId}`); // e.g., "vendor:123"
-        console.log(`Vendor ${userId} joined room vendor:${userId}`);
-      } else if (role === "user") {
-        socket.join(`user:${userId}`); // e.g., "user:456"
-        console.log(`User ${userId} joined room user:${userId}`);
+      if (role === "customer") {
+        socket.join(`user:${userId}`);
+        console.log(` Customer ${userId} joined room user:${userId}`);
+        // console.log(` Updated Rooms:`, io.sockets.adapter.rooms);
+      } else if (role === "vendor") {
+        socket.join(`vendor:${userId}`);
+        console.log(` Vendor ${userId} joined room vendor:${userId}`);
+        // console.log(` Updated Rooms:`, io.sockets.adapter.rooms);
       }
     });
+    
+    
   
     socket.on("order_placed", (data) => {
-      console.log("Order placed:", data);
-      // Send to the specific vendor's room
+      console.log(" Order placed:", data);
+      console.log(`Emitting to vendor:${data.order.vendorId}`);
+    
       io.to(`vendor:${data.order.vendorId}`).emit("order_placed", data);
     });
-
+    
     socket.on("order_updated", (data) => {
-      console.log("Order updated:", data);
+      console.log(" Order updated:", data);
+      console.log(` Emitting to user:${data.order.userId}`);
+
       io.to(`user:${data.order.userId}`).emit("order_updated", data);
     });
+    
   
     socket.on("disconnect", () => {
       console.log("User disconnected");

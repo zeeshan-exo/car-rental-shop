@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { getSocket } from "@/lib/socket";
 import { Bell, X } from "lucide-react";
 
-export default function Notifications({ userId, role }: { userId: string; role: "user" | "vendor" }) {
+export default function Notifications({ userId, role }: { userId: string; role: "customer" | "vendor" }) {
   const [notifications, setNotifications] = useState<{ message: string }[]>([]);
   const [openModal, setModal] = useState(false);
 
@@ -15,21 +15,23 @@ export default function Notifications({ userId, role }: { userId: string; role: 
       console.warn("Socket is not connected.");
       return;
     }
-
+  
+    socket.emit("register", { userId, role });
+  
     const handleOrderEvent = (data: { message: string }) => {
       console.log("Notification received:", data);
       setNotifications((prev) => [...prev, data]);
     };
-
+  
     socket.on("order_placed", handleOrderEvent);
     socket.on("order_updated", handleOrderEvent);
-
+  
     return () => {
       socket.off("order_placed", handleOrderEvent);
       socket.off("order_updated", handleOrderEvent);
     };
   }, [userId, role]);
-
+  
   return (
     <div className="fixed z-50">
       <button

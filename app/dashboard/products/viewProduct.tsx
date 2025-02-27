@@ -153,6 +153,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                             carName={car.carName}
                             carId={car._id}
                             vendorEmail={car.vendorEmail}
+                            vendorId={car.vendorId}
                           />
                         </div>
                       </div>
