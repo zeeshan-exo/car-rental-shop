@@ -136,45 +136,46 @@ export async function getVendorCars() {
   }
 }
 
+export async function updateCar(carId: string, formData: FormData) {
+  const carcollection = await getCollection("cars");
+  if (!carcollection) throw new Error("Database connection failed.");
 
-// export async function updateCar(_id: string, formData: FormData) {
-//   try {
-//     const carsCollection = await getCollection("cars");
-//     if (!carsCollection) throw new Error("No Cars Collection found");
+  const newData: any = {};
+  formData.forEach((value, key) => {
+    newData[key] = value;
+  });
 
-//     const carData = await carsCollection.findOne({ _id: new ObjectId(_id) });
-//     if (!carData) throw new Error("No car found with such ID");
+  console.log("Converted newData:", newData);
 
-//     const updateData: Record<string, any> = {};
-//     formData.forEach((value, key) => {
-//       updateData[key] = value;
-//     });
+  if (Object.keys(newData).length === 0) {
+    throw new Error("newData is empty, update will not be performed.");
+  }
 
-//     if (Object.keys(updateData).length === 0) {
-//       throw new Error("No update data provided");
-//     }
+  if (typeof newData.images === "string") {
+    try {
+      newData.images = JSON.parse(newData.images);
+    } catch (error) {
+      console.error("Failed to parse images JSON:", error);
+      throw new Error("Invalid images format.");
+    }
+  }
 
-//     const result = await carsCollection.updateOne(
-//       { _id: new ObjectId(_id) },
-//       { $set: updateData }
-//     );
+  const objectId = new ObjectId(carId);
 
-//     if (result.matchedCount === 0) {
-//       throw new Error("No car found with the provided ID");
-//     }
+  const existingCar = await carcollection.findOne({ _id: objectId });
+  if (!existingCar) {
+    throw new Error("Car not found in the database.");
+  }
 
-//     return { success: true, message: "Car updated successfully" };
-//   } catch (error) {
-//     console.error("Error while updating car:", error.message);
-//     return { success: false, message: error.message };
-//   }
-// }
+  console.log("Existing Car Data:", existingCar);
 
+  const result = await carcollection.updateOne(
+    { _id: objectId },
+    { $set: newData }
+  );
 
-
-export async function updateCar(carId: string, newData: any) {
-  const carcollection = getCollection("cars");
-  await carcollection.updateOne({ _id: new ObjectId(carId) }, { $set: newData });
+  console.log("Update Result:", result);
+  return result;
 }
 
 

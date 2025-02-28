@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { getVendorOrders, updateOrderStatus } from "@/services/actions/order"; 
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
 interface Order {
   _id: string;
@@ -70,7 +72,7 @@ export default function DisplayOrder() {
               <td className="px-6 py-4">{order.time}</td>
               <td className="px-6 py-4">{order.address}</td>
               <td className="px-6 py-4">
-                <select
+                {/* <select
                   className="border p-1 rounded bg-gray-100"
                   value={order.status}
                   onChange={(e) => handleStatusChange(order._id, e.target.value)}
@@ -79,8 +81,36 @@ export default function DisplayOrder() {
                   <option value="confirmed">Confirmed</option>
                   <option value="dispatched">Dispatched</option>
                   <option value="delivered">Delivered</option>
-                </select>
-              </td>
+                </select> */}
+
+
+       <DropdownMenu >
+    <DropdownMenuTrigger className="border p-2 rounded bg-gray-100">
+      {order.status}
+    </DropdownMenuTrigger>
+    <DropdownMenuContent className="bg-slate-300 w-40">
+      {/* <DropdownMenuLabel>Update Status</DropdownMenuLabel> */}
+      <DropdownMenuSeparator className="bg-slate-300 hover:bg-slate-400"/>
+      <DropdownMenuItem className="" onClick={() => handleStatusChange(order._id, "pending")}>
+        Pending
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "confirmed")}>
+        Confirmed
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "dispatched")}>
+        Dispatched
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "delivered")}>
+        Delivered
+      </DropdownMenuItem>
+      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "rejected")}>
+        Rejected
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+</td>
+
+              
             </tr>
           ))}
         </tbody>

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { addCar, updateCar } from "@/services/actions/products";
+import Viewcar from "./viewCar";
 
 const ProductForm = ({ carData = null }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,7 +102,7 @@ const ProductForm = ({ carData = null }) => {
         className="bg-sky-500 text-white rounded-md p-2 mb-2"
         onClick={() => setIsModalOpen(true)}
       >
-        {carData ? "Edit Car" : "Add Car"}
+        {carData ? "Edit Car ": "Add Car"}
       </button>
 
       {isModalOpen && (
