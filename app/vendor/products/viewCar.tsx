@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { getCar } from "@/services/actions/products";
 import { IoClose } from "react-icons/io5";
 import ImageSlider from "@/components/ImageSlider";
+import ProductForm from "./productForm";
 import { 
   Calendar, 
   Users, 

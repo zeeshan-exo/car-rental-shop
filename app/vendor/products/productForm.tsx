@@ -1,37 +1,67 @@
 "use client";
-import React, { useActionState, useState, useEffect } from "react";
-import { addCar } from "@/services/actions/products";
-import { startTransition } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { addCar, updateCar } from "@/services/actions/products";
 
-const ProductForm = () => {
-  const [state, action, pending] = useActionState(addCar, undefined);
+const ProductForm = ({ carData = null }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [imageFiles, setImageFiles] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [formState, setFormState] = useState({
+    carName: "",
+    brand: "",
+    model: "",
+    price: "",
+    carQuantity: "",
+    description: "",
+  });
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
+  useEffect(() => {
+    if (carData) {
+      setFormState({
+        carName: carData.carName || "",
+        brand: carData.brand || "",
+        model: carData.model || "",
+        price: carData.price || "",
+        carQuantity: carData.carQuantity || "",
+        description: carData.description || "",
+      });
+
+      setSelectedImages(carData.images || []);
+    }
+  }, [carData]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormState((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
     setImageFiles(files);
     const previews = files.map((file) => URL.createObjectURL(file));
     setSelectedImages(previews);
   };
 
-  const handleRemoveImage = (index) => {
-    setImageFiles((prevFiles) => prevFiles.filter((rem, i) => i !== index));
+  const handleRemoveImage = (index: number) => {
+    setImageFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     setSelectedImages((prevPreviews) => {
       URL.revokeObjectURL(prevPreviews[index]);
-      return prevPreviews.filter((rem,i) => i !== index);
+      return prevPreviews.filter((_, i) => i !== index);
     });
   };
 
-  const handleSubmit = async (formData: FormData) => {
-    console.log("Formdata:", formData)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    Object.entries(formState).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
     if (imageFiles.length > 0) {
       const imageData = new FormData();
-      imageFiles.forEach((file) => {
-        imageData.append("image", file);
-      });
+      imageFiles.forEach((file) => imageData.append("image", file));
 
       const uploadResponse = await fetch("/api/upload", {
         method: "POST",
@@ -40,147 +70,130 @@ const ProductForm = () => {
 
       const uploadResult = await uploadResponse.json();
       if (!uploadResult.success) {
-        console.error("Image upload failed:", uploadResult.error);
+        toast.error("Image upload failed");
         return;
       }
 
       formData.append("images", JSON.stringify(uploadResult.uploads));
+    } else {
+      formData.append("images", JSON.stringify(selectedImages));
     }
 
-    startTransition(() => {
-      action(formData);
-    });
-    
-    setIsModalOpen(false);
-    toast.success("Product Created Successfully")
+    try {
+      if (carData) {
+        await updateCar(carData._id, formData);
+        toast.success("Car updated successfully!");
+      } else {
+        await addCar(null, formData);
+        toast.success("Car added successfully!");
+      }
+
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Operation failed. Please try again.");
+      console.error(error);
+    }
   };
 
   return (
     <div>
       <button
-        className="bg-sky-500 text-white rounded-md p-2 mb-2 "
+        className="bg-sky-500 text-white rounded-md p-2 mb-2"
         onClick={() => setIsModalOpen(true)}
       >
-        Add Product
+        {carData ? "Edit Car" : "Add Car"}
       </button>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full m-40 relative">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl relative">
             <button
-              className="absolute top-3 right-3 mb-3 text-gray-600 text-2xl font-bold"
+              className="absolute top-3 right-3 text-gray-600 text-2xl font-bold"
               onClick={() => setIsModalOpen(false)}
             >
               &times;
             </button>
 
-            <form action={handleSubmit} className="grid grid-cols-3 gap-4">
-
+            <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
               <div className="flex flex-col">
-                <label htmlFor="name" className="font-semibold mb-1">
-                  Product Title
-                </label>
+                <label className="font-semibold mb-1">Car Name</label>
                 <input
-                  id="name"
                   name="carName"
-                  type="text"
-                  placeholder="car's name"
-                  className="p-2 rounded-md border border-gray-200 bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                  value={formState.carName}
+                  onChange={handleChange}
+                  placeholder="Enter car name"
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
-                {state?.errors?.name && (
-                  <p className="text-red-600 text-sm">{state.errors.name}</p>
-                )}
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="brand" className="font-semibold mb-1">
-                  Brand
-                </label>
+                <label className="font-semibold mb-1">Brand</label>
                 <input
-                  id="brand"
                   name="brand"
-                  type="text"
-                  placeholder="car's brand"
+                  value={formState.brand}
+                  onChange={handleChange}
+                  placeholder="Enter brand"
                   className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
-                {state?.errors?.brand && (
-                  <p className="text-red-600 text-sm">{state.errors.brand}</p>
-                )}
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="model" className="font-semibold mb-1">
-                  Model
-                </label>
+                <label className="font-semibold mb-1">Model</label>
                 <input
-                  id="model"
                   name="model"
-                  type="text"
-                  placeholder="model"
+                  value={formState.model}
+                  onChange={handleChange}
+                  placeholder="Enter model"
                   className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
-                {state?.errors?.model && (
-                  <p className="text-red-600 text-sm">{state.errors.model}</p>
-                )}
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="price" className="font-semibold mb-1">
-                  Rental Price
-                </label>
+                <label className="font-semibold mb-1">Rental Price</label>
                 <input
-                  id="price"
                   name="price"
-                  type="text"
-                  placeholder="price"
-                  className="p-2 rounded-md border bg-slate-200 focus:outline-none shadow-md focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                  value={formState.price}
+                  onChange={handleChange}
+                  placeholder="Enter price"
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
-                {state?.errors?.price && (
-                  <p className="text-red-600 text-sm">{state.errors.price}</p>
-                )}
               </div>
 
               <div className="flex flex-col">
-                <label htmlFor="carQuantity" className="font-semibold mb-1">
-                  Car's Quantity
-                </label>
+                <label className="font-semibold mb-1">Car Quantity</label>
                 <input
-                  id="carQuantity"
                   name="carQuantity"
-                  type="text"
-                  placeholder="Available Car's Quantity"
-                  className="p-2 rounded-md border bg-slate-200 focus:outline-none shadow-md focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                  value={formState.carQuantity}
+                  onChange={handleChange}
+                  placeholder="Enter quantity"
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
-                {state?.errors?.carQuantity && (
-                  <p className="text-red-600 text-sm">{state.errors.carQuantity}</p>
-                )}
               </div>
 
               <div className="flex flex-col col-span-3">
-                <label htmlFor="image" className="font-semibold mb-1">
-                  Upload Images
-                </label>
-                <input
-                  type="file"
-                  name="images"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageChange}
-                  className="file:mr-4 file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100"
+                <label className="font-semibold mb-1">Description</label>
+                <textarea
+                  name="description"
+                  value={formState.description}
+                  onChange={handleChange}
+                  placeholder="Enter description"
+                  rows={3}
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
+              </div>
+
+              <div className="flex flex-col col-span-3">
+                <label className="font-semibold mb-1">Upload Images</label>
+                <input type="file" multiple onChange={handleImageChange} />
                 {selectedImages.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {selectedImages.map((src, index) => (
                       <div key={index} className="relative">
-                        <img
-                          src={src}
-                          alt={`Preview ${index}`}
-                          className="w-24 h-24 object-cover rounded-md border "
-                        />
+                        <img src={src} alt="Preview" className="w-24 h-24 object-cover rounded-md border" />
                         <button
                           type="button"
-                          onClick={()=>handleRemoveImage(index)}
-                          className="absolute top-0 right-0  text-black bg-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                          onClick={() => handleRemoveImage(index)}
+                          className="absolute top-0 right-0 bg-white text-black rounded-full w-6 h-6 flex items-center justify-center text-xs"
                         >
                           &times;
                         </button>
@@ -190,37 +203,9 @@ const ProductForm = () => {
                 )}
               </div>
 
-              <div className="flex flex-col col-span-3">
-                <label htmlFor="description" className="font-semibold mb-1">
-                  Product Description
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  placeholder="Fill out the details of your product"
-                  rows={3}
-                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
-                />
-                {state?.errors?.description && (
-                  <p className="text-red-600 text-sm">{state.errors.description}</p>
-                )}
-              </div>
-
-              <div className="col-span-3 mt-4 flex justify-between">
-                <p className="text-blue-600">
-                  Tips:{" "}
-                  <span className="text-sm text-gray-400">
-                    Choose a detailed yet concise name for your product.
-                  </span>
-                </p>
-                <button
-                  disabled={pending}
-                  type="submit"
-                  className="bg-sky-500 text-white p-2 font-bold rounded-md disabled:bg-slate-500"
-                >
-                  {pending ? "Adding..." : "Add Product"}
-                </button>
-              </div>
+              <button type="submit" className="col-span-3 bg-sky-500 text-white p-2 rounded font-bold">
+                {carData ? "Update Car" : "Add Car"}
+              </button>
             </form>
           </div>
         </div>

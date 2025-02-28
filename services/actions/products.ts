@@ -137,38 +137,46 @@ export async function getVendorCars() {
 }
 
 
-export async function updateCar(_id: string, formData: FormData) {
-  try {
-    const carsCollection = await getCollection("cars");
-    if (!carsCollection) throw new Error("No Cars Collection found");
+// export async function updateCar(_id: string, formData: FormData) {
+//   try {
+//     const carsCollection = await getCollection("cars");
+//     if (!carsCollection) throw new Error("No Cars Collection found");
 
-    const carData = await carsCollection.findOne({ _id: new ObjectId(_id) });
-    if (!carData) throw new Error("No car found with such ID");
+//     const carData = await carsCollection.findOne({ _id: new ObjectId(_id) });
+//     if (!carData) throw new Error("No car found with such ID");
 
-    const updateData: Record<string, any> = {};
-    formData.forEach((value, key) => {
-      updateData[key] = value;
-    });
+//     const updateData: Record<string, any> = {};
+//     formData.forEach((value, key) => {
+//       updateData[key] = value;
+//     });
 
-    if (Object.keys(updateData).length === 0) {
-      throw new Error("No update data provided");
-    }
+//     if (Object.keys(updateData).length === 0) {
+//       throw new Error("No update data provided");
+//     }
 
-    const result = await carsCollection.updateOne(
-      { _id: new ObjectId(_id) },
-      { $set: updateData }
-    );
+//     const result = await carsCollection.updateOne(
+//       { _id: new ObjectId(_id) },
+//       { $set: updateData }
+//     );
 
-    if (result.matchedCount === 0) {
-      throw new Error("No car found with the provided ID");
-    }
+//     if (result.matchedCount === 0) {
+//       throw new Error("No car found with the provided ID");
+//     }
 
-    return { success: true, message: "Car updated successfully" };
-  } catch (error) {
-    console.error("Error while updating car:", error.message);
-    return { success: false, message: error.message };
-  }
+//     return { success: true, message: "Car updated successfully" };
+//   } catch (error) {
+//     console.error("Error while updating car:", error.message);
+//     return { success: false, message: error.message };
+//   }
+// }
+
+
+
+export async function updateCar(carId: string, newData: any) {
+  const carcollection = getCollection("cars");
+  await carcollection.updateOne({ _id: new ObjectId(carId) }, { $set: newData });
 }
+
 
 
 export async function deleteCar(_id: string) {
