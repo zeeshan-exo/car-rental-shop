@@ -102,7 +102,7 @@ export default function BookingForm({
       <button
         onClick={openModal}
         disabled={isPending}
-        className="w-full bg-yellow-400 text-black px-6 py-2.5 rounded-lg font-semibold shadow-md hover:bg-yellow-500 hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full bg-blue-500 px-6 py-2.5 text-white rounded-lg font-semibold shadow-md hover:bg-blue-600 hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {isPending ? (
           <>

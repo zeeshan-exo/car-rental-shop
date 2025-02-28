@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { getCar } from "@/services/actions/products";
 import { IoClose } from "react-icons/io5";
 import ImageSlider from "@/components/ImageSlider";
-import BookingForm from "./bookingForm";
 import { 
   Calendar, 
   Users, 
@@ -12,17 +11,10 @@ import {
   MapPin, 
   Shield, 
   Star,
+  Edit,
   ChevronRight,
-  Check,
-  CircleUserRound
+  Check
 } from "lucide-react";
-
-const benefits = [
-  "Free cancellation up to 24 hours before pickup",
-  "No hidden fees or charges",
-  "24/7 customer support",
-  "All cars sanitized before delivery"
-];
 
 interface ViewcarProps {
   carId: string;
@@ -61,11 +53,18 @@ export default function Viewcar({ carId }: ViewcarProps) {
     { icon: <Shield size={20} className="text-blue-500" />, label: "Insurance" },
   ];
 
+  const benefits = [
+    "Free cancellation up to 24 hours before pickup",
+    "No hidden fees or charges",
+    "24/7 customer support",
+    "All cars sanitized before delivery"
+  ];
+
   return (
     <div>
       <button
         onClick={openModal}
-        className="bg-yellow-600 text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-yellow-700 transition-all duration-300 font-medium flex items-center gap-2"
+        className="bg-blue-600 text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 font-medium flex items-center gap-2"
       >
         View Details <ChevronRight size={16} />
       </button>
@@ -107,16 +106,6 @@ export default function Viewcar({ carId }: ViewcarProps) {
                           />
                         )}
                       </div>
-
-                      <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                              <CircleUserRound size={20} />
-                            </div>
-                            <div>
-                              <span className="text-gray-600 text-sm">Listed by</span>
-                              <p className="font-medium text-gray-800">{car.vendorName}</p>
-                            </div>
-                          </div>
                       
                       <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-sm">
                         <h3 className="text-lg font-semibold mb-4 text-gray-800 flex items-center">
@@ -145,24 +134,23 @@ export default function Viewcar({ carId }: ViewcarProps) {
                             Overview
                           </button>
                           <button 
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'booking' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
-                            onClick={() => setActiveTab('booking')}
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'specs' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                            onClick={() => setActiveTab('specs')}
                           >
-                            Booking
+                            Specifications
                           </button>
                         </div>
+                        <button className="flex items-center gap-1.5 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm font-medium transition-colors">
+                          <Edit size={14} /> Edit
+                        </button>
                       </div>
 
                       <div className="flex-1 space-y-6">
                         <div>
-                          <div className="flex items-center gap-3 mb-2">
+                          <div className="flex items-center gap-3 mb-3">
                             <h2 className="text-3xl font-bold text-gray-800">{car.carName}</h2>
-                            <div className="flex items-center gap-1 text-blue-500">
-                              <Star size={20} fill="currentColor" />
-                              <span className="text-sm font-medium">4.8</span>
-                            </div>
                           </div>
-                          <div className="flex gap-2">
+                          <div className="flex gap-2 mb-3">
                             <span className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">
                               {car.brand}
                             </span>
@@ -179,41 +167,31 @@ export default function Viewcar({ carId }: ViewcarProps) {
                           <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
                             <p className="text-gray-700 leading-relaxed">{car.description}</p>
                           </div>
-
+                          
                           <div className="space-y-2 mt-4">
                             <h4 className="font-medium text-gray-800">Benefits:</h4>
-                              <ul className="space-y-2">
-                                 {benefits.map((benefit, index) => (
+                            <ul className="space-y-2">
+                              {benefits.map((benefit, index) => (
                                 <li key={index} className="flex items-start gap-2 text-gray-700">
                                   <Check size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
                                   <span className="text-sm">{benefit}</span>
                                 </li>
-                                ))}
-                              </ul>
+                              ))}
+                            </ul>
                           </div>
                         </div>
 
                         <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 shadow-sm">
-                          <div className="flex items-end gap-2 mb-1" >
+                          <div className="flex items-end gap-2 mb-1">
                             <span className="text-3xl font-bold text-blue-900">${car.price}</span>
                             <span className="text-blue-700 mb-1">/day</span>
                           </div>
-                          <p className="text-blue-700 text-sm mt-1">All taxes and fees included</p>
-
-                          <div className="mt-6">
-                        <BookingForm
-                          onClick={closeModal}
-                          carModel={car.model}
-                          carName={car.carName}
-                          carId={car._id}
-                          vendorEmail={car.vendorEmail}
-                          vendorId={car.vendorId}
-                        />
-                      </div>
+                          {/* <p className="text-blue-700 text-sm mt-1">All taxes and fees included</p> */}
+                          {/* <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors">
+                            Book Now
+                          </button> */}
                         </div>
-                       
                       </div>
-
                     </div>
                   </div>
                 </>

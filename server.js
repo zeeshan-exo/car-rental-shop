@@ -14,8 +14,6 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-    // console.log("A user connected with Socket ID:", socket.id);
-    // console.log(` Rooms before emitting:`, io.sockets.adapter.rooms);
 
     socket.on("register", ({ userId, role }) => {
       if (role === "customer") {

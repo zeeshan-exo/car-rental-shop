@@ -44,7 +44,7 @@ export async function bookingOrder(state: any, formData: FormData) {
     const socket = getSocket(newOrder.vendorId, "vendor");
     if (socket) {
       socket.emit("order_placed", {
-        message: `New order placed for ${newOrder.carName}`,
+        message: `New order placed for ${newOrder.carName} for ${newOrder.date} at ${newOrder.time}. `,
         order: newOrder,
       });
     } else {

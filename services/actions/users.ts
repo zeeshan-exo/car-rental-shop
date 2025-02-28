@@ -20,19 +20,16 @@ export async function getUsers() {
 
 export async function getUser(_id: string){
     try {
-        const session = (await cookies()).get('session')?.value
-        const payload = await decrypt(session)
+        // const session = (await cookies()).get('session')?.value
+        // const payload = await decrypt(session)
         const userCollection = await getCollection("users")
-        if(userCollection){  
-        await userCollection.findOne({_id: new ObjectId(payload?.userId)})
-        }else{
-            throw new Error ("Error occur while finding Users Collection")
-        }
-        if(_id){
-            console.log("No user found with such id")
-        }
+        if (!userCollection) throw new Error("Users collection not found")
+        const user = await userCollection.findOne({_id: new ObjectId(_id)})
+        if(!user)throw new Error("No user found with such Id")
+
+        return JSON.parse(JSON.stringify(user))
     } catch (error) {
-        console.error("Error while getting user with this id")
+        console.error("Error while getting user:", error.message)
     }
 }
 

@@ -5,7 +5,7 @@ import { logout } from "../../services/actions/auth";
 import ProfileImage from "../../components/ProfileImage";
 import Link from "next/link";
 import { Search, LogOut, House, Heart, Package, Bell } from 'lucide-react';
-import NotificationsModal from "@/components/Notifications";
+
 import Notifications from "@/components/Notifications";
 
 const DashboardLayout = ({ children }) => {
@@ -37,10 +37,6 @@ const DashboardLayout = ({ children }) => {
         <div className="flex items-center space-x-4">
           {user ? (
             <>
-              
-              {/* <button onClick={logout} className="text-red-500 text-md hover:underline">
-                <LogOut/>
-              </button> */}
               <Notifications userId={user.userId} role={user.role || "customer"} />
               <ProfileImage/>
               
