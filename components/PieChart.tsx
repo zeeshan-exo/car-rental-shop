@@ -1,53 +1,133 @@
 "use client";
 
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { getVendorCars } from "@/services/actions/products";
+import { useEffect, useState } from "react";
 
-const data = [
-  { name: "SUVs", value: 40 },
-  { name: "Sedans", value: 25 },
-  { name: "Hatchbacks", value: 15 },
-  { name: "Electric", value: 20 }
+const fallbackData = [
+  { name: "Honda", value: 12 },
+  { name: "Toyota", value: 8 },
+  { name: "BMW", value: 5 },
+  { name: "Mercedes", value: 4 },
+  { name: "Ford", value: 5 }
 ];
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
-const renderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }: any) => {
-  const RADIAN = Math.PI / 180;
-  const x = cx + (outerRadius + 10) * Math.cos(-midAngle * RADIAN);
-  const y = cy + (outerRadius + 10) * Math.sin(-midAngle * RADIAN);
-  
-  return (
-    <text x={x} y={y} fill="black" textAnchor={x > cx ? "start" : "end"} dominantBaseline="central">
-      {`${data[index].name} (${(percent * 100).toFixed(0)}%)`}
-    </text>
-  );
+const COLORS = {
+  bar: "#2563eb",
+  hover: "#1d4ed8"
 };
 
-const PieChartWithCustomizedLabel = () => {
+const BarChartComponent = () => {
+  const [carData, setCarData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCarData = async () => {
+      setIsLoading(true);
+      try {
+        const fetchedData = await getVendorCars();
+        if (fetchedData && fetchedData.length > 0) {
+          // Transform the car data into categories for the bar chart
+          const brandCounts = {};
+          
+          // Count cars by brand
+          fetchedData.forEach(car => {
+            const brand = car.brand;
+            const quantity = parseInt(car.carQuantity) || 1;
+            
+            if (brandCounts[brand]) {
+              brandCounts[brand] += quantity;
+            } else {
+              brandCounts[brand] = quantity;
+            }
+          });
+          
+          // Convert to format needed for bar chart
+          const transformedData = Object.keys(brandCounts).map(brand => ({
+            name: brand,
+            value: brandCounts[brand]
+          }));
+          
+          // Sort by value descending for better visualization
+          transformedData.sort((a, b) => b.value - a.value);
+          
+          setCarData(transformedData);
+        } else {
+          setCarData(fallbackData);
+        }
+      } catch (error) {
+        console.error("Failed to fetch car data:", error);
+        setError("Failed to load data");
+        setCarData(fallbackData);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchCarData();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-80 flex justify-center items-center">
+        <p>Loading car data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full h-80 flex justify-center items-center">
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
+
+  // Use the actual data, falling back to default data if needed
+  const displayData = carData || fallbackData;
+  
   return (
-    <div className="w-full h-96 flex justify-center items-center">
+    <div className="w-full h-80">
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            data={data}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={renderCustomLabel}
-            outerRadius={120}
-            fill="#8884d8"
-            dataKey="value"
-          >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-            ))}
-          </Pie>
-          <Tooltip />
-        </PieChart>
+        <BarChart
+          data={displayData}
+          margin={{
+            top: 20,
+            right: 30,
+            left: 20,
+            bottom: 60
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis 
+            dataKey="name" 
+            angle={-45} 
+            textAnchor="end" 
+            height={60} 
+            tick={{ fontSize: 12 }}
+          />
+          <YAxis 
+            tick={{ fontSize: 12 }}
+            tickFormatter={(value) => `${value}`}
+          />
+          <Tooltip 
+            formatter={(value) => [`${value} cars`, 'Inventory']}
+            labelStyle={{ fontWeight: 'bold' }}
+          />
+          <Legend />
+          <Bar 
+            dataKey="value" 
+            name="Car Count" 
+            fill={COLORS.bar} 
+            radius={[4, 4, 0, 0]} 
+            barSize={40}
+            animationDuration={1500}
+          />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );
 };
 
-export default PieChartWithCustomizedLabel;
+export default BarChartComponent;

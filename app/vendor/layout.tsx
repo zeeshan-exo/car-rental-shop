@@ -93,7 +93,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
             <div className="md:hidden mb-4">
               <SidebarTrigger className="p-2 rounded-md bg-white shadow-sm border border-gray-200" />
             </div>
-            <div className="w-full h-full rounded-2xl bg-AppSecondary">
+            <div className="w-full h-screen">
               {children}
             </div>
           </main>
