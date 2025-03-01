@@ -3,7 +3,7 @@ import { getVendorCars } from "@/services/actions/products";
 import DeleteProductButton from "./deleteProduct";
 import ImageSlider from "@/components/ImageSlider";
 import Viewcar from "@/app/vendor/products/viewCar";
-import { Clock, Car, Box, DollarSign, Tag, Eye } from "lucide-react";
+import { Clock, MapPin ,Car, Box, DollarSign, Tag, Eye } from "lucide-react";
 
 export default async function DisplayVendorCars() {
   const products = await getVendorCars();
@@ -26,7 +26,7 @@ export default async function DisplayVendorCars() {
             key={product._id}
             className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
           >
-            <div className="relative h-56">
+            <div className="relative h-60">
               {product.images &&
               Array.isArray(product.images) &&
               product.images.length > 0 ? (
@@ -69,6 +69,12 @@ export default async function DisplayVendorCars() {
                   <Box className="w-4 h-4 mr-2 text-gray-400" />
                   <span className="text-sm">Available:</span>
                   <span className="ml-1 text-sm font-medium">{product.carQuantity} units</span>
+                </div>
+
+                <div className="flex items-center text-gray-600">
+                  <MapPin className="w-4 h-4 mr-2 text-gray-400" />
+                  <span className="text-sm">City:</span>
+                  <span className="ml-1 text-sm font-medium">{product.city}</span>
                 </div>
               </div>
               

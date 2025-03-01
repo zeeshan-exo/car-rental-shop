@@ -4,62 +4,98 @@ import Header from "../../components/Header";
 import { logout } from "../../services/actions/auth";
 import ProfileImage from "../../components/ProfileImage";
 import Link from "next/link";
-import { House, LogOut, Search, Bell } from "lucide-react";
+import { House, LogOut, Search, Bell,ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 
 export default function VendorDashboardLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUserSession = async () => {
-      const response = await fetch("/api/auth/session");
-      const data = await response.json();
-      setUser(data?.user);
+      try {
+        const response = await fetch("/api/auth/session");
+        const data = await response.json();
+        setUser(data?.user);
+      } catch (error) {
+        console.error("Failed to fetch user session:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     getUserSession();
   }, []);
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex min-h-screen w-full bg-gray-100">
         <AppSidebar />
 
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col flex-1 w-full">
           <Header
-            title="AutoNex"
+            title={
+              <Link href="/" className="flex items-center gap-2">
+                <span className="font-bold text-xl">AutoNex</span>
+              </Link>
+            }
             navLinks={[
-              { label: <House />, href: "/" },
-              { label: "Dashboard", href: "/vendor" },
-              { label: "Products", href: "/vendor/products" },
-              { label: "Orders", href: "/vendor/orders" },
-              { label: <Search />, href: "/vendor/search" },
+              { label: <House className="text-gray-700" />, href: "/" },
+              { 
+                label: <LayoutDashboard className="text-gray-700"/> , 
+                href: "/vendor",
+              },
+              { 
+                label: <ShoppingBag className="text-gray-700"/>, 
+                href: "/vendor/products",
+              },
+              { 
+                label:<ShoppingCart className="text-gray-700" /> , 
+                href: "/vendor/orders",
+              },
+              { 
+                label: <Search className="text-gray-700" />, 
+                href: "/vendor/search" 
+              },
             ]}
             rightContent={
-              <div className="space-x-4 flex items-center">
-                {user ? (
+              <div className="flex items-center gap-4">
+                {loading ? (
+                  <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"></div>
+                ) : user ? (
                   <>
-                    <Notifications userId={user.userId} role={user.role || "vendor"} />
-                    <ProfileImage />
-                  
+                    <div className="relative">
+                      <Notifications
+                       userId={user.userId} role={user.role || "vendor"} 
+                     
+                       />
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ProfileImage />
+                      
+                    </div>
                   </>
                 ) : (
                   <Link
                     href="/pages/login"
-                    className="text-blue-600 hover:text-blue-700 font-medium"
+                    className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700"
                   >
                     Login
                   </Link>
                 )}
               </div>
             }
-            className="bg-white shadow-md"
+            className="bg-white shadow-md w-full"
           />
 
-          <main className="flex-1 p-6 overflow-auto bg-gray-50">
-            <SidebarTrigger className="md:hidden mb-4" /> 
-            {children}
+          <main className="flex-1 p-6 overflow-auto w-full">
+            <div className="md:hidden mb-4">
+              <SidebarTrigger className="p-2 rounded-md bg-white shadow-sm border border-gray-200" />
+            </div>
+            <div className="w-full h-full rounded-2xl bg-AppSecondary">
+              {children}
+            </div>
           </main>
         </div>
       </div>

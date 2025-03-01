@@ -4,6 +4,7 @@ export const OrderSchema = z.object({
     email: z.string().email("Invalid email format"),
     contact: z.string().min(11, "Contact number must be at least 5 characters"),
     date: z.string(),
+    returnDate: z.string(),
     time: z.string(),
     address: z.string().min(5, "Address must be at least 5 characters"),
     carModel: z.string(),

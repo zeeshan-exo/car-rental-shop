@@ -9,6 +9,13 @@ export default {
   theme: {
   	extend: {
   		colors: {
+			AppPrimary:"#FFF27A",
+			AppSecondary: "#242529",
+			AppTertiary: "#DCDCDD",
+			AppLightPrimary:"#E7E7E7",
+			AppLightSecomdary:"#B2B5C2",
+			AppLightTertiary:"#B1B1B1",
+			AppMutedGray:"#726D6A",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -16,7 +23,7 @@ export default {
   				foreground: 'hsl(var(--card-foreground))'
   			},
   			popover: {
-  				DEFAULT: 'hsl(var(--popover))',
+  				DEFAULT: 'hsl(var(--popover))', 
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {

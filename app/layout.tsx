@@ -15,6 +15,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
 
@@ -22,7 +24,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
-          {children}
+         {children}
+
           <ToastContainer />
         </ReCaptchaProvider>
       </body>

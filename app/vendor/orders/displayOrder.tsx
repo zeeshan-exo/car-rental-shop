@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Search, RefreshCw, Filter } from "lucide-react";
 
 interface Order {
   _id: string;
@@ -24,89 +25,198 @@ interface Order {
 
 export default function DisplayOrder() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
 
   const fetchOrders = async () => {
-    const fetchedOrders = await getVendorOrders();
-    setOrders(fetchedOrders || []);
+    setLoading(true);
+    try {
+      const fetchedOrders = await getVendorOrders();
+      setOrders(fetchedOrders || []);
+      setFilteredOrders(fetchedOrders || []);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchOrders();
   }, []);
 
-  const handleStatusChange = async (orderId: string, newStatus: string) => {
-    const success = await updateOrderStatus(orderId, newStatus);
-    if (success) {
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order._id === orderId ? { ...order, status: newStatus } : order
-        )
+  useEffect(() => {
+    if (searchTerm) {
+      const filtered = orders.filter(
+        (order) =>
+          order.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.carName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.status.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      setFilteredOrders(filtered);
     } else {
-      alert("Failed to update order status.");
+      setFilteredOrders(orders);
+    }
+  }, [searchTerm, orders]);
+
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    try {
+      const success = await updateOrderStatus(orderId, newStatus);
+      if (success) {
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order._id === orderId ? { ...order, status: newStatus } : order
+          )
+        );
+      } else {
+        alert("Failed to update order status.");
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
+      case "confirmed":
+        return "bg-blue-100 text-blue-800";
+      case "dispatched":
+        return "bg-purple-100 text-purple-800";
+      case "delivered":
+        return "bg-green-100 text-green-800";
+      case "rejected":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <div className="relative overflow-x-auto">
-      <h1 className="text-2xl font-bold mb-4 text-gray-800">Orders</h1>
-      {orders.length === 0 ? (
-        <p className="text-gray-500">No orders found.</p>
-      ) : (
-        <table className="w-full text-sm text-left text-gray-500 border rounded-lg shadow-sm">
-          <thead className="text-xs text-white uppercase bg-orange-500">
-            <tr>
-              <th className="px-6 py-3">Name</th>
-              <th className="px-6 py-3">Car</th>
-              <th className="px-6 py-3">Model</th>
-              <th className="px-6 py-3">Email</th>
-              <th className="px-6 py-3">Contact</th>
-              <th className="px-6 py-3">Date</th>
-              <th className="px-6 py-3">Time</th>
-              <th className="px-6 py-3">Address</th>
-              <th className="px-6 py-3">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id} className="bg-white border-b text-gray-700 hover:bg-gray-50">
-                <td className="px-6 py-4 font-medium text-gray-900">{order.userName}</td>
-                <td className="px-6 py-4">{order.carName}</td>
-                <td className="px-6 py-4">{order.carModel}</td>
-                <td className="px-6 py-4">{order.email}</td>
-                <td className="px-6 py-4">{order.contact}</td>
-                <td className="px-6 py-4">{order.date}</td>
-                <td className="px-6 py-4">{order.time}</td>
-                <td className="px-6 py-4">{order.address}</td>
-                <td className="px-6 py-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="border p-2 rounded bg-gray-100 hover:bg-gray-200 text-sm">
-                      {order.status}
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-40">
-                      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "pending")}>
-                        Pending
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "confirmed")}>
-                        Confirmed
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "dispatched")}>
-                        Dispatched
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "delivered")}>
-                        Delivered
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleStatusChange(order._id, "rejected")}>
-                        Rejected
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-800">Orders Management</h1>
+        <button 
+          onClick={fetchOrders} 
+          className="flex items-center gap-2 px-4 py-2 bg-sky-50 hover:bg-sky-100 text-sky-600 rounded-md transition-colors"
+        >
+          <RefreshCw className="h-4 w-4" />
+          <span>Refresh</span>
+        </button>
+      </div>
+
+      <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="flex items-center justify-between p-4 border-b">
+          <div className="relative w-64">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-4 w-4 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              placeholder="Search orders..."
+              className="pl-10 pr-4 py-2 w-full border rounded-md focus:ring-sky-500 focus:border-sky-500 text-sm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-500">
+              {filteredOrders.length} {filteredOrders.length === 1 ? 'order' : 'orders'}
+            </span>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="p-8 flex justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500"></div>
+          </div>
+        ) : filteredOrders.length === 0 ? (
+          <div className="p-8 text-center">
+            <p className="text-gray-500">No orders found.</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left">
+              <thead className="text-xs uppercase bg-gray-50 text-gray-700 border-b">
+                <tr>
+                  <th className="px-6 py-3 font-medium">Customer</th>
+                  <th className="px-6 py-3 font-medium">Vehicle</th>
+                  <th className="px-6 py-3 font-medium">Contact</th>
+                  <th className="px-6 py-3 font-medium">Appointment</th>
+                  <th className="px-6 py-3 font-medium">Address</th>
+                  <th className="px-6 py-3 font-medium">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrders.map((order) => (
+                  <tr key={order._id} className="border-b hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="font-medium text-gray-900">{order.userName}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="font-medium">{order.carName}</div>
+                      <div className="text-xs text-gray-500">{order.carModel}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div>{order.email}</div>
+                      <div className="text-xs text-gray-500">{order.contact}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div>{order.date}</div>
+                      <div className="text-xs text-gray-500">{order.time}</div>
+                    </td>
+                    <td className="px-6 py-4 max-w-xs truncate" title={order.address}>
+                      {order.address}
+                    </td>
+                    <td className="px-6 py-4">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+                          {order.status}
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-40 shadow-lg rounded-md p-1 border border-gray-200">
+                          <DropdownMenuItem 
+                            onClick={() => handleStatusChange(order._id, "pending")}
+                            className="rounded-sm text-yellow-700 hover:bg-yellow-50 focus:bg-yellow-50 cursor-pointer"
+                          >
+                            Pending
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleStatusChange(order._id, "confirmed")}
+                            className="rounded-sm text-blue-700 hover:bg-blue-50 focus:bg-blue-50 cursor-pointer"
+                          >
+                            Confirmed
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleStatusChange(order._id, "dispatched")}
+                            className="rounded-sm text-purple-700 hover:bg-purple-50 focus:bg-purple-50 cursor-pointer"
+                          >
+                            Dispatched
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleStatusChange(order._id, "delivered")}
+                            className="rounded-sm text-green-700 hover:bg-green-50 focus:bg-green-50 cursor-pointer"
+                          >
+                            Delivered
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleStatusChange(order._id, "rejected")}
+                            className="rounded-sm text-red-700 hover:bg-red-50 focus:bg-red-50 cursor-pointer"
+                          >
+                            Rejected
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

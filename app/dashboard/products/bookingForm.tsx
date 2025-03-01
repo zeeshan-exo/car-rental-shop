@@ -40,6 +40,14 @@ const initialBookingFields = [
     required: true,
   },
   {
+    label: "Return Date",
+    name: "returnDate",
+    type: "date",
+    placeholder: "Select return date",
+    icon: <Calendar className="w-5 h-5 text-gray-400" />,
+    required: true,
+  },
+  {
     label: "Pickup Time",
     name: "time",
     type: "time",
@@ -48,10 +56,10 @@ const initialBookingFields = [
     required: true,
   },
   {
-    label: "Pickup Address",
+    label: "Address",
     name: "address",
     type: "text",
-    placeholder: "Enter pickup address",
+    placeholder: "Enter your address",
     icon: <MapPin className="w-5 h-5 text-gray-400" />,
     required: true,
   },
@@ -119,7 +127,7 @@ export default function BookingForm({
           <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden relative transform transition-all duration-300 scale-95 animate-modal-in">
             <div className="grid md:grid-cols-5">
               
-              <div className="hidden md:block md:col-span-2 bg-gradient-to-br from-yellow-400 to-yellow-500 p-6 text-white">
+              <div className="hidden md:block md:col-span-2 bg-gradient-to-br from-sky-400 to-sky-500 p-6 text-white">
                 <div className="flex flex-col h-full justify-between">
                   <div>
                     <h3 className="text-xl font-bold">Secure Your Ride</h3>

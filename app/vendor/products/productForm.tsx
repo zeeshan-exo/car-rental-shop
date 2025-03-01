@@ -14,6 +14,7 @@ const ProductForm = ({ carData = null }) => {
     model: "",
     price: "",
     carQuantity: "",
+    city: "",
     description: "",
   });
 
@@ -25,6 +26,7 @@ const ProductForm = ({ carData = null }) => {
         model: carData.model || "",
         price: carData.price || "",
         carQuantity: carData.carQuantity || "",
+        city: carData.city || "",
         description: carData.description || "",
       });
 
@@ -171,13 +173,24 @@ const ProductForm = ({ carData = null }) => {
                 />
               </div>
 
+              <div className="flex flex-col">
+                <label className="font-semibold mb-1">City</label>
+                <input
+                  name="city"
+                  value={formState.city}
+                  onChange={handleChange}
+                  placeholder="Enter city"
+                  className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
+                />
+              </div>
+
               <div className="flex flex-col col-span-3">
-                <label className="font-semibold mb-1">Description</label>
+                <label className="font-semibold mb-1">Details</label>
                 <textarea
                   name="description"
                   value={formState.description}
                   onChange={handleChange}
-                  placeholder="Enter description"
+                  placeholder="Provide details for the cars."
                   rows={3}
                   className="p-2 rounded-md border bg-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 placeholder:text-sm"
                 />
@@ -205,7 +218,7 @@ const ProductForm = ({ carData = null }) => {
               </div>
 
               <button type="submit" className="col-span-3 bg-sky-500 text-white p-2 rounded font-bold">
-                {carData ? "Update Car" : "Add Car"}
+                {carData ? "Save" : "Add Car"}
               </button>
             </form>
           </div>
