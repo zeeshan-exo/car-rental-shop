@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { Button } from "./ui/button";
 import { LogOut, X, User } from "lucide-react";
 import { logout } from "@/services/actions/auth";
 
@@ -82,12 +83,12 @@ const ProfileImage = () => {
               </div>
             )}
 
-            <button
+            <Button
               onClick={logout}
               className="mt-6 w-full text-sm font-medium text-white bg-red-500 hover:bg-red-600 p-3 rounded-md flex items-center justify-center transition-colors"
             >
               <LogOut size={16} className="mr-2" /> Logout
-            </button>
+            </Button>
           </div>
         </div>
       )}

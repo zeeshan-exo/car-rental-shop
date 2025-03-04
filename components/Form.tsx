@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "./ui/button";
 
 interface FormField {
   label: string;
@@ -77,13 +78,13 @@ export default function ReusableForm({
         >
           Terms & Conditions
         </a>
-        <button
+        <Button
           type="submit"
           disabled={pending}
-          className="px-6 py-2.5 bg-yellow-400 text-black font-semibold rounded-lg shadow-md hover:bg-yellow-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 bg-sky-400 text-white font-semibold rounded-lg shadow-md hover:bg-sky-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {pending ? "Booking..." : "Confirm Booking"}
-        </button>
+        </Button>
       </div>
     </form>
   );

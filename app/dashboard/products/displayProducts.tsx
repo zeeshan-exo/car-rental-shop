@@ -1,8 +1,4 @@
 import React from "react";
-import ImageSlider from "@/components/ImageSlider";
-import Image from "next/image";
-import ViewProduct from "./viewProduct";
-import Link from "next/link";
 import CarCard from "@/components/CarCard";
 import HeroBanner from "@/components/HeroBanner";
 

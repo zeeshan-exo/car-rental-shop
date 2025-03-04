@@ -1,7 +1,7 @@
 "use client";
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { getVendorCars } from "@/services/actions/products";
+import { getVendorCars } from "@/services/actions/cars";
 import { useEffect, useState } from "react";
 
 const fallbackData = [
@@ -28,10 +28,9 @@ const BarChartComponent = () => {
       try {
         const fetchedData = await getVendorCars();
         if (fetchedData && fetchedData.length > 0) {
-          // Transform the car data into categories for the bar chart
+         
           const brandCounts = {};
-          
-          // Count cars by brand
+
           fetchedData.forEach(car => {
             const brand = car.brand;
             const quantity = parseInt(car.carQuantity) || 1;
@@ -84,7 +83,7 @@ const BarChartComponent = () => {
     );
   }
 
-  // Use the actual data, falling back to default data if needed
+  
   const displayData = carData || fallbackData;
   
   return (

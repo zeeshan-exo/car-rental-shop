@@ -4,6 +4,7 @@ import { bookingOrder } from "@/services/actions/order";
 import ReusableForm from "@/components/Form";
 import { useState, useEffect } from "react";
 import { useActionState, startTransition } from "react";
+import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Mail, CreditCard, MapPin, X } from "lucide-react";
 
 interface BookingFormProps {
@@ -107,10 +108,10 @@ export default function BookingForm({
 
   return (
     <div>
-      <button
+      <Button
         onClick={openModal}
         disabled={isPending}
-        className="w-full bg-blue-500 px-6 py-2.5 text-white rounded-lg font-semibold shadow-md hover:bg-blue-600 hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full h-full bg-blue-500 px-6 py-2.5 text-white rounded-lg font-semibold shadow-md hover:bg-blue-600 hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {isPending ? (
           <>
@@ -120,7 +121,7 @@ export default function BookingForm({
         ) : (
           "Book Now"
         )}
-      </button>
+      </Button>
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">

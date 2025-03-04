@@ -1,5 +1,5 @@
 
-import { getAllCars } from "@/services/actions/products"
+import { getAllCars } from "@/services/actions/cars"
 import Displaycars from "./displayProducts"
 import Search from "@/components/Search"
 import Pagination from "@/components/Pagination"

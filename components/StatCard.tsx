@@ -1,21 +1,36 @@
-import React from 'react'
+import React, { ReactNode } from 'react';
 
-
-interface CardProps{
-    title:string,
-    value: string,
-    change:string
+interface CardProps {
+  title: string;
+  value: string ,
+  change: string,
+  icon: ReactNode;
 }
-const StatCard = ({title, value, change}: CardProps) => {
+
+const StatCard = ({ title, value, change, icon }: CardProps) => {
+
+  const isPositive = change.startsWith('+');
+  
   return (
-    <div className='md:border-r md:border-gray-400 p-2'> 
-        <h2 className='text-2xl font-semibold'>{title}</h2>
-        <div>
-            <p className='text-xl font-semibold'>{value}</p>
-            <p><span className='text-green-700 text-xl'>{change}</span>from last week</p>
+    <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300">
+      <div className="flex items-center space-x-3 mb-2">
+        <div className="p-2 rounded-full bg-sky-100">
+          {icon}
         </div>
+        <h2 className="text-gray-700 font-medium">{title}</h2>
+      </div>
+      
+      <div className="mt-3">
+        <p className="text-3xl font-bold text-gray-800">{value}</p>
+        <div className="flex items-center mt-2">
+          <span className={`text-sm font-medium ${isPositive ? 'text-emerald-600' : 'text-red-600'}`}>
+            {change}
+          </span>
+          <span className="text-sm text-gray-500 ml-1">from last week</span>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default StatCard
+export default StatCard;

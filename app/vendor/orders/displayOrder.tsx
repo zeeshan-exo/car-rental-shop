@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { getVendorOrders, updateOrderStatus } from "@/services/actions/order";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -88,7 +89,7 @@ export default function DisplayOrder() {
         return "bg-purple-100 text-purple-800";
       case "delivered":
         return "bg-green-100 text-green-800";
-      case "rejected":
+      case "reject":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -99,13 +100,13 @@ export default function DisplayOrder() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-800">Orders Management</h1>
-        <button 
+        <Button 
           onClick={fetchOrders} 
           className="flex items-center gap-2 px-4 py-2 bg-sky-50 hover:bg-sky-100 text-sky-600 rounded-md transition-colors"
         >
           <RefreshCw className="h-4 w-4" />
           <span>Refresh</span>
-        </button>
+        </Button>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -202,10 +203,10 @@ export default function DisplayOrder() {
                             Delivered
                           </DropdownMenuItem>
                           <DropdownMenuItem 
-                            onClick={() => handleStatusChange(order._id, "rejected")}
+                            onClick={() => handleStatusChange(order._id, "reject")}
                             className="rounded-sm text-red-700 hover:bg-red-50 focus:bg-red-50 cursor-pointer"
                           >
-                            Rejected
+                            Reject
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

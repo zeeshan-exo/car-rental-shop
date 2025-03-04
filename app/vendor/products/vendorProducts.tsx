@@ -1,8 +1,9 @@
 import React from "react";
-import { getVendorCars } from "@/services/actions/products";
+import { getVendorCars } from "@/services/actions/cars";
 import DeleteProductButton from "./deleteProduct";
 import ImageSlider from "@/components/ImageSlider";
 import Viewcar from "@/app/vendor/products/viewCar";
+import { Button } from "@/components/ui/button";
 import { Clock, MapPin ,Car, Box, DollarSign, Tag, Eye } from "lucide-react";
 
 export default async function DisplayVendorCars() {
@@ -81,7 +82,7 @@ export default async function DisplayVendorCars() {
               <p className="text-gray-500 text-sm line-clamp-1 mb-4 ">{product.description}</p>
               
               <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                <button className="text-gray-500"><Viewcar  carId={product._id.toString()}/></button>
+                <Viewcar  carId={product._id.toString()}/>
                 <DeleteProductButton productId={product._id.toString()} />
               </div>
             </div>

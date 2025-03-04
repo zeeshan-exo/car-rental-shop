@@ -1,7 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { addCar, updateCar } from "@/services/actions/products";
+import { addCar, updateCar } from "@/services/actions/cars";
+import { Button } from "@/components/ui/button";
 import Viewcar from "./viewCar";
 
 const ProductForm = ({ carData = null }) => {
@@ -100,12 +101,12 @@ const ProductForm = ({ carData = null }) => {
 
   return (
     <div>
-      <button
+      <Button
         className="bg-sky-500 text-white rounded-md p-2 mb-2"
         onClick={() => setIsModalOpen(true)}
       >
         {carData ? "Edit Car ": "Add Car"}
-      </button>
+      </Button>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { getCar } from "@/services/actions/products";
+import { getCar } from "@/services/actions/cars";
 import { IoClose } from "react-icons/io5";
 import ImageSlider from "@/components/ImageSlider";
 import ProductForm from "./productForm";
+import { Button } from "@/components/ui/button";
 import { 
   Calendar, 
   Users, 
@@ -49,12 +50,12 @@ export default function Viewcar({ carId }: ViewcarProps) {
 
   return (
     <div>
-      <button
+      <Button
         onClick={openModal}
         className="bg-blue-600 text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 font-medium flex items-center gap-2"
       >
         View Details <ChevronRight size={16} />
-      </button>
+      </Button>
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y-auto">

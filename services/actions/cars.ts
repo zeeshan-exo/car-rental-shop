@@ -128,7 +128,14 @@ export async function getVendorCars() {
     const carsCollection = await getCollection("cars");
     if(carsCollection){
       const cars = await carsCollection.find({vendorId: payload?.userId}).toArray()   
-      return cars.length ? cars : [];
+
+      if(cars.length){
+        return cars.map((car)=>({
+          ...car,
+          _id: car._id.toString()
+        }))
+      }
+      return  [];
     } 
 
   } catch (error) {

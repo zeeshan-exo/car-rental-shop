@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from "./ui/button";
 
 const HeroBanner = () => {
   return (
@@ -16,12 +17,12 @@ const HeroBanner = () => {
             Rent premium cars for unforgettable adventures
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg shadow-lg hover:bg-yellow-500 transition-all duration-300 transform hover:scale-105">
+            <Button className="px-6 py-3 bg-amber-400 text-black font-semibold rounded-lg shadow-lg hover:bg-amber-500 transition-all duration-300 transform hover:scale-105">
               Book Now
-            </button>
-            <button className="px-6 py-3 border-2 border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105">
+            </Button>
+            <Button className="px-6 py-3 border-2 bg-transparent border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105">
               Explore Fleet
-            </button>
+            </Button>
           </div>
         </div>
       </div>

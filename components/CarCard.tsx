@@ -1,7 +1,7 @@
 import React from "react";
 import ImageSlider from "./ImageSlider";
 import Image from "next/image";
-import ViewProduct from "@/app/dashboard/products/viewProduct";
+import Viewcar from "@/app/dashboard/products/viewCar";
 import { Users, GaugeCircle, Fuel, CalendarDays } from "lucide-react";
 
 const CarCard = ({ car }) => {
@@ -73,7 +73,7 @@ const CarCard = ({ car }) => {
               Listeb by <span className="font-medium text-gray-900">{car.vendorName}</span>
             </span>
           </div>
-          <ViewProduct carId={car._id.toString()} />
+          <Viewcar carId={car._id.toString()} />
         </div>
       </div>
     </article>
