@@ -7,9 +7,8 @@ import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
 import CurrentOrders from "@/app/vendor/products/currentOrders"
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { getAllCars } from "@/services/actions/cars"
-import { getCustomerOrders } from "@/services/actions/order"
+import { getVendorOrders } from "@/services/actions/order"
+import { getVendorCars } from "@/services/actions/cars"
 
 
 interface Order {
@@ -26,11 +25,10 @@ interface Order {
   status: string;
 }
 
-const page = () => {
+const Dashboard = () => {
   const [orders, setOrders] = useState<Order[]>([])
-  const [carsdata, setCars] = useState([])
+  const [cars, setCars] = useState([])
   const [user, setUser] = useState()
-  const router = useRouter()
 
   const getUserSession = async() => {
        const res = await fetch("/api/auth/session")
@@ -39,26 +37,26 @@ const page = () => {
   }
 
   const fetchData = async() =>{
-    const orderData = await getCustomerOrders()
+    const orderData = await getVendorOrders()
     setOrders(orderData)
 
-    const {cars} = await getAllCars()
-    setCars(cars)
+    const carsData = await getVendorCars()
+    setCars(carsData)
   }
   useEffect(()=>{
     getUserSession()
     fetchData()
   }, [])
 
-//   const reservations = orders.filter(order => order.status === "pending")
+  const reservations = orders.filter(order => order.status === "pending")
 
  const rentedCars = orders.filter(order => order.status === "delivered" || order.status ==="confirmed" || order.status ==="dispatched")
 
- const totalCars = carsdata.length
+ const totalCars = cars.length
 
-//  const totalReserveCars = orders.length
-//  const deliveredConfirmedOrder = orders.filter(order => order.status === "delivered" || order.status === "confirmed" || order.status === "dispatched")
-// const avialableCars=totalReserveCars -deliveredConfirmedOrder.length 
+ const totalReserveCars = orders.length
+ const deliveredConfirmedOrder = orders.filter(order => order.status === "delivered" || order.status === "confirmed" || order.status === "dispatched")
+const avialableCars=totalReserveCars -deliveredConfirmedOrder.length 
  
   return (
     <MapProvider>
@@ -68,7 +66,7 @@ const page = () => {
           <div className="container mx-auto flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold">Dashboard</h1>
-              <p className="text-sky-100 mt-1">Welcome to car rental shop</p>
+              <p className="text-sky-100 mt-1">Welcome to your car rental management portal</p>
             </div>
             <div className="hidden md:flex space-x-2">
               <Button size="sm" className="bg-white/20 hover:bg-white/30 backdrop-blur-sm">
@@ -84,15 +82,16 @@ const page = () => {
         </div>
 
         <div className="container mx-auto px-4 py-8">
+        {user?.role === "vendor"  && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                     <StatCard 
-                      title="Rented Car" 
+                      title="Total Cars Rented" 
                       value={rentedCars.length}
                       change="+40%" 
                       icon={<Car className="h-6 w-6 text-sky-700" />} 
                     />
                     <StatCard 
-                      title="Active Vendor" 
+                      title="Active Customers" 
                       value="12" 
                       change="+12%" 
                       icon={<Users className="h-6 w-6 text-emerald-600" />} 
@@ -105,12 +104,13 @@ const page = () => {
                     />
                     <StatCard 
                       title="Reservations" 
-                      value="2"
+                      value={reservations.length} 
                       change="+7%" 
                       icon={<Calendar className="h-6 w-6 text-amber-600" />} 
                     />
                   </div>
-
+            )
+        }
 
 
           <div className="grid grid-cols-12 gap-6">
@@ -118,7 +118,7 @@ const page = () => {
             <div className="col-span-12 lg:col-span-8">
               <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
-                  <h2 className="text-lg font-semibold text-gray-800">Your Location</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Vehicle Locations</h2>
                   <Button variant="outline" size="sm" className="text-xs"><RefreshCw className="h-4 w-4" />
                   <span>Refresh</span></Button>
                 </div>
@@ -156,13 +156,8 @@ const page = () => {
                   style={{ backgroundImage: "url('/pexels-murdashots.jpg')" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                  <h3 className="text-xl font-bold text-white">All Vehicles</h3>
-                  <Button 
-                  size="sm" 
-                  className="mt-3 bg-white text-sky-800 hover:bg-sky-50 w-32"
-                  onClick={()=> router.push("/dashboard/products")}
-                  >View All
-                  </Button>
+                  <h3 className="text-xl font-bold text-white">Featured Vehicles</h3>
+                  <Button size="sm" className="mt-3 bg-white text-sky-800 hover:bg-sky-50 w-32">View All</Button>
                 </div>
               </div>
 
@@ -185,7 +180,7 @@ const page = () => {
                     <div>
                       <h2 className="text-gray-700 font-medium">Rented Cars</h2>
                       <p className="text-3xl font-bold text-gray-800 mt-2">{rentedCars.length}</p>
-                      <p className="text-gray-500 text-sm mt-1">You have rented {rentedCars.length} cars.</p>
+                      <p className="text-gray-500 text-sm mt-1">Currently on the road</p>
                       <Button variant="outline" size="sm" className="mt-3 text-xs rounded-md text-amber-600 border-amber-600 hover:bg-amber-50">View Details</Button>
                     </div>
                     <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
@@ -197,10 +192,9 @@ const page = () => {
                 <div className="bg-white rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-indigo-600 sm:col-span-2 lg:col-span-1">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h2 className="text-gray-700 font-medium">Car Rent
-                      </h2>
-                      <p className="text-3xl font-bold text-gray-800 mt-2">$1400</p>
-                      <p className="text-gray-500 text-sm mt-1">It will increase to 5% after due date</p>
+                      <h2 className="text-gray-700 font-medium">Pending Payments</h2>
+                      <p className="text-3xl font-bold text-gray-800 mt-2">$3,240</p>
+                      <p className="text-gray-500 text-sm mt-1">From 6 active rentals</p>
                     </div>
                     <div className="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
                       <CreditCard className="h-5 w-5 text-indigo-600" />
@@ -216,4 +210,4 @@ const page = () => {
   )
 }
 
-export default page;
+export default Dashboard;

@@ -208,3 +208,30 @@ export async function getVendorOrders() {
   }
 }
 
+
+export async function getCustomerOrders(){
+  try {
+      const sessionCookie = (await cookies()).get("session")?.value
+      const payload = await decrypt(sessionCookie)
+
+      if(!payload || payload.role !== "customer"){
+        console.log("Unauthorizes access. Customer session required")
+      }
+
+      const customerId = payload?.userId
+    
+    const ordersCollection = await  getCollection("orders")
+    if(!ordersCollection) throw new Error("Orders Collection not found")
+
+    const customerOrders = await ordersCollection.find({userId: customerId}).toArray()
+
+    return customerOrders.map(order => ({
+      ...order,
+      _id: order._id.toString(),
+    }));
+    
+  } catch (error) {
+    console.error("Errors fetching customer orders", error)
+  }
+}
+

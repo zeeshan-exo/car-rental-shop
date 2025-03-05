@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
-import CurrentOrders from "./products/currentOrders"
+import CurrentOrders from "@/app/vendor/products/currentOrders"
 import { useState, useEffect } from "react"
 import { getVendorOrders } from "@/services/actions/order"
 import { getVendorCars } from "@/services/actions/cars"
+import { getUsers } from "@/services/actions/users"
 
 
 interface Order {
@@ -28,6 +29,13 @@ interface Order {
 const Dashboard = () => {
   const [orders, setOrders] = useState<Order[]>([])
   const [cars, setCars] = useState([])
+  const [user, setUser] = useState()
+
+  // const getUserSession = async() => {
+  //      const res = await fetch("/api/auth/session")
+  //      const data = await res.json()
+  //      setUser(data?.user)
+  // }
 
   const fetchData = async() =>{
     const orderData = await getVendorOrders()
@@ -38,7 +46,6 @@ const Dashboard = () => {
   }
   useEffect(()=>{
     fetchData()
-
   }, [])
 
   const reservations = orders.filter(order => order.status === "pending")
@@ -75,32 +82,34 @@ const avialableCars=totalReserveCars -deliveredConfirmedOrder.length
         </div>
 
         <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-            <StatCard 
-              title="Total Cars Rented" 
-              value={rentedCars.length}
-              change="+40%" 
-              icon={<Car className="h-6 w-6 text-sky-700" />} 
-            />
-            <StatCard 
-              title="Active Customers" 
-              value="12" 
-              change="+12%" 
-              icon={<Users className="h-6 w-6 text-emerald-600" />} 
-            />
-            <StatCard 
-              title="Monthly Revenue" 
-              value="$24,350" 
-              change="+18%" 
-              icon={<CreditCard className="h-6 w-6 text-indigo-600" />} 
-            />
-            <StatCard 
-              title="Reservations" 
-              value={reservations.length} 
-              change="+7%" 
-              icon={<Calendar className="h-6 w-6 text-amber-600" />} 
-            />
-          </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <StatCard 
+                      title="Total Cars Rented" 
+                      value={rentedCars.length}
+                      change="+40%" 
+                      icon={<Car className="h-6 w-6 text-sky-700" />} 
+                    />
+                    <StatCard 
+                      title="Active Customers" 
+                      value="12"
+                      change="+12%" 
+                      icon={<Users className="h-6 w-6 text-emerald-600" />} 
+                    />
+                    <StatCard 
+                      title="Monthly Revenue" 
+                      value="$24,350" 
+                      change="+18%" 
+                      icon={<CreditCard className="h-6 w-6 text-indigo-600" />} 
+                    />
+                    <StatCard 
+                      title="Reservations" 
+                      value={reservations.length} 
+                      change="+7%" 
+                      icon={<Calendar className="h-6 w-6 text-amber-600" />} 
+                    />
+                  </div>
+
+
 
           <div className="grid grid-cols-12 gap-6">
            

@@ -21,6 +21,7 @@ interface Order {
 
 const CurrentOrders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
+  const router = useRouter()
 
   const fetchOrders = async () => {
     try {
@@ -81,7 +82,7 @@ const CurrentOrders = () => {
           variant="outline"
           size="sm"
           className="w-full mt-4 text-indigo-600 border-indigo-200 hover:bg-indigo-50"
-          onClick={()=> useRouter().push("/vendor/orders")}
+          onClick={()=> router.push("/vendor/orders")}
         >
           View All Orders
         </Button>

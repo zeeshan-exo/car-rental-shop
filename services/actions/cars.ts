@@ -4,6 +4,7 @@ import { ProductSchema } from "@/lib/definations/productDefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
+import { number } from "zod";
 
 
 export async function addCar(state: any, formData: FormData) {
@@ -68,8 +69,12 @@ export async function addCar(state: any, formData: FormData) {
 }
 
 
-export async function getAllCars(query = "", page = '', limit = 3) {
+export async function getAllCars(query = "", page: number | string = 1, limit = 10) {
   try {
+    const numericPage = Number(page ) || 1
+     const valid = Math.max(1, numericPage)
+     const skip = (valid - 1) * limit
+
     const carsCollection = await getCollection("cars");
     if (!carsCollection) {
       console.error("Cars collection not found.");
@@ -83,11 +88,16 @@ export async function getAllCars(query = "", page = '', limit = 3) {
 
     const cars = await carsCollection
       .find(filter)
-      .skip((page - 1) * limit)
+      .skip(skip)
       .limit(limit)
       .toArray();
 
-    return { cars, totalPages };
+    const serializedCars = cars.map(car => ({
+        ...car,
+        _id: car._id.toString(), 
+    }));
+
+    return { cars: serializedCars, totalPages };
   } catch (error) {
     console.error("Error fetching cars:", error);
     return { cars: [], totalPages: 1 };

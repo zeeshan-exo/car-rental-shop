@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import { logout } from "../../services/actions/auth";
 import ProfileImage from "../../components/ProfileImage";
 import Link from "next/link";
-import { Search, LogOut, House, Heart, Package, Bell } from 'lucide-react';
+import { Search, LogOut, House, Heart, ShoppingBag, Bell, LayoutDashboard } from 'lucide-react';
 
 import Notifications from "@/components/Notifications";
 
@@ -27,7 +27,8 @@ const DashboardLayout = ({ children }) => {
      title="Expo"
      navLinks={[
       { label: <House/>, href: "/" },
-      { label: <Package/>, href: "/dashboard/products" },
+      { label: <LayoutDashboard/>, href: "/dashboard" },
+      { label: <ShoppingBag/>, href: "/dashboard/products" },
       { label: <Heart/>, href: "" },
       { label: <Search/>, href: "" },
      ]}

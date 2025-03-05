@@ -2,13 +2,27 @@
 import React, { useState, useEffect } from "react";
 import { getVendorOrders, updateOrderStatus } from "@/services/actions/order";
 import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, RefreshCw, Filter } from "lucide-react";
+import {
+  Search,
+  RefreshCw,
+  Calendar,
+  Mail,
+  Phone,
+  MapPin,
+  AlertCircle,
+  ChevronDown,
+  User,
+  Car
+} from "lucide-react";
 
 interface Order {
   _id: string;
@@ -22,13 +36,15 @@ interface Order {
   time: string;
   address: string;
   status: string;
+  returnDate?: string;
 }
 
-export default function DisplayOrder() {
+export default function VendorOrdersManagement() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -82,142 +98,286 @@ export default function DisplayOrder() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "pending":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
       case "confirmed":
-        return "bg-blue-100 text-blue-800";
+        return "bg-blue-100 text-blue-800 border-blue-200";
       case "dispatched":
-        return "bg-purple-100 text-purple-800";
+        return "bg-purple-100 text-purple-800 border-purple-200";
       case "delivered":
-        return "bg-green-100 text-green-800";
+        return "bg-green-100 text-green-800 border-green-200";
       case "reject":
-        return "bg-red-100 text-red-800";
+        return "bg-red-100 text-red-800 border-red-200";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+  };
+
+  const toggleOrderExpansion = (orderId: string) => {
+    if (expandedOrder === orderId) {
+      setExpandedOrder(null);
+    } else {
+      setExpandedOrder(orderId);
     }
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-800">Orders Management</h1>
-        <Button 
-          onClick={fetchOrders} 
-          className="flex items-center gap-2 px-4 py-2 bg-sky-50 hover:bg-sky-100 text-sky-600 rounded-md transition-colors"
-        >
-          <RefreshCw className="h-4 w-4" />
-          <span>Refresh</span>
-        </Button>
-      </div>
+    <div className="container mx-auto py-6 px-4 max-w-6xl">
+      <Card className="shadow-sm border-gray-200">
+        <CardHeader className="pb-2">
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-2xl font-bold text-gray-800">Orders Management</CardTitle>
+            <Button 
+              onClick={fetchOrders} 
+              variant="outline"
+              className="flex items-center gap-2 bg-sky-50 hover:bg-sky-100 text-sky-600 border-sky-200"
+            >
+              <RefreshCw className="h-4 w-4" />
+              <span>Refresh</span>
+            </Button>
+          </div>
+        </CardHeader>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b">
-          <div className="relative w-64">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-gray-400" />
+        <CardContent>
+          <div className="flex items-center justify-between mb-6 mt-2">
+            <div className="relative w-full max-w-sm">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-gray-400" />
+              </div>
+              <Input
+                type="text"
+                placeholder="Search by customer, vehicle, email or status..."
+                className="pl-10 pr-4 py-2 w-full"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-            <input
-              type="text"
-              placeholder="Search orders..."
-              className="pl-10 pr-4 py-2 w-full border rounded-md focus:ring-sky-500 focus:border-sky-500 text-sm"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <div className="flex items-center gap-2 ml-4">
+              <Badge variant="outline" className="bg-white text-gray-500">
+                {filteredOrders.length} {filteredOrders.length === 1 ? 'order' : 'orders'}
+              </Badge>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-gray-500">
-              {filteredOrders.length} {filteredOrders.length === 1 ? 'order' : 'orders'}
-            </span>
-          </div>
-        </div>
 
-        {loading ? (
-          <div className="p-8 flex justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500"></div>
-          </div>
-        ) : filteredOrders.length === 0 ? (
-          <div className="p-8 text-center">
-            <p className="text-gray-500">No orders found.</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs uppercase bg-gray-50 text-gray-700 border-b">
-                <tr>
-                  <th className="px-6 py-3 font-medium">Customer</th>
-                  <th className="px-6 py-3 font-medium">Vehicle</th>
-                  <th className="px-6 py-3 font-medium">Contact</th>
-                  <th className="px-6 py-3 font-medium">Appointment</th>
-                  <th className="px-6 py-3 font-medium">Address</th>
-                  <th className="px-6 py-3 font-medium">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredOrders.map((order) => (
-                  <tr key={order._id} className="border-b hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{order.userName}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="font-medium">{order.carName}</div>
-                      <div className="text-xs text-gray-500">{order.carModel}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div>{order.email}</div>
-                      <div className="text-xs text-gray-500">{order.contact}</div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div>{order.date}</div>
-                      <div className="text-xs text-gray-500">{order.time}</div>
-                    </td>
-                    <td className="px-6 py-4 max-w-xs truncate" title={order.address}>
-                      {order.address}
-                    </td>
-                    <td className="px-6 py-4">
+          {loading ? (
+            <div className="p-8 flex justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500"></div>
+            </div>
+          ) : filteredOrders.length === 0 ? (
+            <div className="p-12 text-center bg-gray-50 rounded-lg">
+              <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-500 text-lg">No orders found matching your search.</p>
+              {searchTerm && (
+                <Button 
+                  variant="link" 
+                  onClick={() => setSearchTerm("")}
+                  className="mt-2 text-sky-600"
+                >
+                  Clear search
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredOrders.map((order) => (
+                <div 
+                  key={order._id} 
+                  className="border rounded-lg overflow-hidden hover:border-sky-200 transition-colors"
+                >
+                  <div 
+                    className="flex items-center justify-between p-4 cursor-pointer bg-gray-50 hover:bg-gray-100"
+                    onClick={() => toggleOrderExpansion(order._id)}
+                  >
+                    <div className="flex items-center gap-4">
                       <DropdownMenu>
                         <DropdownMenuTrigger className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
                           {order.status}
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-40 shadow-lg rounded-md p-1 border border-gray-200">
                           <DropdownMenuItem 
-                            onClick={() => handleStatusChange(order._id, "pending")}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStatusChange(order._id, "pending");
+                            }}
                             className="rounded-sm text-yellow-700 hover:bg-yellow-50 focus:bg-yellow-50 cursor-pointer"
                           >
                             Pending
                           </DropdownMenuItem>
                           <DropdownMenuItem 
-                            onClick={() => handleStatusChange(order._id, "confirmed")}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStatusChange(order._id, "confirmed");
+                            }}
                             className="rounded-sm text-blue-700 hover:bg-blue-50 focus:bg-blue-50 cursor-pointer"
                           >
                             Confirmed
                           </DropdownMenuItem>
                           <DropdownMenuItem 
-                            onClick={() => handleStatusChange(order._id, "dispatched")}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStatusChange(order._id, "dispatched");
+                            }}
                             className="rounded-sm text-purple-700 hover:bg-purple-50 focus:bg-purple-50 cursor-pointer"
                           >
                             Dispatched
                           </DropdownMenuItem>
                           <DropdownMenuItem 
-                            onClick={() => handleStatusChange(order._id, "delivered")}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStatusChange(order._id, "delivered");
+                            }}
                             className="rounded-sm text-green-700 hover:bg-green-50 focus:bg-green-50 cursor-pointer"
                           >
                             Delivered
                           </DropdownMenuItem>
                           <DropdownMenuItem 
-                            onClick={() => handleStatusChange(order._id, "reject")}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStatusChange(order._id, "reject");
+                            }}
                             className="rounded-sm text-red-700 hover:bg-red-50 focus:bg-red-50 cursor-pointer"
                           >
                             Reject
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+                      <div className="flex flex-col md:flex-row md:items-center md:gap-3">
+                        <div className="flex items-center gap-2">
+                          <User className="h-4 w-4 text-gray-400" />
+                          <span className="font-medium">{order.userName}</span>
+                        </div>
+                        <div className="hidden md:flex items-center gap-2">
+                          <Car className="h-4 w-4 text-gray-400" />
+                          <span>{order.carName}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-8">
+                      <div className="hidden md:block">
+                        <div className="flex items-center text-sm text-gray-600">
+                          <Calendar className="h-4 w-4 mr-2" />
+                          <span>{order.date} {order.time}</span>
+                        </div>
+                      </div>
+                      <div>
+                        <ChevronDown className={`h-5 w-5 text-gray-400 transition-transform ${expandedOrder === order._id ? 'transform rotate-180' : ''}`} />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {expandedOrder === order._id && (
+                    <div className="p-4 bg-white border-t">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Customer Information</h4>
+                          <div className="space-y-2">
+                            <p className="text-sm flex items-center">
+                              <User className="h-4 w-4 text-gray-400 mr-2" />
+                              {order.userName}
+                            </p>
+                            <p className="text-sm flex items-center">
+                              <Mail className="h-4 w-4 text-gray-400 mr-2" />
+                              {order.email}
+                            </p>
+                            <p className="text-sm flex items-center">
+                              <Phone className="h-4 w-4 text-gray-400 mr-2" />
+                              {order.contact}
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Vehicle Details</h4>
+                          <div className="space-y-2">
+                            <p className="text-sm flex items-center">
+                              <Car className="h-4 w-4 text-gray-400 mr-2" />
+                              {order.carName}
+                            </p>
+                            <p className="text-sm">
+                              <span className="ml-6">Model: {order.carModel}</span>
+                            </p>
+                            {order.productName && (
+                              <p className="text-sm">
+                                <span className="ml-6">Product: {order.productName}</span>
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Appointment Details</h4>
+                          <div className="space-y-2">
+                            <p className="text-sm flex items-center">
+                              <Calendar className="h-4 w-4 text-gray-400 mr-2" />
+                              {order.date} at {order.time}
+                            </p>
+                            {order.returnDate && (
+                              <p className="text-sm ml-6">
+                                Return: {order.returnDate}
+                              </p>
+                            )}
+                            <p className="text-sm flex items-start">
+                              <MapPin className="h-4 w-4 text-gray-400 mr-2 mt-0.5" />
+                              <span className="flex-1">{order.address}</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 pt-4 border-t">
+                        <div className="flex justify-between items-center">
+                          <h4 className="font-medium text-gray-700">Order Status</h4>
+                          <div className="space-x-2">
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className={order.status.toLowerCase() === "pending" ? "bg-yellow-50 text-yellow-700 border-yellow-200" : ""}
+                              onClick={() => handleStatusChange(order._id, "pending")}
+                            >
+                              Pending
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className={order.status.toLowerCase() === "confirmed" ? "bg-blue-50 text-blue-700 border-blue-200" : ""}
+                              onClick={() => handleStatusChange(order._id, "confirmed")}
+                            >
+                              Confirm
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className={order.status.toLowerCase() === "dispatched" ? "bg-purple-50 text-purple-700 border-purple-200" : ""}
+                              onClick={() => handleStatusChange(order._id, "dispatched")}
+                            >
+                              Dispatch
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className={order.status.toLowerCase() === "delivered" ? "bg-green-50 text-green-700 border-green-200" : ""}
+                              onClick={() => handleStatusChange(order._id, "delivered")}
+                            >
+                              Deliver
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              className={order.status.toLowerCase() === "reject" ? "bg-red-50 text-red-700 border-red-200" : ""}
+                              onClick={() => handleStatusChange(order._id, "reject")}
+                            >
+                              Reject
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
