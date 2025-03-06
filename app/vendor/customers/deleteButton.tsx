@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { deleteUser } from "@/services/actions/users";
+import { deleteUser } from "@/actions/users";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 

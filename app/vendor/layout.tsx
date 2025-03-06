@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
-import { logout } from "../../services/actions/auth";
+import { logout } from "../../actions/auth";
 import ProfileImage from "../../components/ProfileImage";
 import Link from "next/link";
 import { House, LogOut, Search, Bell,ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
@@ -78,7 +78,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
                   </>
                 ) : (
                   <Link
-                    href="/pages/login"
+                    href="/auth/login"
                     className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700"
                   >
                     Login

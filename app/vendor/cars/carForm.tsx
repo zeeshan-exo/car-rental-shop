@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { addCar, updateCar } from "@/services/actions/cars";
+import { addCar, updateCar } from "@/actions/cars";
 import { Button } from "@/components/ui/button";
 import { 
   Plus, 

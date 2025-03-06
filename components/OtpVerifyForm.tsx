@@ -44,7 +44,7 @@ const OtpVerify = () => {
         if (!res.ok) {
             console.log("Error Occur while verify otp")
         } else {
-            router.push("/pages/login")
+            router.push("/auth/login")
         }
     }
 

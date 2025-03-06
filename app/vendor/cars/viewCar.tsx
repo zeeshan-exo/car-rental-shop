@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { getCar } from "@/services/actions/cars";
+import { getCar } from "@/actions/cars";
 import { IoClose } from "react-icons/io5";
 import ImageSlider from "@/components/ImageSlider";
 import ProductForm from "./carForm";

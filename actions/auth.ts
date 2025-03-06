@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 import bcrypt from "bcrypt"
-import { sendMail } from "@/utils/email";
+import { sendMail } from "@/lib/email";
 import { randomInt } from "crypto";
 import ejs from 'ejs'
 import path from "path";
@@ -125,5 +125,5 @@ export async function logout(): Promise<void> {
       }
     }
     deleteSession()
-    redirect('/pages/login')
+    redirect('/auth/login')
 }

@@ -1,5 +1,5 @@
 "use client";
-import { bookingOrder } from "@/services/actions/booking";
+import { bookingOrder } from "@/actions/booking";
 import ReusableForm from "@/components/BookingForm";
 import { useState, useEffect } from "react";
 import { useActionState, startTransition } from "react";

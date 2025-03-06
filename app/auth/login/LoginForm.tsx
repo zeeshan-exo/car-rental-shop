@@ -1,6 +1,6 @@
 'use client'
 import { useActionState, useState } from 'react'
-import { login } from '@/services/actions/auth'
+import { login } from '@/actions/auth'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 import Image from 'next/image'
@@ -87,7 +87,7 @@ export default function LoginForm() {
 
       <p className="text-center text-sm text-gray-600">
               Create a new account?{' '}
-              <Link href="/pages/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+              <Link href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-medium">
                 Sign up
               </Link>
             </p>

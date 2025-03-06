@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }) => {
               
             </>
           ) : (
-            <Link href="/pages/login" className="text-blue-500 font-medium hover:underline">
+            <Link href="/auth/login" className="text-blue-500 font-medium hover:underline">
               Login
             </Link>
           )}

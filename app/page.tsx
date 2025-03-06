@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Features from "@/components/Features";
 import { Button } from "@/components/ui/button";
-import { logout } from "../services/actions/auth";
+import { logout } from "../actions/auth";
 import { useEffect, useState } from "react";
 import { LogOut, Car, Calendar, MapPin, Search, Star } from "lucide-react";
 import { MdFeaturedPlayList } from "react-icons/md";
@@ -47,7 +47,7 @@ export default function Home() {
             </Button>
           ) : (
             <Link
-              href="/pages/login"
+              href="/auth/login"
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
               Login

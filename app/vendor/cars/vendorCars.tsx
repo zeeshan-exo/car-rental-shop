@@ -1,5 +1,5 @@
 import React from "react";
-import { getVendorCars } from "@/services/actions/cars";
+import { getVendorCars } from "@/actions/cars";
 import DeletecarButton from "./deleteCar";
 import ImageSlider from "@/components/ImageSlider";
 import Viewcar from "@/app/vendor/cars/viewCar";

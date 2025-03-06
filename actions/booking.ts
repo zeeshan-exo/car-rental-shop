@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 import ejs from 'ejs'
 import path from "path";
-import { sendMail } from "@/utils/email";
+import { sendMail } from "@/lib/email";
 import { getSocket } from "@/lib/socket";
 
 

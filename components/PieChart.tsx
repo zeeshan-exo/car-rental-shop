@@ -1,7 +1,7 @@
 "use client";
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
-import { getVendorCars } from "@/services/actions/cars";
+import { getVendorCars } from "@/actions/cars";
 import { useEffect, useState } from "react";
 
 const fallbackData = [

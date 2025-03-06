@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { deleteCar } from "@/services/actions/cars";
+import { deleteCar } from "@/actions/cars";
 import { toast } from "react-toastify";
 import { Trash2 } from "lucide-react";
 

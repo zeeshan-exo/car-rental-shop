@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { logout } from '../services/actions/auth'
+import { logout } from '../actions/auth'
 
 const Sidebar = () => {
   return (

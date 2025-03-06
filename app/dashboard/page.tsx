@@ -8,8 +8,8 @@ import { Map } from "@/components/Map"
 import CurrentOrders from "@/app/vendor/cars/currentOrders"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { getAllCars } from "@/services/actions/cars"
-import { getCustomerOrders } from "@/services/actions/booking"
+import { getAllCars } from "@/actions/cars"
+import { getCustomerOrders } from "@/actions/booking"
 
 
 interface Order {

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getVendorOrders, updateOrderStatus } from "@/services/actions/booking";
+import { getVendorOrders, updateOrderStatus } from "@/actions/booking";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

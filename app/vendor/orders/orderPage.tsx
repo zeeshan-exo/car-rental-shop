@@ -17,7 +17,7 @@ export default async function OrdersPage() {
           <h1 className="text-2xl font-bold text-gray-800 mb-4">
             Kindly log in to access this page
           </h1>
-          <Link href="/pages/login"
+          <Link href="/auth/login"
           className="inline-block bg-blue-500 text-white px-6 py-3 rounded-full shadow hover:bg-blue-600 transition duration-200">
               Login
           </Link>

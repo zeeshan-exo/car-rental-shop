@@ -4,7 +4,7 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios'
 import Image from 'next/image'
 
-import { signup } from '../../../services/actions/auth'
+import { signup } from '../../../actions/auth'
 import Link from 'next/link'
 import { Eye, EyeOff, User, Mail, Lock, MapPin, CreditCard } from 'lucide-react'
 
@@ -207,7 +207,7 @@ export default function SignupForm() {
 
             <p className="text-center text-sm text-gray-600">
               Already have an account?{' '}
-              <Link href="/pages/login" className="text-blue-600 hover:text-blue-700 font-medium">
+              <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 font-medium">
                 Sign in
               </Link>
             </p>

@@ -7,8 +7,8 @@ import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
 import CurrentOrders from "@/app/vendor/cars/currentOrders"
 import { useState, useEffect } from "react"
-import { getVendorOrders } from "@/services/actions/booking"
-import { getVendorCars } from "@/services/actions/cars"
+import { getVendorOrders } from "@/actions/booking"
+import { getVendorCars } from "@/actions/cars"
 
 
 interface Order {
