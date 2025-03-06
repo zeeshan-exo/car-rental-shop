@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { getVendorOrders } from "@/services/actions/order";
+import { getVendorOrders } from "@/services/actions/booking";
 import { useRouter } from "next/navigation";
 
 

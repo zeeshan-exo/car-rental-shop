@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
-import CurrentOrders from "@/app/vendor/products/currentOrders"
+import CurrentOrders from "@/app/vendor/cars/currentOrders"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { getAllCars } from "@/services/actions/cars"
-import { getCustomerOrders } from "@/services/actions/order"
+import { getCustomerOrders } from "@/services/actions/booking"
 
 
 interface Order {

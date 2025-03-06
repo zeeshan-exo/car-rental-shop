@@ -54,7 +54,7 @@ const Map = () => {
     );
     const data = await response.json();
 
-    console.log("Google Directions API Response:", data);
+    console.log("Google Routes API Response:", data);
   
     if (data.routes?.length > 0) {
       const polylinePoints = decodePolyline(data.routes[0].overview_polyline.points);

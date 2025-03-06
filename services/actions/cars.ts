@@ -1,27 +1,47 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { ProductSchema } from "@/lib/definations/productDefinations";
+import { CarSchema } from "@/lib/definations/carDefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
-import { number } from "zod";
-
 
 export async function addCar(state: any, formData: FormData) {
-  console.log("FormData:", formData);
-  
-  const rawData: Record<string, string | File | string[]> = Object.fromEntries(formData.entries());
-  
+
+  const rawData = Object.fromEntries(formData.entries()) as Record<string, any>;
+
   delete rawData.image;
-  console.log("RawData:", rawData)
+  console.log("RawData:", rawData);
 
   if (rawData.images) {
     try {
       rawData.images = JSON.parse(rawData.images as string); 
     } catch (error) {
       console.error("Error parsing images field:", error);
-      rawData.images;
     }
+  }
+
+  if (rawData.details) {
+    if (typeof rawData.details === "string" && rawData.details.trim() !== "") {
+      try {
+        rawData.details = JSON.parse(rawData.details as string);
+      } catch (error) {
+        console.error("Error parsing details field:", error);
+      }
+    } else {
+      rawData.details = { text: "", specs: {} };
+    }
+  } else {
+    rawData.details = { text: "", specs: {} };
+  }
+
+  if (rawData.modelYear) {
+    rawData.modelYear = Number(rawData.modelYear);
+  }
+  if (rawData.rentalRate) {
+    rawData.rentalRate = Number(rawData.rentalRate);
+  }
+  if (rawData.carQuantity) {
+    rawData.carQuantity = Number(rawData.carQuantity);
   }
 
   const cookieStore = await cookies();
@@ -30,34 +50,34 @@ export async function addCar(state: any, formData: FormData) {
   const payload = await decrypt(session);
   if (!payload) return { errors: { session: "Invalid session data" } };
 
-  rawData.vendorId = payload?.userId;  
+  rawData.vendor = {
+    vendorId: payload.userId,
+    vendorName: payload.name,
+    vendorEmail: payload.email,
+  };
 
-  const validatedFields = ProductSchema.safeParse(rawData);
+  const validatedFields = CarSchema.safeParse(rawData);
   if (!validatedFields.success) {
     console.error("Validation Errors:", validatedFields.error.flatten());
     return { errors: validatedFields.error.flatten().fieldErrors };
   }
 
-  const { vendorId, ...carData } = validatedFields.data;
-  console.log("ValidatedFields:", validatedFields)
+  const now = new Date();
+  const finalCarData = {
+    ...validatedFields.data,
+    createdAt: validatedFields.data.createdAt || now,
+    updatedAt: now,
+  };
 
   try {
     const carsCollection = await getCollection("cars"); 
     if (!carsCollection) {
       return { errors: { database: "Cars collection not found" } };
     }
-
-    const result = await carsCollection.insertOne({
-      ...carData,
-      vendorId: payload?.userId, 
-      vendorName: payload?.name,
-      vendorEmail: payload?.email
-    });
-
-    console.log("Data:", result)
-
+    const result = await carsCollection.insertOne(finalCarData);
+    console.log("Data:", result);
     return { success: true, message: "Car added successfully!" };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating car:", error);
     return {
       errors: {
@@ -128,30 +148,32 @@ export async function getCar(id:string) {
 
 export async function getVendorCars() {
   try {
-    const session = (await cookies()).get('session')?.value
-    if(!session){
-      console.log("No session found in cookies")
+    const session = (await cookies()).get('session')?.value;
+    if (!session) {
+      console.log("No session found in cookies");
     }
-    const payload = await decrypt(session)
-    if(!payload){console.log("data not found in payload")}
+    const payload = await decrypt(session);
+    if (!payload) {
+      console.log("data not found in payload");
+    }
 
     const carsCollection = await getCollection("cars");
-    if(carsCollection){
-      const cars = await carsCollection.find({vendorId: payload?.userId}).toArray()   
-
-      if(cars.length){
-        return cars.map((car)=>({
+    if (carsCollection) {
+      // Query using the nested vendorId field
+      const cars = await carsCollection.find({ "vendor.vendorId": payload?.userId }).toArray();
+      if (cars.length) {
+        return cars.map((car) => ({
           ...car,
-          _id: car._id.toString()
-        }))
+          _id: car._id.toString(),
+        }));
       }
-      return  [];
-    } 
-
+      return [];
+    }
   } catch (error) {
     console.error("Error fetching cars:", error);
   }
 }
+
 
 export async function updateCar(carId: string, formData: FormData) {
   const carcollection = await getCollection("cars");
@@ -177,8 +199,28 @@ export async function updateCar(carId: string, formData: FormData) {
     }
   }
 
-  const objectId = new ObjectId(carId);
+  if (newData.details && typeof newData.details === "string") {
+    try {
+      newData.details = JSON.parse(newData.details);
+    } catch (error) {
+      console.error("Failed to parse details JSON:", error);
+      throw new Error("Invalid details format.");
+    }
+  }
 
+  newData.updatedAt = new Date();
+
+  if (newData.modelYear) {
+    newData.modelYear = Number(newData.modelYear);
+  }
+  if (newData.rentalRate) {
+    newData.rentalRate = Number(newData.rentalRate);
+  }
+  if (newData.carQuantity) {
+    newData.carQuantity = Number(newData.carQuantity);
+  }
+
+  const objectId = new ObjectId(carId);
   const existingCar = await carcollection.findOne({ _id: objectId });
   if (!existingCar) {
     throw new Error("Car not found in the database.");
@@ -194,7 +236,6 @@ export async function updateCar(carId: string, formData: FormData) {
   console.log("Update Result:", result);
   return result;
 }
-
 
 
 export async function deleteCar(_id: string) {

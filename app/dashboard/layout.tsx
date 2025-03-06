@@ -1,10 +1,9 @@
 'use client'
 import React, { useState , useEffect} from "react";
 import Header from "../../components/Header";
-import { logout } from "../../services/actions/auth";
 import ProfileImage from "../../components/ProfileImage";
 import Link from "next/link";
-import { Search, LogOut, House, Heart, ShoppingBag, Bell, LayoutDashboard } from 'lucide-react';
+import { Search, House, Heart, ShoppingBag, LayoutDashboard } from 'lucide-react';
 
 import Notifications from "@/components/Notifications";
 
@@ -28,7 +27,7 @@ const DashboardLayout = ({ children }) => {
      navLinks={[
       { label: <House/>, href: "/" },
       { label: <LayoutDashboard/>, href: "/dashboard" },
-      { label: <ShoppingBag/>, href: "/dashboard/products" },
+      { label: <ShoppingBag/>, href: "/dashboard/cars" },
       { label: <Heart/>, href: "" },
       { label: <Search/>, href: "" },
      ]}

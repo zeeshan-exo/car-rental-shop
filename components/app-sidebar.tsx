@@ -1,4 +1,4 @@
-import { Car, Home, ShoppingCart, Settings,Bell, Users, HelpCircle } from "lucide-react";
+import { Car, Home, ShoppingCart, Settings, Bell, HelpCircle, ChevronDown } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -10,38 +10,90 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useState } from "react";
 
-const items = [
-  { title: "Home", url: "/", icon: Home },
-  { title: "Dashboard", url: "/vendor", icon: ShoppingCart },
-  { title: "Cars", url: "/vendor/products", icon: Car },
-  { title: "Orders", url: "/vendor/orders", icon: ShoppingCart },
-  { title: "Notifications", url: "/notifications", icon: Bell },
-
+const sidebarItems = [
+  { 
+    title: "Home", 
+    url: "/", 
+    icon: Home,
+    active: true 
+  },
+  { 
+    title: "Dashboard", 
+    url: "/vendor", 
+    icon: ShoppingCart 
+  },
+  { 
+    title: "My Cars", 
+    url: "/vendor/cars", 
+    icon: Car 
+  },
+  { 
+    title: "Orders", 
+    url: "/vendor/orders", 
+    icon: ShoppingCart 
+  },
+  { 
+    title: "Notifications", 
+    url: "/notifications", 
+    icon: Bell,
+    notifications: 3 
+  },
 ];
 
 export function AppSidebar() {
+  const [activeItem, setActiveItem] = useState("Home");
+
   return (
-    <Sidebar className="w-64 hidden md:block h-full ">
-      <SidebarContent  className="bg-AppTertiary">
+    <Sidebar className="w-60 hidden md:flex flex-col bg-white shadow-lg h-screen">
+      <SidebarContent className="flex-grow overflow-y-auto">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-xl font-bold px-4 py-6">
-            <span className="flex items-center gap-2">
-              <Car className="h-6 w-6" />
-              AutoNex
-            </span>
+          <SidebarGroupLabel className="px-6 py-6">
+            <div className="flex items-center justify-between">
+              <span className="flex items-center gap-3 text-2xl font-bold text-gray-800">
+                <Car className="h-8 w-8 text-blue-600" />
+                AutoNex
+              </span>
+              <ChevronDown className="h-5 w-5 text-gray-500 cursor-pointer" />
+            </div>
           </SidebarGroupLabel>
-          <SidebarGroupContent >
-            <SidebarMenu >
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
+          
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {sidebarItems.map((item) => (
+                <SidebarMenuItem 
+                  key={item.title}
+                  className={`
+                    group relative mb-1 
+                    ${activeItem === item.title 
+                      ? 'bg-blue-50 text-blue-600' 
+                      : 'hover:bg-gray-100 text-gray-700'}
+                  `}
+                  onClick={() => setActiveItem(item.title)}
+                >
                   <SidebarMenuButton asChild>
                     <a
                       href={item.url}
-                      className="flex items-center gap-3 px-4 py-2  hover:bg-AppMutedGray transition-colors"
+                      className="flex items-center justify-between w-full px-6 py-3"
                     >
-                      <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
+                      <div className="flex items-center gap-4">
+                        <item.icon 
+                          className={`
+                            h-5 w-5 
+                            ${activeItem === item.title 
+                              ? 'text-blue-600' 
+                              : 'text-gray-500 group-hover:text-gray-700'}
+                          `} 
+                        />
+                        <span className="font-medium">{item.title}</span>
+                      </div>
+                      
+                      {item.notifications && (
+                        <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                          {item.notifications}
+                        </span>
+                      )}
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -50,12 +102,26 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="bg-AppTertiary">
-        <SidebarMenuButton>
-        <Settings/>Settings
+      
+      <SidebarFooter className="border-t border-gray-200 px-6 py-4">
+        <SidebarMenuButton 
+          className="flex items-center gap-4 w-full px-4 py-3 
+                     hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <Settings className="h-5 w-5 text-gray-500" />
+          <span className="text-gray-700 font-medium">Settings</span>
         </SidebarMenuButton>
-       
-        </SidebarFooter>
+        
+        <SidebarMenuButton 
+          className="flex items-center gap-4 w-full px-4 py-3 
+                     hover:bg-gray-100 rounded-lg transition-colors mt-2"
+        >
+          <HelpCircle className="h-5 w-5 text-gray-500" />
+          <span className="text-gray-700 font-medium">Help & Support</span>
+        </SidebarMenuButton>
+      </SidebarFooter>
     </Sidebar>
   );
 }
+
+export default AppSidebar;

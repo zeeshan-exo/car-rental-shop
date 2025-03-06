@@ -1,8 +1,8 @@
 import React from 'react';
 import { cookies } from 'next/headers';
 import { decrypt } from '@/lib/session';
-import ProductForm from './productForm';
-import DisplayVendorCars from './vendorProducts';
+import ProductForm from './carForm';
+import DisplayVendorCars from './vendorCars';
 
 export default async function ProductsPage() {
   const sessionCookie = (await cookies()).get('session')?.value

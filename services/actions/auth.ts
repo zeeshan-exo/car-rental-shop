@@ -127,4 +127,3 @@ export async function logout(): Promise<void> {
     deleteSession()
     redirect('/pages/login')
 }
-

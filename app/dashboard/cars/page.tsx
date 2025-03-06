@@ -1,6 +1,6 @@
 
 import { getAllCars } from "@/services/actions/cars"
-import Displaycars from "./displayProducts"
+import Displaycars from "./displayCars"
 import Search from "@/components/Search"
 import Pagination from "@/components/Pagination"
 

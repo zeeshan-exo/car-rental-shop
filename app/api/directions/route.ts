@@ -12,9 +12,10 @@ export async function GET(req: NextRequest) {
 
   try {
     const googleApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAP_API;
-    // Ensure this is the correct endpoint for Routes API:
+   
     const url = "https://routes.googleapis.com/directions/v2:computeRoutes";
-    
+
+
     const response = await fetch(url, {
       method: "POST",
       headers: {

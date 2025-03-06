@@ -1,6 +1,6 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { OrderSchema } from "@/lib/definations/orderdefinations";
+import { BookingSchema, BookingType} from "@/lib/definations/bookingdefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
@@ -10,14 +10,46 @@ import { sendMail } from "@/utils/email";
 import { getSocket } from "@/lib/socket";
 
 
-export async function bookingOrder(state: any, formData: FormData) {
-  const rawData = formData;
-  const validatedFields = OrderSchema.safeParse(rawData);
+export async function bookingOrder(state: any, formData: BookingType) {
+  // const rawData = formData as Record<string, any>;
+  const rawData = formData
+  const carDetails = rawData.carDetails ? JSON.parse(rawData.carDetails) : {};
+  const vendorDetails = rawData.vendorDetails ? JSON.parse(rawData.vendorDetails) : {};
+
+  const bookingData = {
+    pickupDate: rawData.pickupDate,
+    returnDate: rawData.returnDate,
+    pickupTime: rawData.pickupTime,
+    pickupLocation: rawData.pickupLocation,
+    status: rawData.status,
+    carDetails: {
+      carId: carDetails.carId || "",
+      carModel: carDetails.carModel || "",
+      carName: carDetails.carName || "",
+    },
+    vendorDetails: {
+      vendorId: vendorDetails.vendorId || "",
+      vendorName: vendorDetails.vendorName || "",
+      vendorEmail: vendorDetails.vendorEmail || "",
+    },
+    userDetails: {
+      userId: rawData.userId || "",
+      userName: rawData.userName || "",
+      email: rawData.email,
+      contact: rawData.contact,
+    },
+    totalAmount: rawData.totalAmount ? Number(rawData.totalAmount) : 0,
+    transactionId: rawData.transactionId,
+    paymentStatus: rawData.paymentStatus,
+    createdAt: rawData.createdAt,
+  };
+
+  const validatedFields = BookingSchema.safeParse(bookingData);
   if (!validatedFields.success) {
+    console.error("Booking Validation Errors:", validatedFields.error.flatten());
     return { errors: validatedFields.error.flatten().fieldErrors };
   }
 
-  const { carName, carModel, ...orderData } = validatedFields.data;
   const session = (await cookies()).get("session")?.value;
   const payload = session ? await decrypt(session) : null;
   if (!payload) {
@@ -26,25 +58,26 @@ export async function bookingOrder(state: any, formData: FormData) {
 
   try {
     const orderCollection = await getCollection("orders");
+    const now = new Date();
     const newOrder = {
-      ...orderData,
-      userName: payload?.name,
-      userId: payload?.userId,
-      carModel: rawData.carModel,
-      carId: rawData.carId,
-      carName: rawData.carName,
-      vendorEmail: rawData.vendorEmail,
-      vendorId: rawData.vendorId
+      ...validatedFields.data,
+      createdAt: validatedFields.data.createdAt || now,
+      userDetails: {
+        ...validatedFields.data.userDetails,
+        userName: payload.name,
+        userId: payload.userId,
+      },
+    };
+    if (orderCollection) {
+      await orderCollection.insertOne(newOrder);
     }
-    if(orderCollection)
-    await orderCollection.insertOne(
-       newOrder
-    );
 
-    const socket = getSocket(newOrder.vendorId, "vendor");
+    console.log("NEw ORder",newOrder)
+
+    const socket = getSocket(newOrder.vendorDetails.vendorId, "vendor");
     if (socket) {
       socket.emit("order_placed", {
-        message: `New order placed for ${newOrder.carName} from ${newOrder.date} to ${newOrder.returnDate} at ${newOrder.time}. `,
+        message: `New order placed for ${newOrder.carDetails.carName} from ${newOrder.pickupDate} to ${newOrder.returnDate} at ${newOrder.pickupTime}.`,
         order: newOrder,
       });
     } else {
@@ -52,11 +85,13 @@ export async function bookingOrder(state: any, formData: FormData) {
     }
     
     return { success: true, message: "Order created successfully!" };
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error while creating order:", error);
     return { errors: { server: "Failed to create order. Please try again." } };
   }
 }
+
+
 
 
 export async function getOrders() {
@@ -90,32 +125,22 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
       { $set: { status: newStatus } }
     );
 
-     const session = (await cookies()).get("session")?.value;
-     const payload = session ? await decrypt(session) : null;
-     if (!payload) {
-       return { errors: { session: "User session not found" } };
-     }
+    const session = (await cookies()).get("session")?.value;
+    const payload = session ? await decrypt(session) : null;
+    if (!payload) {
+      return { errors: { session: "User session not found" } };
+    }
 
-    const order = await orderCollection.findOne({_id: new ObjectId(orderId)})
-
-    if(order){
-      const socket = getSocket(order.userId, "customer");
+    const order = await orderCollection.findOne({ _id: new ObjectId(orderId) });
+    if (order) {
+      const socket = getSocket(order.userDetails.userId, "customer");
       if (socket) {
         socket.emit("order_updated", {
-          message: `Your order for ${order.carName} has been ${order.status}.`,
+          message: `Your order for ${order.carDetails.carName} has been ${order.status}.`,
           order: order,
         });
       }
     }
-
-    // const templatePath = path.join(process.cwd(), "templates", "orderStatus.ejs")
-    // const OrderConfirmed = await ejs.renderFile(templatePath, {userName, address, carName, status, carModel, date, time})
-
-    // await sendMail ({
-    //   to: email,
-    //   subject: "Order Status",
-    //   message: OrderConfirmed
-    // })
 
     return result.modifiedCount > 0;
   } catch (error) {
@@ -123,6 +148,7 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
     return false;
   }
 }
+
 
 
 export async function getOneOrder(id:string) { 
@@ -148,7 +174,6 @@ export async function getOneOrder(id:string) {
   }
 }
 
-  
 export async function getVendorOrders() {
   try {
     const sessionCookie = (await cookies()).get("session")?.value;
@@ -159,79 +184,45 @@ export async function getVendorOrders() {
     if (!payload || payload.role !== "vendor") {
       throw new Error("Unauthorized access. Vendor session required.");
     }
-    const vendorId = payload.userId; 
+    const vendorId = payload.userId;
 
     const orderCollection = await getCollection("orders");
     if (!orderCollection) {
       throw new Error("Orders collection not found.");
     }
     
-    const orders = await orderCollection.aggregate([
-      {
-        $addFields: {
-          carIdObj: { $toObjectId: "$carId" }
-        }
-      },
-      {
-        $lookup: {
-          from: "cars",        
-          localField: "carIdObj", 
-          foreignField: "_id",        
-          as: "carDetails"
-        }
-      },
-      { 
-        $unwind: "$carDetails"  
-      },
-      {
-        $match: {
-          "carDetails.vendorId": vendorId
-        }
-      },
-    ]).toArray();
-
-    const sanitizedOrders = orders.map(order => ({
+    const orders = await orderCollection.find({ "vendorDetails.vendorId": vendorId }).toArray();
+    return orders?.length ? orders.map(order => ({
       ...order,
-      _id: order._id.toString(), 
-      carIdObj: order.carIdObj.toString(), 
-      carDetails: {
-        ...order.carDetails,
-        _id: order.carDetails._id.toString() 
-      }
-    }));
-
-
-    return sanitizedOrders;
+      _id: order._id.toString(),
+    })) : [];
   } catch (error) {
     console.error("Error fetching vendor orders:", error);
     throw error;
   }
 }
 
-
 export async function getCustomerOrders(){
   try {
-      const sessionCookie = (await cookies()).get("session")?.value
-      const payload = await decrypt(sessionCookie)
-
-      if(!payload || payload.role !== "customer"){
-        console.log("Unauthorizes access. Customer session required")
-      }
-
-      const customerId = payload?.userId
-    
-    const ordersCollection = await  getCollection("orders")
-    if(!ordersCollection) throw new Error("Orders Collection not found")
-
-    const customerOrders = await ordersCollection.find({userId: customerId}).toArray()
-
+    const sessionCookie = (await cookies()).get("session")?.value;
+    const payload = await decrypt(sessionCookie);
+    if(!payload || payload.role !== "customer"){
+      console.log("Unauthorized access. Customer session required");
+      return [];
+    }
+    const customerId = payload.userId;
+  
+    const ordersCollection = await getCollection("orders");
+    if(!ordersCollection) throw new Error("Orders Collection not found");
+  
+    const customerOrders = await ordersCollection.find({ "userDetails.userId": customerId }).toArray();
+  
     return customerOrders.map(order => ({
       ...order,
       _id: order._id.toString(),
     }));
     
   } catch (error) {
-    console.error("Errors fetching customer orders", error)
+    console.error("Errors fetching customer orders", error);
   }
 }
-

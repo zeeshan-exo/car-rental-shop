@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getVendorOrders, updateOrderStatus } from "@/services/actions/order";
+import { getVendorOrders, updateOrderStatus } from "@/services/actions/booking";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Search,
+  CreditCard,
   RefreshCw,
   Calendar,
   Mail,
@@ -26,17 +27,28 @@ import {
 
 interface Order {
   _id: string;
-  userName: string;
-  productName: string;
-  carName: string;
-  carModel: string;
-  email: string;
-  contact: string;
-  date: string;
-  time: string;
-  address: string;
-  status: string;
+  pickupTime: string;
   returnDate?: string;
+  pickupDate?:string;
+  pickupLocation: string;
+  paymentStatus: string
+  status: string;
+  carDetails:{
+    carId: string
+    carName: string;
+    carModel: string
+  }
+  userDetails:{
+    userId: string
+    userName: string;
+    email:string
+    contact: string
+  }
+  vendorDetails:{
+    vendorId: string,
+    vendorName: string,
+    vendorEmail: string
+  }
 }
 
 export default function VendorOrdersManagement() {
@@ -67,9 +79,9 @@ export default function VendorOrdersManagement() {
     if (searchTerm) {
       const filtered = orders.filter(
         (order) =>
-          order.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.carName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.userDetails?.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.carDetails?.carName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order.userDetails?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.status.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredOrders(filtered);
@@ -243,11 +255,11 @@ export default function VendorOrdersManagement() {
                       <div className="flex flex-col md:flex-row md:items-center md:gap-3">
                         <div className="flex items-center gap-2">
                           <User className="h-4 w-4 text-gray-400" />
-                          <span className="font-medium">{order.userName}</span>
+                          <span className="font-medium">{order.userDetails?.userName}</span>
                         </div>
                         <div className="hidden md:flex items-center gap-2">
                           <Car className="h-4 w-4 text-gray-400" />
-                          <span>{order.carName}</span>
+                          <span>{order.carDetails?.carName}</span>
                         </div>
                       </div>
                     </div>
@@ -255,7 +267,7 @@ export default function VendorOrdersManagement() {
                       <div className="hidden md:block">
                         <div className="flex items-center text-sm text-gray-600">
                           <Calendar className="h-4 w-4 mr-2" />
-                          <span>{order.date} {order.time}</span>
+                          <span>{order.pickupDate?.toString()} {order.pickupTime}</span>
                         </div>
                       </div>
                       <div>
@@ -272,15 +284,15 @@ export default function VendorOrdersManagement() {
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
                               <User className="h-4 w-4 text-gray-400 mr-2" />
-                              {order.userName}
+                              {order.userDetails?.userName}
                             </p>
                             <p className="text-sm flex items-center">
                               <Mail className="h-4 w-4 text-gray-400 mr-2" />
-                              {order.email}
+                              {order.userDetails?.email}
                             </p>
                             <p className="text-sm flex items-center">
                               <Phone className="h-4 w-4 text-gray-400 mr-2" />
-                              {order.contact}
+                              {order.userDetails?.contact}
                             </p>
                           </div>
                         </div>
@@ -290,14 +302,14 @@ export default function VendorOrdersManagement() {
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
                               <Car className="h-4 w-4 text-gray-400 mr-2" />
-                              {order.carName}
+                              {order.carDetails?.carName}
                             </p>
                             <p className="text-sm">
-                              <span className="ml-6">Model: {order.carModel}</span>
+                              <span className="ml-6">Model: {order.carDetails?.carModel}</span>
                             </p>
-                            {order.productName && (
+                            {order.carDetails?.carName && (
                               <p className="text-sm">
-                                <span className="ml-6">Product: {order.productName}</span>
+                                <span className="ml-6">Product: {order.carDetails?.carName}</span>
                               </p>
                             )}
                           </div>
@@ -308,16 +320,26 @@ export default function VendorOrdersManagement() {
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
                               <Calendar className="h-4 w-4 text-gray-400 mr-2" />
-                              {order.date} at {order.time}
+                              {order.pickupDate?.toString()} at {order.pickupTime}
                             </p>
-                            {order.returnDate && (
+                            {order.returnDate?.toString() && (
                               <p className="text-sm ml-6">
-                                Return: {order.returnDate}
+                                Return: {order.returnDate.toString()}
                               </p>
                             )}
                             <p className="text-sm flex items-start">
                               <MapPin className="h-4 w-4 text-gray-400 mr-2 mt-0.5" />
-                              <span className="flex-1">{order.address}</span>
+                              <span className="flex-1">{order.pickupLocation}</span>
+                            </p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="font-medium text-gray-700 mb-2">Payment Details</h4>
+                          <div className="space-y-2">
+                            <p className="text-sm flex items-center">
+                              <CreditCard className="h-4 w-4 text-gray-400 mr-2" />
+                              {order.paymentStatus}
                             </p>
                           </div>
                         </div>

@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
-import CurrentOrders from "@/app/vendor/products/currentOrders"
+import CurrentOrders from "@/app/vendor/cars/currentOrders"
 import { useState, useEffect } from "react"
-import { getVendorOrders } from "@/services/actions/order"
+import { getVendorOrders } from "@/services/actions/booking"
 import { getVendorCars } from "@/services/actions/cars"
 
 

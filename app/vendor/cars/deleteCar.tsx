@@ -4,22 +4,22 @@ import { deleteCar } from "@/services/actions/cars";
 import { toast } from "react-toastify";
 import { Trash2 } from "lucide-react";
 
-const DeleteProductButton = ({ productId }) => {
+const DeletecarButton = ({ carId }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
-    if (!productId) {
-      toast.error("No product found with such id");
+    if (!carId) {
+      toast.error("No car found with such id");
       return;
     }
 
     try {
-      await deleteCar(productId);
-      toast.success("Product deleted successfully!");
+      await deleteCar(carId);
+      toast.success("car deleted successfully!");
       setIsOpen(false);
     } catch (error) {
-      console.error("Error while deleting product", error);
-      toast.error("Failed to delete product.");
+      console.error("Error while deleting car", error);
+      toast.error("Failed to delete car.");
     }
   };
 
@@ -36,7 +36,7 @@ const DeleteProductButton = ({ productId }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
             <h2 className="text-lg font-semibold">Confirm Deletion</h2>
-            <p className="mt-2 text-gray-600">Are you sure you want to delete this product?</p>
+            <p className="mt-2 text-gray-600">Are you sure you want to delete this car?</p>
             <div className="mt-4 flex justify-end gap-2">
               <button
                 className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
@@ -58,4 +58,4 @@ const DeleteProductButton = ({ productId }) => {
   );
 };
 
-export default DeleteProductButton;
+export default DeletecarButton;

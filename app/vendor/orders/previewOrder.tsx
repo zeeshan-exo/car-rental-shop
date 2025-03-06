@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getOneOrder, confirmOrder } from "@/services/actions/order";
+import { getOneOrder, confirmOrder } from "@/services/actions/booking";
 
 interface Order{
   _id: string; 

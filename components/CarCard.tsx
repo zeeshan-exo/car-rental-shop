@@ -1,13 +1,12 @@
 import React from "react";
 import ImageSlider from "./ImageSlider";
 import Image from "next/image";
-import Viewcar from "@/app/dashboard/products/viewCar";
+import Viewcar from "@/app/dashboard/cars/viewCar";
 import { Users, GaugeCircle, Fuel, CalendarDays } from "lucide-react";
 
 const CarCard = ({ car }) => {
   return (
     <article className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300">
-
       <div className="relative aspect-[16/10]">
         {car.images && Array.isArray(car.images) && car.images.length > 0 ? (
           <ImageSlider images={car.images} />
@@ -23,8 +22,8 @@ const CarCard = ({ car }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </div>
         )}
-        <span className="absolute top-4 right-4 bg-yellow-400 text-black text-sm font-semibold px-4 py-1.5 rounded-full shadow-sm">
-          ${car.price}/day
+        <span className="absolute top-4 right-4 bg-yellow-400 text-black text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
+          ${car.rentalRate}/day
         </span>
       </div>
 
@@ -36,7 +35,10 @@ const CarCard = ({ car }) => {
               {car.brand}
             </span>
             <span className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full">
-              {car.model}
+              {car.modelYear}
+            </span>
+            <span className="px-3 py-1 bg-green-100 text-green-700 text-sm font-medium rounded-full">
+              {car.isAvailable}
             </span>
           </div>
         </div>
@@ -48,29 +50,29 @@ const CarCard = ({ car }) => {
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <GaugeCircle size={16} />
-            <span>Auto</span>
+            <span>{car.details?.specs?.transmission || "N/A"}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <Fuel size={16} />
-            <span>Hybrid</span>
+            <span>{car.details?.specs?.fuelType || "N/A"}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <CalendarDays size={16} />
-            <span>2024</span>
+            <span>{car.modelYear}</span>
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm line-clamp-1">{car.description}</p>
+        <p className="text-gray-600 text-sm line-clamp-1">{car.details?.text}</p>
 
         <div className="pt-4 flex items-center justify-between border-t border-gray-100">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
               <span className="text-sm font-medium text-gray-700">
-                {car.vendorName[0].toUpperCase()}
+                {car.vendor?.vendorName[0].toUpperCase()}
               </span>
             </div>
             <span className="text-sm text-gray-600">
-              Listeb by <span className="font-medium text-gray-900">{car.vendorName}</span>
+              Listed by <span className="font-medium text-gray-900">{car.vendor?.vendorName}</span>
             </span>
           </div>
           <Viewcar carId={car._id.toString()} />

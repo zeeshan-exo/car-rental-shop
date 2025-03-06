@@ -31,7 +31,7 @@ interface ViewcarProps {
 
 export default function Viewcar({ carId }: ViewcarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [car, setcar] = useState<any>(null);
+  const [car, setCar] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -40,7 +40,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
     setIsOpen(true);
     try {
       const carData = await getCar(carId);
-      setcar(carData);
+      setCar(carData);
     } catch (error) {
       console.error("Error fetching car:", error);
     } finally {
@@ -50,7 +50,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
 
   const closeModal = () => {
     setIsOpen(false);
-    setcar(null);
+    setCar(null);
   };
 
   const features = [
@@ -97,7 +97,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
 
                   <div className="grid lg:grid-cols-2 gap-8 p-8">
                     <div className="space-y-6">
-                      <div className=" rounded-xl overflow-hidden shadow-md">
+                      <div className="rounded-xl overflow-hidden shadow-md">
                         {car.images && Array.isArray(car.images) && car.images.length > 0 ? (
                           <ImageSlider images={car.images} />
                         ) : (
@@ -110,14 +110,14 @@ export default function Viewcar({ carId }: ViewcarProps) {
                       </div>
 
                       <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-                              <CircleUserRound size={20} />
-                            </div>
-                            <div>
-                              <span className="text-gray-600 text-sm">Listed by</span>
-                              <p className="font-medium text-gray-800">{car.vendorName}</p>
-                            </div>
-                          </div>
+                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                          <CircleUserRound size={20} />
+                        </div>
+                        <div>
+                          <span className="text-gray-600 text-sm">Listed by</span>
+                          <p className="font-medium text-gray-800">{car.vendor?.vendorName}</p>
+                        </div>
+                      </div>
                       
                       <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-sm">
                         <h3 className="text-lg font-semibold mb-4 text-gray-800 flex items-center">
@@ -155,66 +155,69 @@ export default function Viewcar({ carId }: ViewcarProps) {
                       </div>
 
                       <div className="flex-1 space-y-6">
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            <h2 className="text-3xl font-bold text-gray-800">{car.carName}</h2>
-                            <div className="flex items-center gap-1 text-blue-500">
-                              <Star size={20} fill="currentColor" />
-                              <span className="text-sm font-medium">4.8</span>
+                        {activeTab === "overview" && (
+                          <>
+                            <div>
+                              <div className="flex items-center gap-3 mb-2">
+                                <h2 className="text-3xl font-bold text-gray-800">{car.carName}</h2>
+                                <div className="flex items-center gap-1 text-blue-500">
+                                  <Star size={20} fill="currentColor" />
+                                  <span className="text-sm font-medium">4.8</span>
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <span className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">
+                                  {car.brand}
+                                </span>
+                                <span className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">
+                                  {car.modelYear}
+                                </span>
+                                <span className="px-3 py-1 bg-green-50 text-green-700 border border-green-100 rounded-full text-sm font-medium">
+                                  Available: {car.carQuantity}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="flex gap-2">
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">
-                              {car.brand}
-                            </span>
-                            <span className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">
-                              {car.model}
-                            </span>
-                            <span className="px-3 py-1 bg-green-50 text-green-700 border border-green-100 rounded-full text-sm font-medium">
-                              Available: {car.carQuantity}
-                            </span>
-                          </div>
-                        </div>
 
-                        <div className="space-y-4">
-                          <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
-                            <p className="text-gray-700 leading-relaxed">{car.description}</p>
-                          </div>
+                            <div className="space-y-4">
+                              <div className="bg-gray-50 rounded-lg p-4 border border-gray-100">
+                                <p className="text-gray-700 leading-relaxed">{car.details?.text}</p>
+                              </div>
 
-                          <div className="space-y-2 mt-4">
-                            <h4 className="font-medium text-gray-800">Benefits:</h4>
-                              <ul className="space-y-2">
-                                 {benefits.map((benefit, index) => (
-                                <li key={index} className="flex items-start gap-2 text-gray-700">
-                                  <Check size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
-                                  <span className="text-sm">{benefit}</span>
-                                </li>
-                                ))}
-                              </ul>
-                          </div>
-                        </div>
+                              <div className="space-y-2 mt-4">
+                                <h4 className="font-medium text-gray-800">Benefits:</h4>
+                                <ul className="space-y-2">
+                                  {benefits.map((benefit, index) => (
+                                    <li key={index} className="flex items-start gap-2 text-gray-700">
+                                      <Check size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
+                                      <span className="text-sm">{benefit}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
 
-                        <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 shadow-sm">
-                          <div className="flex items-end gap-2 mb-1" >
-                            <span className="text-3xl font-bold text-blue-900">${car.price}</span>
-                            <span className="text-blue-700 mb-1">/day</span>
-                          </div>
-                          <p className="text-blue-700 text-sm mt-1">All taxes and fees included</p>
+                            <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 shadow-sm">
+                              <div className="flex items-end gap-2 mb-1">
+                                <span className="text-3xl font-bold text-blue-900">${car.rentalRate}</span>
+                                <span className="text-blue-700 mb-1">/day</span>
+                              </div>
+                              <p className="text-blue-700 text-sm mt-1">All taxes and fees included</p>
+                            </div>
+                          </>
+                        )}
 
-                          <div className="mt-6">
-                        <BookingForm
-                          onClick={closeModal}
-                          carModel={car.model}
-                          carName={car.carName}
-                          carId={car._id}
-                          vendorEmail={car.vendorEmail}
-                          vendorId={car.vendorId}
-                        />
+                        {activeTab === "booking" && (
+                          <BookingForm
+                            onClick={closeModal}
+                            carModel={car.modelYear}
+                            carName={car.carName}
+                            carId={car._id}
+                            vendorEmail={car.vendor?.vendorEmail}
+                            vendorName = {car.vendor?.vendorName}
+                            vendorId={car.vendor?.vendorId}
+                          />
+                        )}
                       </div>
-                        </div>
-                       
-                      </div>
-
                     </div>
                   </div>
                 </>

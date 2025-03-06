@@ -48,7 +48,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
               },
               { 
                 label: <ShoppingBag className="text-gray-700"/>, 
-                href: "/vendor/products",
+                href: "/vendor/cars",
               },
               { 
                 label:<ShoppingCart className="text-gray-700" /> , 
