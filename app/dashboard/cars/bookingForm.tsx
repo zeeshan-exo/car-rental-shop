@@ -1,6 +1,6 @@
 "use client";
 import { bookingOrder } from "@/services/actions/booking";
-import ReusableForm from "@/components/Form";
+import ReusableForm from "@/components/BookingForm";
 import { useState, useEffect } from "react";
 import { useActionState, startTransition } from "react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import {
   CarFront,
   Check
 } from "lucide-react";
+import CheckoutButton from "@/components/CheckoutButton";
 
 interface BookingFormProps {
   carModel: string;
@@ -23,6 +24,7 @@ interface BookingFormProps {
   vendorEmail: string;
   vendorId: string;
   vendorName: string;
+  rentalRate: number
 }
 
 const initialBookingFields = [
@@ -91,12 +93,12 @@ export default function BookingForm({
   vendorEmail,
   vendorId,
   vendorName,
+  rentalRate
 }: BookingFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [state, action, isPending] = useActionState(bookingOrder, null);
   const [initialValues, setInitialValues] = useState({});
-  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   useEffect(() => {
     const fetchUserSession = async () => {
@@ -117,16 +119,6 @@ export default function BookingForm({
     }
   }, [user]);
 
-  useEffect(() => {
-    if (state?.success) {
-      setBookingSuccess(true);
-      setTimeout(() => {
-        closeModal();
-        setBookingSuccess(false);
-      }, 2500);
-    }
-  }, [state]);
-
   const handleSubmit = (formData: any) => {
     const bookingData = { 
       ...formData,
@@ -135,7 +127,6 @@ export default function BookingForm({
     };
     startTransition(() => action(bookingData));
   };
-
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
 
@@ -159,13 +150,6 @@ export default function BookingForm({
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden relative transform transition-all duration-300 ease-in-out">
-            {bookingSuccess ? (
-              <div className="absolute inset-0 bg-green-50 z-50 flex flex-col items-center justify-center text-center p-8">
-                <Check className="w-24 h-24 text-green-600 mb-4 animate-bounce" />
-                <h2 className="text-3xl font-bold text-green-800 mb-2">Booking Confirmed!</h2>
-                <p className="text-green-600 text-lg">Your reservation for {carName} is complete.</p>
-              </div>
-            ) : (
               <>
                 <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 flex items-center justify-between text-white">
                   <div className="flex items-center gap-4">
@@ -175,6 +159,7 @@ export default function BookingForm({
                       <p className="text-sm text-blue-100">{carModel}</p>
                     </div>
                   </div>
+
                   <button
                     onClick={closeModal}
                     aria-label="Close modal"
@@ -189,6 +174,11 @@ export default function BookingForm({
                     fields={initialBookingFields}
                     initialValues={initialValues}
                     onSubmit={handleSubmit}
+                    carDetails={{
+                      carName: carName,
+                      carId: carId,
+                      price: rentalRate,
+                    }}
                     errors={state?.errors || {}}
                     pending={isPending}
                   />
@@ -203,9 +193,9 @@ export default function BookingForm({
                     </div>
                   )}
                 </div>
+
               </>
-            )}
-          </div>
+            </div>
         </div>
       )}
     </div>

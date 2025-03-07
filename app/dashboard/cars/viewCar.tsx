@@ -215,6 +215,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                             vendorEmail={car.vendor?.vendorEmail}
                             vendorName = {car.vendor?.vendorName}
                             vendorId={car.vendor?.vendorId}
+                            rentalRate={car.rentalRate}
                           />
                         )}
                       </div>

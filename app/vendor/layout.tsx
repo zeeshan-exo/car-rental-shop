@@ -89,7 +89,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
             className="bg-white shadow-md w-full"
           />
 
-          <main className="flex-1 p-6 overflow-auto w-full">
+          <main className="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 mb-6 w-full">
             <div className="md:hidden mb-4">
               <SidebarTrigger className="p-2 rounded-md bg-white shadow-sm border border-gray-200" />
             </div>

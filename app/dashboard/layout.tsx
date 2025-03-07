@@ -51,7 +51,7 @@ const DashboardLayout = ({ children }) => {
       
     }
      />
-        <main className="flex-1 p-6 overflow-auto bg-gray-50 shadow-inner rounded-lg">
+        <main className="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-gray-blue-300 scrollbar-track-gray-100 bg-gray-50 shadow-inner rounded-lg">
           {children}
         </main>
      

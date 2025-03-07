@@ -26,7 +26,7 @@ export default function Home() {
 
   const navLinks = [
     { label: "Home", href: "/" },
-    { label: "Cars", href: "/dashboard/products" },
+    { label: "Cars", href: "/dashboard/cars" },
     { label: "How It Works", href: "#how-it-works" },
     { label: "Reviews", href: "#testimonials" },
   ];

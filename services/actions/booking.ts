@@ -44,6 +44,7 @@ export async function bookingOrder(state: any, formData: BookingType) {
     createdAt: rawData.createdAt,
   };
 
+
   const validatedFields = BookingSchema.safeParse(bookingData);
   if (!validatedFields.success) {
     console.error("Booking Validation Errors:", validatedFields.error.flatten());
@@ -71,8 +72,6 @@ export async function bookingOrder(state: any, formData: BookingType) {
     if (orderCollection) {
       await orderCollection.insertOne(newOrder);
     }
-
-    console.log("NEw ORder",newOrder)
 
     const socket = getSocket(newOrder.vendorDetails.vendorId, "vendor");
     if (socket) {

@@ -114,7 +114,7 @@ const avialableCars=totalReserveCars -deliveredConfirmedOrder.length
           <div className="grid grid-cols-12 gap-6">
            
             <div className="col-span-12 lg:col-span-8">
-              <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+              <div className="bg-white rounded-xl shadow-md overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 mb-6">
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="text-lg font-semibold text-gray-800">Vehicle Locations</h2>
                   <Button variant="outline" size="sm" className="text-xs"><RefreshCw className="h-4 w-4" />
@@ -126,7 +126,7 @@ const avialableCars=totalReserveCars -deliveredConfirmedOrder.length
               </div>
 
            
-              <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+              <div className="bg-white rounded-xl shadow-md overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 mb-6">
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <div className="flex items-center">
                     <BarChart3 className="h-5 w-5 text-sky-700 mr-2" />
