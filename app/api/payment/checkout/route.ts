@@ -7,13 +7,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    console.log("API Checkout Route hit...");
 
     const { carId, carName, price, userEmail } = await req.json();
-    console.log("Received Data:", { carId, carName, price});
 
     if (!price || isNaN(price)) {
-      console.error("Invalid price received:", price);
       return NextResponse.json(
         { error: "Invalid or missing price." },
         { status: 400 }
@@ -21,7 +18,6 @@ export async function POST(req: Request) {
     }
 
     const totalAmount = Number(price) * 100;
-    console.log("Creating Stripe session for:", { carName, totalAmount });
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -49,5 +45,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
-
-

@@ -4,10 +4,14 @@ import { deleteUser } from "@/actions/users";
 import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
 
+interface Props{
+  Id: string
+}
 
-const DeleteUserButton = ({ userId }) => {
+
+const DeleteButton = ({ Id }: Props) => {
   const handleDelete = async () => {
-    if (!userId) {
+    if (!Id) {
       toast.error("No user found with such id");
       return;
     }
@@ -16,9 +20,9 @@ const DeleteUserButton = ({ userId }) => {
     }
 
     try {
-      await deleteUser(userId);
+      await deleteUser(Id);
       toast.success("User deleted successfully!");
-      console.log(`User with id ${userId} deleted successfully.`);
+      console.log(`User with id ${Id} deleted successfully.`);
       
       
     } catch (error) {
@@ -37,4 +41,4 @@ const DeleteUserButton = ({ userId }) => {
   );
 };
 
-export default DeleteUserButton;
+export default DeleteButton;

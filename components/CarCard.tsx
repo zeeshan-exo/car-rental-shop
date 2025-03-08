@@ -1,7 +1,7 @@
 import React from "react";
 import ImageSlider from "./ImageSlider";
 import Image from "next/image";
-import Viewcar from "@/app/dashboard/cars/viewCar";
+import Viewcar from "@/app/user/cars/viewCar";
 import { Users, GaugeCircle, Fuel, CalendarDays } from "lucide-react";
 
 const CarCard = ({ car }) => {

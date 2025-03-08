@@ -1,4 +1,4 @@
-'use client'
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+
+export const metadata: Metadata = {
+  title: "AutoNex",
+  description: "Rent cars easily with our platform",
+};
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

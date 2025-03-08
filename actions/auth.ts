@@ -12,11 +12,6 @@ import { randomInt } from "crypto";
 import ejs from 'ejs'
 import path from "path";
 
-async function getUserCollection() {
-  const collection = await getCollection("users");
-  if (!collection) throw new Error("User collection not found");
-  return collection;
-}
 
 export async function signup(state: any, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
@@ -25,12 +20,11 @@ export async function signup(state: any, formData: FormData) {
     if (!validatedFields.success) {
       return { errors: validatedFields.error.flatten().fieldErrors };
     }
-    
-    const data : SignupType = validatedFields.data
-    const { email, password, role, idCard, name, address } = data;
 
-    try {
-      const userCollection = await getUserCollection()
+    const { email, password, role, idCard, name, address } = validatedFields.data
+    console.log(validatedFields.data)
+
+    const userCollection = await getCollection("users")
     const existingUser = await userCollection.findOne({ email });
     if (existingUser) {
       return { errors: { email: "Email already exists" } };
@@ -65,10 +59,7 @@ export async function signup(state: any, formData: FormData) {
       subject: "Verify Your Email",
       message: emailHtml, 
     });
-    redirect(`/pages/verify-otp?email=${email}`);
-    } catch (error) {
-      return {errors: {email: "Server Error during singup"}}
-    }
+    redirect(`/auth/verify-otp?email=${email}`);
 }
 
 
@@ -80,11 +71,9 @@ export async function login(state: any, formData: FormData){
       if (!validatedFields.success) {
         return { errors: validatedFields.error.flatten().fieldErrors };
       }
-    const data:LoginType = validatedFields.data
-    const {email, password} = data
+    const {email, password} = validatedFields.data
 
-    try {
-      const userCollection = await getUserCollection()
+      const userCollection = await getCollection("users")
       const user = await userCollection.findOne({email})
       if (!user) {
         return { errors: { email: "Email does not exist" } };
@@ -100,10 +89,6 @@ export async function login(state: any, formData: FormData){
       const session = (await cookies()).get('session')?.value;
       const payload = await decrypt(session);
         redirect(payload?.role === "customer" ? "/dashboard" : "/vendor");
-    } catch (error) {
-      return { errors: { email: "Server error during login" } };
-    }
-
 }
 
 
@@ -114,7 +99,7 @@ export async function logout(): Promise<void> {
       const payload = await decrypt(session);
   
       if (payload?.userId) {
-        const userCollection = await getUserCollection()
+        const userCollection = await getCollection("users")
             await userCollection.updateOne(
                 { _id: new ObjectId(payload.userId) },
                 { $set: { status: 'inactive' } }

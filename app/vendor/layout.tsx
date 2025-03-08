@@ -7,7 +7,7 @@ import Link from "next/link";
 import { House, LogOut, Search, Bell,ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/App-sidebar";
 
 export default function VendorDashboardLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState(null);

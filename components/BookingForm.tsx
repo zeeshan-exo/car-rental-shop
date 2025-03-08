@@ -53,6 +53,7 @@ export default function ReusableForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     onSubmit(formData);
   };
 
@@ -66,7 +67,7 @@ export default function ReusableForm({
         console.error("Stripe failed to load.");
         return;
       }
-      const response = await fetch("/api/checkout", {
+      const response = await fetch("/api/payment/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -144,7 +145,7 @@ export default function ReusableForm({
           <select
             id="paymentMethod"
             name="paymentMethod"
-            value={formData.paymentMethod}
+            value={paymentMethod}
             onChange={handleChange}
             className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 text-gray-700"
           >

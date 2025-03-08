@@ -73,7 +73,10 @@ export async function bookingOrder(state: any, formData: BookingType) {
       await orderCollection.insertOne(newOrder);
     }
 
+    console.log("vendorID:", newOrder.vendorDetails.vendorId)
+
     const socket = getSocket(newOrder.vendorDetails.vendorId, "vendor");
+
     if (socket) {
       socket.emit("order_placed", {
         message: `New order placed for ${newOrder.carDetails.carName} from ${newOrder.pickupDate} to ${newOrder.returnDate} at ${newOrder.pickupTime}.`,
@@ -89,9 +92,6 @@ export async function bookingOrder(state: any, formData: BookingType) {
     return { errors: { server: "Failed to create order. Please try again." } };
   }
 }
-
-
-
 
 export async function getOrders() {
     try {

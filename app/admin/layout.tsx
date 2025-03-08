@@ -1,23 +1,12 @@
-'use client'
-import React, { useState , useEffect} from "react";
-import Header from "../../components/Header";
-import ProfileImage from "../../components/ProfileImage";
-import Link from "next/link";
-import { Search, House, Heart, ShoppingBag, LayoutDashboard } from 'lucide-react';
+import React from 'react'
+import Notifications from '@/components/Notifications'
+import { House, LayoutDashboard, Search } from 'lucide-react'
+import Header from '@/components/Header'
+import ProfileImage from '@/components/ProfileImage'
+import Link from 'next/link'
 
-import Notifications from "@/components/Notifications";
 
-const DashboardLayout = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const getUserSession = async () => {
-      const response = await fetch("/api/auth/session"); 
-      const data = await response.json();
-      setUser(data?.user);
-    };
-    getUserSession();
-  },[])
+const layout = ({children}:{children: React.ReactNode}) => {
   return (
     <div className="flex h-screen bg-gray-100">
       <div className="flex flex-col flex-1">
@@ -27,14 +16,12 @@ const DashboardLayout = ({ children }) => {
      navLinks={[
       { label: <House/>, href: "/" },
       { label: <LayoutDashboard/>, href: "/dashboard" },
-      { label: <ShoppingBag/>, href: "/dashboard/cars" },
-      { label: <Heart/>, href: "" },
       { label: <Search/>, href: "" },
      ]}
       rightContent={
         <div className="flex justify-between items-center gap-14 flex-wrap">
 
-        <div className="flex items-center space-x-4">
+        {/* <div className="flex items-center space-x-4">
           {user ? (
             <>
               <Notifications userId={user.userId} role={user.role || "customer"} />
@@ -46,7 +33,7 @@ const DashboardLayout = ({ children }) => {
               Login
             </Link>
           )}
-        </div>
+        </div> */}
       </div>
       
     }
@@ -58,7 +45,7 @@ const DashboardLayout = ({ children }) => {
       </div>
       
      </div>
-  );
-};
+  )
+}
 
-export default DashboardLayout;
+export default layout

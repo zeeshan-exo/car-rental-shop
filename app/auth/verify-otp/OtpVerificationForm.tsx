@@ -1,8 +1,9 @@
+
 'use client'
 import { useSearchParams, useRouter } from 'next/navigation'
 import React, { useState, useRef } from 'react'
 
-const OtpVerify = () => {
+const OtpVerification= () => {
     const [otpValues, setOtpValues] = useState(['', '', '', '', '', ''])
     const inputRefs = useRef([])
     const router = useRouter()
@@ -118,4 +119,4 @@ const OtpVerify = () => {
     )
 }
 
-export default OtpVerify
+export default OtpVerification
