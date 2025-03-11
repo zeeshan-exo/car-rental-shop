@@ -1,39 +1,70 @@
-// import { getCollection } from "@/lib/db";
-// import { NextResponse } from "next/server";
-// import Stripe from "stripe";
+import { NextResponse } from "next/server";
+import Stripe from "stripe";
+import { getCollection } from "@/lib/db";
 
-// const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!,
-//     {apiVersion: "2025-02-24.acacia"}
-// )
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-02-24.acacia",
+});
 
-// export async function POST(req:Request) {
-//     const payload = await req.text()
-//     const sig = req.headers.get("stripe-signature")!
-//     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!
+export async function POST(req: Request) {
+  const sig = req.headers.get("stripe-signature");
+  if (!sig) {
+    return NextResponse.json(
+      { error: "Missing stripe-signature header" },
+      { status: 400 }
+    );
+  }
 
-//     try {
-//         const event = stripe.webhooks.constructEvent(payload, sig, endpointSecret)
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!endpointSecret) {
+    return NextResponse.json(
+      { error: "Missing webhook secret in environment" },
+      { status: 500 }
+    );
+  }
 
-//         if(event.type === "checkout.session.completed"){
-//             console.log("Payment Success:", event.data.object)
-//             const session = event.data.object
-//             const {carId, rentalDays, userEmail} = session.metadata
+  let event: Stripe.Event;
 
-//             const bookingCollection = await getCollection("orders")
-//             await bookingCollection?.insertOne({
-//                 carId, 
-//                 userEmail,
-//                 rentalDays,
-//                 paymentStatus: "paid",
-//                 transactionId: session.id,
-//                 createdAt: new Date()
-//             })
-//              console.log("Payment Confirmed for:", carId)
-//         }
+  try {
+    const body = await req.text();
+    event = stripe.webhooks.constructEvent(body, sig, endpointSecret, 400);
+  } catch (error) {
+    console.error("Webhook signature verification failed:", error);
+    return NextResponse.json(
+      { error: "Webhook signature verification failed" },
+      { status: 400 }
+    );
+  }
 
-//         return NextResponse.json({received: true})
-//     } catch (error) {
-//         console.error("WebHook Error:", error)
-//         return NextResponse.json ({error: "Webhook error"}, {status: 400})
-//     }
-// }
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+
+    const userEmail = session.metadata?.userEmail;
+    const carId = session.metadata?.carId;
+
+    if (!userEmail || !carId) {
+      console.error("Missing metadata in Stripe session");
+      return NextResponse.json(
+        { error: "Missing metadata in session" },
+        { status: 400 }
+      );
+    }
+
+    try {
+      const ordersCollection = await getCollection("orders");
+
+      await ordersCollection?.updateOne(
+        { "userDetails.email": userEmail, "carDetails.carId": carId },
+        { $set: { paymentStatus: "paid", paymentMethod: "card" } }
+      );
+    } catch (error) {
+      console.error("Database update error:", error);
+      return NextResponse.json(
+        { error: "Database update error" },
+        { status: 500 }
+      );
+    }
+  }
+
+  return NextResponse.json({ received: true });
+}

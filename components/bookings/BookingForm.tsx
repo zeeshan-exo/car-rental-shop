@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { loadStripe } from "@stripe/stripe-js";
 import { CreditCard, ChevronDown } from "lucide-react";
-import { StringExpressionOperatorReturningArray } from "mongoose";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 

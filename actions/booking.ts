@@ -8,8 +8,6 @@ import ejs from 'ejs'
 import path from "path";
 import { sendMail } from "@/lib/email";
 import { getSocket } from "@/lib/socket";
-import { createRenderResumeDataCache } from "next/dist/server/resume-data-cache/resume-data-cache";
-
 
 export async function bookingOrder(state: any, formData: BookingType) {
   // const rawData = formData as Record<string, any>;
@@ -40,9 +38,10 @@ export async function bookingOrder(state: any, formData: BookingType) {
       email: rawData.email,
       contact: rawData.contact,
     },
-    totalAmount: rawData.totalAmount ? Number(rawData.totalAmount) : 0,
-    transactionId: rawData.transactionId,
-    paymentStatus: rawData.paymentStatus,
+    // totalAmount: rawData.totalAmount ? Number(rawData.totalAmount) : 0,
+    // transactionId: rawData.transactionId,
+    paymentMethod: rawData.paymentMethod || "cashOnDelivery", 
+    paymentStatus: rawData.paymentMethod === "card" ? "pending" : "paid",
     createdAt: rawData.createdAt,
   };
 

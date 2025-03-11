@@ -1,5 +1,5 @@
 import React from 'react'
-import DisplayUsers from './DisplayUsers'
+import DisplayUsers from './displayUsers'
 
 
 const page = () => {

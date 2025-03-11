@@ -98,8 +98,9 @@ export default function LoginForm() {
               src="/pexels-lina.jpg"
               width={500}
               height={950}
-              objectFit='cover'
+              style={{ objectFit: "cover" }}
               alt="Signup illustration"
+              priority
               className="rounded-r-2xl shadow-lg transform "
             />
         </div>

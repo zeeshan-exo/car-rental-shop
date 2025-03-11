@@ -1,16 +1,15 @@
 "use client"
 import { useState, useEffect } from "react"
-import PieChartWithCustomizedLabel from "@/components/BarChart"
+import PieChartWithCustomizedLabel from "@/components/cars/BarChart"
 import StatCard from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, Filter, MapPin, Bell, Search } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
-import CurrentOrders from "@/app/vendor/cars/currentBookings"
+import CurrentOrders from "@/app/(dashboard)/vendor/cars/currentBookings"
 import { getVendorOrders } from "@/actions/booking"
 import { getVendorCars } from "@/actions/cars"
 import { getUsers } from "@/actions/users"
-import { Avatar } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -80,7 +79,7 @@ const Dashboard = () => {
   return (
     <MapProvider>
       <div className="bg-gray-50 min-h-screen">
-        {/* Enhanced Header with better contrast and user info */}
+
         <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-white p-6 shadow-md">
           <div className="container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">

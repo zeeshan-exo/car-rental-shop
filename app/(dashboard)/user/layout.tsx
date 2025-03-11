@@ -1,7 +1,7 @@
 'use client'
 import React, { useState , useEffect} from "react";
-import Header from "../../components/Header";
-import ProfileImage from "../../components/ProfileImage";
+import Header from "../../../components/layout/Header";
+import ProfileImage from "@/components/user/ProfileImage";
 import Link from "next/link";
 import { Search, House, Heart, ShoppingBag, LayoutDashboard } from 'lucide-react';
 

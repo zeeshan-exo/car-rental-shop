@@ -8,16 +8,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
 
-    const { carId, carName, price, userEmail } = await req.json();
+    const { carId, carName, rentalRate, userEmail } = await req.json();
 
-    if (!price || isNaN(price)) {
+    if (!rentalRate || isNaN(rentalRate)) {
       return NextResponse.json(
         { error: "Invalid or missing price." },
         { status: 400 }
       );
     }
 
-    const totalAmount = Number(price) * 100;
+    const totalAmount = Number(rentalRate) * 100;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

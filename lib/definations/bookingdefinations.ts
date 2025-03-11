@@ -36,7 +36,7 @@ export const BookingSchema = z.object({
 
 //   totalAmount: z.number().positive("Total amount must be positive"),
 //   transactionId: z.string().optional(),
-  paymentStatus: z.enum(["paid", "unpaid", "refunded"]).default("unpaid"),
+  paymentStatus: z.enum(["paid", "pending", "refunded"]),
   paymentMethod: z.enum(["cashOnDelivery", "card"]).default("cashOnDelivery"),
 
   createdAt: z.date().optional(),

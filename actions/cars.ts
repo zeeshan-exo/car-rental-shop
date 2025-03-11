@@ -89,7 +89,7 @@ export async function addCar(state: any, formData: FormData) {
 }
 
 
-export async function getAllCars(query = "", page: number | string = 1, limit = 10) {
+export async function getAllCars(query = "", page: number | string = 1, limit = 9) {
   try {
     const numericPage = Number(page ) || 1
      const valid = Math.max(1, numericPage)

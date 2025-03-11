@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { getSocket } from "@/lib/socket";
-import { Bell, X, ChevronDown, CheckCircle, AlertCircle } from "lucide-react";
+import { Bell, X, CheckCircle, AlertCircle } from "lucide-react";
 
 export default function Notifications({ userId, role }: { userId: string; role: "customer" | "vendor" }) {
   const [notifications, setNotifications] = useState<{ message: string; type?: string; timestamp?: Date }[]>([]);
@@ -18,6 +18,9 @@ export default function Notifications({ userId, role }: { userId: string; role: 
     }
 
     socket.emit("register", { userId, role });
+
+    socket.on("connect", () => console.log("Socket connected!"));
+    socket.on("disconnect", () => console.log("Socket disconnected!"));
 
     const handleOrderEvent = (data: { message: string; type?: string }) => {
       console.log("Notification received:", data);

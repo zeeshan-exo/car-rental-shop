@@ -1,15 +1,16 @@
 "use client"
-import PieChartWithCustomizedLabel from "@/components/BarChart"
+import PieChartWithCustomizedLabel from "@/components/cars/BarChart"
 import StatCard from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
-import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw } from "lucide-react"
+import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, Search } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
-import CurrentOrders from "@/app/vendor/cars/currentBookings"
+import CurrentOrders from "@/app/(dashboard)/vendor/cars/currentBookings"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { getAllCars } from "@/actions/cars"
 import { getCustomerOrders } from "@/actions/booking"
+import { Input } from "@/components/ui/input"
 
 
 interface Order {
@@ -50,15 +51,9 @@ const page = () => {
     fetchData()
   }, [])
 
-//   const reservations = orders.filter(order => order.status === "pending")
-
  const rentedCars = orders.filter(order => order.status === "delivered" || order.status ==="confirmed" || order.status ==="dispatched")
 
  const totalCars = carsdata.length
-
-//  const totalReserveCars = orders.length
-//  const deliveredConfirmedOrder = orders.filter(order => order.status === "delivered" || order.status === "confirmed" || order.status === "dispatched")
-// const avialableCars=totalReserveCars -deliveredConfirmedOrder.length 
  
   return (
     <MapProvider>
@@ -78,6 +73,31 @@ const page = () => {
               <Button size="sm" className="bg-white text-sky-800 hover:bg-sky-100">
                 <Clock className="h-4 w-4 mr-2" />
                 Activity Log
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white border-b shadow-sm py-3">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Button variant="outline" size="sm" className="text-green-700 border-green-200 hover:bg-green-50">
+                  <Car className="h-4 w-4 mr-1" /> 
+                  Book
+                </Button>
+              </div>
+              <div className="hidden md:flex relative max-w-xs">
+                <Search className="h-4 w-4 absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Input 
+                  type="text"
+                  placeholder="Search cars, orders..." 
+                  className="pl-8 h-9 pr-4 text-sm bg-gray-50 border-gray-200 focus:bg-white" 
+                />
+              </div>
+              <Button onClick={fetchData} size="sm" variant="outline" className="bg-white hover:bg-gray-50">
+                <RefreshCw className="h-4 w-4 mr-1" />
+                Refresh Data
               </Button>
             </div>
           </div>
@@ -148,7 +168,7 @@ const page = () => {
 
   
             <div className="col-span-12 lg:col-span-4 space-y-6">
-              <CurrentOrders/>
+              {/* <CurrentOrders/> */}
 
               <div className="relative rounded-xl overflow-hidden shadow-md h-64 group">
                 <div 

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { getCar } from "@/actions/cars";
 import { IoClose } from "react-icons/io5";
-import ImageSlider from "@/components/ImageSlider";
+import ImageSlider from "@/components/cars/ImageSlider";
 import { Button } from "@/components/ui/button";
 import BookingForm from "./bookingForm";
 import { 

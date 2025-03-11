@@ -1,6 +1,6 @@
 "use client";
 import { bookingOrder } from "@/actions/booking";
-import ReusableForm from "@/components/BookingForm";
+import ReusableForm from "@/components/bookings/BookingForm";
 import { useState, useEffect } from "react";
 import { useActionState, startTransition } from "react";
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,6 @@ import {
   CarFront,
   Check
 } from "lucide-react";
-import CheckoutButton from "@/components/CheckoutButton";
 
 interface BookingFormProps {
   carModel: string;

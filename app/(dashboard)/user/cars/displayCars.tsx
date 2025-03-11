@@ -1,6 +1,6 @@
 import React from "react";
-import CarCard from "@/components/CarCard";
-import HeroBanner from "@/components/HeroBanner";
+import CarCard from "@/components/cars/CarCard";
+import HeroBanner from "@/components/sections/HeroBanner";
 
 export default function Displaycars({cars}: {cars: any[]}){
 

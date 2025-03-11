@@ -2,7 +2,7 @@ import React from 'react';
 import { cookies } from 'next/headers';
 import { decrypt } from '@/lib/session';
 import Link from 'next/link';
-import DisplayOrder from './displayOrder';
+import VendorOrdersManagement from './displayOrder';
 
 export default async function OrdersPage() {
   const sessionCookie = (await cookies()).get('session')?.value;
@@ -11,7 +11,7 @@ export default async function OrdersPage() {
   return (
     <div className="min-h-screen ">
       {payload?.userId && payload.role === "vendor" ? (
-          <DisplayOrder />
+          <VendorOrdersManagement />
       ) : (
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">

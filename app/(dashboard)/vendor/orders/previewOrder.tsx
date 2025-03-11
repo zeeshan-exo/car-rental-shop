@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getOneOrder, confirmOrder } from "@/actions/booking";
+import { getOneOrder, confirmOrder, updateOrderStatus } from "@/actions/booking";
 
 interface Order{
   _id: string; 
@@ -38,7 +38,7 @@ export default function PreviewOrder({ orderId, onClose, onStatusUpdate,}: Previ
   const handleConfirmation = async () => {
     try {
       setConfirming(true);
-      await confirmOrder(orderId);
+      await updateOrderStatus(orderId);
       onStatusUpdate("confirmed");
       setConfirming(false);
       onClose();

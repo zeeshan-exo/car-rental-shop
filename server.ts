@@ -29,12 +29,12 @@ app.prepare().then(() => {
   
     socket.on("order_placed", (data) => {
       // console.log(`Emitting to vendor:${data.order.vendorId}`);
-      io.to(`vendor:${data.order.vendorId}`).emit("order_placed", data);
+      io.to(`vendor:${data.order.vendorDetails.vendorId}`).emit("order_placed", data);
     });
     
     socket.on("order_updated", (data) => {
       // console.log(` Emitting to user:${data.order.userId}`);
-      io.to(`user:${data.order.userId}`).emit("order_updated", data);
+      io.to(`user:${data.order.userDetails.userId}`).emit("order_updated", data);
     });
     
     socket.on("disconnect", () => {

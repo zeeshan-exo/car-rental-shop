@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { LogOut, X, User } from "lucide-react";
 import { logout } from "@/actions/auth";
 

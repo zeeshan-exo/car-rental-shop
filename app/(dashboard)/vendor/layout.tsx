@@ -1,13 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Header from "../../components/Header";
-import { logout } from "../../actions/auth";
-import ProfileImage from "../../components/ProfileImage";
+import Header from "@/components/layout/Header";
+import ProfileImage from "@/components/user/ProfileImage";
 import Link from "next/link";
-import { House, LogOut, Search, Bell,ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
+import { House, Search,ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/App-sidebar";
+import { AppSidebar } from "@/components/layout/App-sidebar";
 
 export default function VendorDashboardLayout({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState(null);

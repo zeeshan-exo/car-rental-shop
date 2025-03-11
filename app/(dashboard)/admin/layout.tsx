@@ -1,7 +1,7 @@
 import React from 'react'
 import Notifications from '@/components/Notifications'
 import { House, LayoutDashboard, Search } from 'lucide-react'
-import Header from '@/components/Header'
+import Header from '@/components/layout/Header'
 import ProfileImage from '@/components/ProfileImage'
 import Link from 'next/link'
 import { User2 } from 'lucide-react'

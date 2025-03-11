@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Features from "@/components/Features";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import Features from "@/components/sections/Features";
 import { Button } from "@/components/ui/button";
 import { logout } from "../actions/auth";
 import { useEffect, useState } from "react";

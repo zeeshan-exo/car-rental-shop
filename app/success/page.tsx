@@ -31,7 +31,7 @@ export default function SuccessPage() {
         )}
 
         <Link
-          href="/dashboard/cars"
+          href="/user/cars"
           className="mt-6 inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
            Go Back
