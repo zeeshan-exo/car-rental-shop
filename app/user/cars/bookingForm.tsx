@@ -24,7 +24,7 @@ interface BookingFormProps {
   vendorEmail: string;
   vendorId: string;
   vendorName: string;
-  rentalRate: number
+  rentalRate: string
 }
 
 const initialBookingFields = [
@@ -122,7 +122,7 @@ export default function BookingForm({
   const handleSubmit = (formData: any) => {
     const bookingData = { 
       ...formData,
-      carDetails: JSON.stringify({ carId, carModel, carName }),
+      carDetails: JSON.stringify({ carId, carModel, carName, rentalRate }),
       vendorDetails: JSON.stringify({ vendorId, vendorName, vendorEmail }),
     };
     startTransition(() => action(bookingData));
@@ -177,7 +177,7 @@ export default function BookingForm({
                     carDetails={{
                       carName: carName,
                       carId: carId,
-                      price: rentalRate,
+                      rentalRate: rentalRate
                     }}
                     errors={state?.errors || {}}
                     pending={isPending}

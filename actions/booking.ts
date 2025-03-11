@@ -8,6 +8,7 @@ import ejs from 'ejs'
 import path from "path";
 import { sendMail } from "@/lib/email";
 import { getSocket } from "@/lib/socket";
+import { createRenderResumeDataCache } from "next/dist/server/resume-data-cache/resume-data-cache";
 
 
 export async function bookingOrder(state: any, formData: BookingType) {
@@ -26,6 +27,7 @@ export async function bookingOrder(state: any, formData: BookingType) {
       carId: carDetails.carId || "",
       carModel: carDetails.carModel || "",
       carName: carDetails.carName || "",
+      rentalRate: carDetails.rentalRate || ""
     },
     vendorDetails: {
       vendorId: vendorDetails.vendorId || "",

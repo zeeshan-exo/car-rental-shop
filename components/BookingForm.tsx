@@ -19,7 +19,7 @@ interface ReusableFormProps {
   fields: FormField[];
   onSubmit: (formData: any) => void;
   initialValues?: Record<any, any>;
-  carDetails:{carId: string, carName: string, price: string}
+  carDetails:{carId: string, carName: string, rentalRate: string}
   errors?: Record<string, string>;
   pending?: boolean;
 }
@@ -27,7 +27,7 @@ interface ReusableFormProps {
 interface car {
   carId: string,
   carName: string,
-  price: number,
+  rentalRate: number,
   userEmail: string,
 }
 
@@ -73,7 +73,7 @@ export default function ReusableForm({
         body: JSON.stringify({
           carId: carDetails.carId,
           carName: carDetails.carName,
-          price: Number(carDetails.price),
+          rentalRate: carDetails.rentalRate,
           // userEmail: carDetails.userEmail,
         }),
       });

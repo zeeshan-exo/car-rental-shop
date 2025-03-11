@@ -4,6 +4,7 @@ import { House, LayoutDashboard, Search } from 'lucide-react'
 import Header from '@/components/Header'
 import ProfileImage from '@/components/ProfileImage'
 import Link from 'next/link'
+import { User2 } from 'lucide-react'
 
 
 const layout = ({children}:{children: React.ReactNode}) => {
@@ -12,28 +13,16 @@ const layout = ({children}:{children: React.ReactNode}) => {
       <div className="flex flex-col flex-1">
       
      <Header
-     title="Expo"
+     title="AutoNex"
      navLinks={[
       { label: <House/>, href: "/" },
-      { label: <LayoutDashboard/>, href: "/dashboard" },
+      { label: <LayoutDashboard/>, href: "/admin/dashboard" },
+      { label:  <User2/>, href: "/admin/users" },
       { label: <Search/>, href: "" },
      ]}
       rightContent={
         <div className="flex justify-between items-center gap-14 flex-wrap">
-
-        {/* <div className="flex items-center space-x-4">
-          {user ? (
-            <>
-              <Notifications userId={user.userId} role={user.role || "customer"} />
-              <ProfileImage/>
-              
-            </>
-          ) : (
-            <Link href="/auth/login" className="text-blue-500 font-medium hover:underline">
-              Login
-            </Link>
-          )}
-        </div> */}
+         //profile
       </div>
       
     }

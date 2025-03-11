@@ -25,6 +25,9 @@ export async function signup(state: any, formData: FormData) {
     console.log(validatedFields.data)
 
     const userCollection = await getCollection("users")
+    if(!userCollection) {
+      return {errors: {email: "Error occur while connectig to User Collection"}}
+    }
     const existingUser = await userCollection.findOne({ email });
     if (existingUser) {
       return { errors: { email: "Email already exists" } };
@@ -100,6 +103,9 @@ export async function logout(): Promise<void> {
   
       if (payload?.userId) {
         const userCollection = await getCollection("users")
+        if(!userCollection) {
+          return {errors: {email: "Error occur while connectig to User Collection"}}
+        }
             await userCollection.updateOne(
                 { _id: new ObjectId(payload.userId) },
                 { $set: { status: 'inactive' } }
