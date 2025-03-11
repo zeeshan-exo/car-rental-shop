@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "sonner";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { useEffect, useState } from "react";
 
@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
          {children}
 
-          <ToastContainer />
+          <Toaster richColors position="top-right"/>
         </ReCaptchaProvider>
       </body>
     </html>

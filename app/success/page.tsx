@@ -1,7 +1,7 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { CheckCircle, Home } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function SuccessPage() {
