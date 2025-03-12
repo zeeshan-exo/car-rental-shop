@@ -8,6 +8,8 @@ import ejs from 'ejs'
 import path from "path";
 import { sendMail } from "@/lib/email";
 import { getSocket } from "@/lib/socket";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function bookingOrder(state: any, formData: BookingType) {
   // const rawData = formData as Record<string, any>;
@@ -176,15 +178,19 @@ export async function getOneOrder(id:string) {
 
 export async function getVendorOrders() {
   try {
-    const sessionCookie = (await cookies()).get("session")?.value;
-    if (!sessionCookie) {
-      throw new Error("Session cookie not found.");
+    const session = await getServerSession(authOptions)
+    if(!session){
+      console.log("No user found")
+      return[]
     }
-    const payload = await decrypt(sessionCookie);
-    if (!payload || payload.role !== "vendor") {
-      throw new Error("Unauthorized access. Vendor session required.");
+
+    if(session.user?.role !== "vendor"){
+      console.log("User is not vendor.")
+      return[]
     }
-    const vendorId = payload.userId;
+
+
+    const vendorId = session.user.id;
 
     const orderCollection = await getCollection("orders");
     if (!orderCollection) {

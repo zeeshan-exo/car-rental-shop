@@ -1,63 +1,58 @@
-'use client'
-import React, { useState , useEffect} from "react";
+"use client";
+import React from "react";
 import Header from "../../../components/layout/Header";
 import ProfileImage from "@/components/user/ProfileImage";
 import Link from "next/link";
-import { Search, House, Heart, ShoppingBag, LayoutDashboard } from 'lucide-react';
-
+import { Search, House, Heart, ShoppingBag, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
+import { useSession } from "next-auth/react";
 
-const DashboardLayout = ({ children }) => {
-  const [user, setUser] = useState(null);
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const { data: session, status } = useSession();
 
-  useEffect(() => {
-    const getUserSession = async () => {
-      const response = await fetch("/api/auth/session"); 
-      const data = await response.json();
-      setUser(data?.user);
-    };
-    getUserSession();
-  },[])
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  const user = session?.user;
+
   return (
     <div className="flex h-screen bg-gray-100">
       <div className="flex flex-col flex-1">
-      
-     <Header
-     title="Expo"
-     navLinks={[
-      { label: <House/>, href: "/" },
-      { label: <LayoutDashboard/>, href: "/user" },
-      { label: <ShoppingBag/>, href: "/user/cars" },
-      { label: <Heart/>, href: "" },
-      { label: <Search/>, href: "" },
-     ]}
-      rightContent={
-        <div className="flex justify-between items-center gap-14 flex-wrap">
-
-        <div className="flex items-center space-x-4">
-          {user ? (
-            <>
-              <Notifications userId={user.userId} role={user.role || "customer"} />
-              <ProfileImage/>
-              
-            </>
-          ) : (
-            <Link href="/auth/login" className="text-blue-500 font-medium hover:underline">
-              Login
-            </Link>
-          )}
-        </div>
-      </div>
-      
-    }
-     />
+        <Header
+          title="Expo"
+          navLinks={[
+            { label: <House />, href: "/" },
+            { label: <LayoutDashboard />, href: "/user" },
+            { label: <ShoppingBag />, href: "/user/cars" },
+            { label: <Heart />, href: "" },
+            { label: <Search />, href: "" },
+          ]}
+          rightContent={
+            <div className="flex justify-between items-center gap-14 flex-wrap">
+              <div className="flex items-center space-x-4">
+                {user ? (
+                  <>
+                    <Notifications userId={user.id} role={user.role || "customer"} />
+                    <ProfileImage />
+                  </>
+                ) : (
+                  <Link
+                    href="/auth/login"
+                    className="text-blue-500 font-medium hover:underline"
+                  >
+                    Login
+                  </Link>
+                )}
+              </div>
+            </div>
+          }
+        />
         <main className="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-gray-blue-300 scrollbar-track-gray-100 bg-gray-50 shadow-inner rounded-lg">
           {children}
         </main>
-     
       </div>
-      
-     </div>
+    </div>
   );
 };
 

@@ -47,7 +47,7 @@ export const SignupFormSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters long" })
     .trim()
     .refine((val) => val.length > 0, { message: "Password is required" }),
-  role: z.enum(["vendor", "customer"], { message: "Role must be 'vendor' or 'customer'" }),
+  role: z.enum(["vendor", "customer", "admin"], { message: "Role must be 'vendor' or 'customer'" }),
   idCard: z.string().optional(),
   address: z.string().optional(),
   status: z.enum(["active", "inactive"]).default("inactive"),

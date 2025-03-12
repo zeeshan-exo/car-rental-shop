@@ -4,6 +4,9 @@ import { CarSchema } from "@/lib/definations/carDefinations";
 import { decrypt } from "@/lib/session";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 export async function addCar(state: any, formData: FormData) {
 
@@ -148,31 +151,35 @@ export async function getCar(id:string) {
 
 export async function getVendorCars() {
   try {
-    const session = (await cookies()).get('session')?.value;
+    const session = await getServerSession(authOptions);
     if (!session) {
-      console.log("No session found in cookies");
-    }
-    const payload = await decrypt(session);
-    if (!payload) {
-      console.log("data not found in payload");
-    }
-
-    const carsCollection = await getCollection("cars");
-    if (carsCollection) {
-      // Query using the nested vendorId field
-      const cars = await carsCollection.find({ "vendor.vendorId": payload?.userId }).toArray();
-      if (cars.length) {
-        return cars.map((car) => ({
-          ...car,
-          _id: car._id.toString(),
-        }));
-      }
+      console.log("No session found");
       return [];
     }
+
+    if (session.user.role !== "vendor") {
+      console.log("User is not a vendor");
+      return [];
+    }
+    
+    const vendorId = session.user.id;
+    const carsCollection = await getCollection("cars");
+    if (carsCollection) {
+      const cars = await carsCollection.find({ "vendor.vendorId": vendorId }).toArray();
+      return cars.map((car) => ({
+        ...car,
+        _id: car._id.toString(),
+      }));
+    }
+    
+    return [];
   } catch (error) {
-    console.error("Error fetching cars:", error);
+    console.error("Error fetching vendor cars:", error);
+    return [];
   }
 }
+
+
 
 
 export async function updateCar(carId: string, formData: FormData) {

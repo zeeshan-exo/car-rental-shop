@@ -1,37 +1,22 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Header from "@/components/layout/Header";
+import { useSession } from "next-auth/react";
 import ProfileImage from "@/components/user/ProfileImage";
 import Link from "next/link";
-import { House, Search,ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
+import { House, Search, ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/App-sidebar";
 
 export default function VendorDashboardLayout({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const getUserSession = async () => {
-      try {
-        const response = await fetch("/api/auth/session");
-        const data = await response.json();
-        setUser(data?.user);
-      } catch (error) {
-        console.error("Failed to fetch user session:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getUserSession();
-  }, []);
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-gray-100">
         <AppSidebar />
-
         <div className="flex flex-col flex-1 w-full">
           <Header
             title={
@@ -42,15 +27,15 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
             navLinks={[
               { label: <House className="text-gray-700" />, href: "/" },
               { 
-                label: <LayoutDashboard className="text-gray-700"/> , 
+                label: <LayoutDashboard className="text-gray-700" />, 
                 href: "/vendor",
               },
               { 
-                label: <ShoppingBag className="text-gray-700"/>, 
+                label: <ShoppingBag className="text-gray-700" />, 
                 href: "/vendor/cars",
               },
               { 
-                label:<ShoppingCart className="text-gray-700" /> , 
+                label: <ShoppingCart className="text-gray-700" />, 
                 href: "/vendor/orders",
               },
               { 
@@ -60,19 +45,15 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
             ]}
             rightContent={
               <div className="flex items-center gap-4">
-                {loading ? (
+                {status === "loading" ? (
                   <div className="h-8 w-8 rounded-full bg-gray-200 animate-pulse"></div>
                 ) : user ? (
                   <>
                     <div className="relative">
-                      <Notifications
-                       userId={user.userId} role={user.role || "vendor"} 
-                     
-                       />
+                      <Notifications userId={user.id} role={user.role || "vendor"} />
                     </div>
                     <div className="flex items-center gap-2">
                       <ProfileImage />
-                      
                     </div>
                   </>
                 ) : (
@@ -92,9 +73,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
             <div className="md:hidden mb-4">
               <SidebarTrigger className="p-2 rounded-md bg-white shadow-sm border border-gray-200" />
             </div>
-            <div className="w-full h-screen">
-              {children}
-            </div>
+            <div className="w-full h-screen">{children}</div>
           </main>
         </div>
       </div>

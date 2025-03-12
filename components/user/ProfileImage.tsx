@@ -1,24 +1,14 @@
 "use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { LogOut, X, User } from "lucide-react";
-import { logout } from "@/actions/auth";
+import { signOut, useSession } from "next-auth/react";
 
 const ProfileImage = () => {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    const fetchSession = async () => {
-      const res = await fetch("/api/auth/session");
-      const data = await res.json();
-      setUser(data?.user);
-    };
-
-    fetchSession();
-  }, []);
+  const { data: session } = useSession();
+  const user = session?.user;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -28,8 +18,8 @@ const ProfileImage = () => {
 
   return (
     <div className="relative">
-      <button 
-        onClick={() => setOpen(true)} 
+      <button
+        onClick={() => setOpen(true)}
         className="focus:outline-none transition-transform hover:scale-105"
         aria-label="Open profile menu"
       >
@@ -45,7 +35,7 @@ const ProfileImage = () => {
       </button>
 
       {open && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-30 flex justify-end items-start z-50 backdrop-blur-sm transition-opacity"
           onClick={handleBackdropClick}
         >
@@ -55,25 +45,28 @@ const ProfileImage = () => {
               onClick={() => setOpen(false)}
               aria-label="Close profile menu"
             >
-              <X size={18} />
+              <X className="w-6 h-6" />
             </button>
 
             <div className="flex items-center gap-3 mb-4 pb-3 border-b border-gray-100">
               <div className="bg-blue-50 p-2 rounded-full">
                 <User size={24} className="text-blue-500" />
               </div>
-              <h2 className="text-xl font-semibold text-gray-800">{user?.name || "User"}</h2>
+              <h2 className="text-xl font-semibold text-gray-800">
+                {user?.name || "User"}
+              </h2>
             </div>
 
-            {user ? (
+            {session ? (
               <div className="space-y-3 text-gray-600">
                 <div className="flex flex-col">
                   <span className="text-xs text-gray-400">Email</span>
-                  <span className="font-medium">{user.email}</span>
+                  <span className="font-medium">{user?.email}</span>
                 </div>
+                {/* Optionally display role */}
                 {/* <div className="flex flex-col">
                   <span className="text-xs text-gray-400">Role</span>
-                  <span className="font-medium">{user.role}</span>
+                  <span className="font-medium">{user?.role}</span>
                 </div> */}
               </div>
             ) : (
@@ -84,7 +77,7 @@ const ProfileImage = () => {
             )}
 
             <Button
-              onClick={logout}
+              onClick={() => signOut()}
               className="mt-6 w-full text-sm font-medium text-white bg-red-500 hover:bg-red-600 p-3 rounded-md flex items-center justify-center transition-colors"
             >
               <LogOut size={16} className="mr-2" /> Logout
@@ -92,7 +85,6 @@ const ProfileImage = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

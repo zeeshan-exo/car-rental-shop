@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import Features from "@/components/sections/Features";
 import { Button } from "@/components/ui/button";
 import { logout } from "../actions/auth";
+import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { LogOut, Car, Calendar, MapPin, Search, Star } from "lucide-react";
 import { MdFeaturedPlayList } from "react-icons/md";
@@ -17,7 +18,7 @@ export default function Home() {
 
   useEffect(() => {
     const getUserSession = async () => {
-      const response = await fetch("/api/auth/session");
+      const response = await fetch("/api/session");
       const data = await response.json();
       setUser(data?.user);
     };
@@ -26,6 +27,7 @@ export default function Home() {
 
   const navLinks = [
     { label: "Home", href: "/" },
+    {label:"Dashboard", href: "/user"},
     { label: "Cars", href: "/user/cars" },
     { label: "How It Works", href: "#how-it-works" },
     { label: "Reviews", href: "#testimonials" },
@@ -39,7 +41,7 @@ export default function Home() {
         rightContent={
           user ? (
             <Button
-              onClick={logout}
+              onClick={()=>signOut()}
               className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
               <LogOut className="h-4 w-4" />
