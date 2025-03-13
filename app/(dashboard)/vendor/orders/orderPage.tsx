@@ -3,14 +3,14 @@ import { cookies } from 'next/headers';
 import { decrypt } from '@/lib/session';
 import Link from 'next/link';
 import VendorOrdersManagement from './displayOrder';
+import { useSession } from 'next-auth/react';
 
 export default async function OrdersPage() {
-  const sessionCookie = (await cookies()).get('session')?.value;
-  const payload = sessionCookie ? await decrypt(sessionCookie) : null;
+  const {data: session} = useSession()
 
   return (
     <div className="min-h-screen ">
-      {payload?.userId && payload.role === "vendor" ? (
+      {session?.user?.id && session?.user?.role === "vendor" ? (
           <VendorOrdersManagement />
       ) : (
         <div className="bg-white p-6 rounded-lg shadow-lg text-center">

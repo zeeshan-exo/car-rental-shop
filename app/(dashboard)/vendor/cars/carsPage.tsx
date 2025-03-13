@@ -3,15 +3,18 @@ import { cookies } from 'next/headers';
 import { decrypt } from '@/lib/session';
 import ProductForm from './carForm';
 import DisplayVendorCars from './vendorCars';
+import { useSession } from 'next-auth/react';
 
 export default async function ProductsPage() {
-  const sessionCookie = (await cookies()).get('session')?.value
-  const payload = sessionCookie ? await decrypt(sessionCookie) : null;
+
+  const {data: session} = useSession()
+
+  const role = session?.user?.role
 
   return (
     <div className="p-4">
-      {payload?.role === "vendor" && <ProductForm />}
-      {payload?.userId && payload?.role === "vendor" && <DisplayVendorCars/>}
+      {role === "vendor" && <ProductForm />}
+      {session?.user?.id && role === "vendor" && <DisplayVendorCars/>}
     </div>
   );
 }

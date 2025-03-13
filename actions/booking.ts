@@ -10,6 +10,7 @@ import { sendMail } from "@/lib/email";
 import { getSocket } from "@/lib/socket";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getSession } from "next-auth/react";
 
 export async function bookingOrder(state: any, formData: BookingType) {
   // const rawData = formData as Record<string, any>;
@@ -54,10 +55,10 @@ export async function bookingOrder(state: any, formData: BookingType) {
     return { errors: validatedFields.error.flatten().fieldErrors };
   }
 
-  const session = (await cookies()).get("session")?.value;
-  const payload = session ? await decrypt(session) : null;
-  if (!payload) {
-    return { errors: { session: "User session not found" } };
+  const session = await getServerSession(authOptions)
+  if(!session){
+    console.log("No session found")
+    return []
   }
 
   try {
@@ -68,8 +69,8 @@ export async function bookingOrder(state: any, formData: BookingType) {
       createdAt: validatedFields.data.createdAt || now,
       userDetails: {
         ...validatedFields.data.userDetails,
-        userName: payload.name,
-        userId: payload.userId,
+        userName: session.user?.name,
+        userId: session.user?.id,
       },
     };
     if (orderCollection) {
@@ -98,13 +99,6 @@ export async function bookingOrder(state: any, formData: BookingType) {
 
 export async function getOrders() {
     try {
-        const session = (await cookies()).get('session')?.value
-        if(!session){
-          console.log("No session found in cookies")
-        }
-        const payload = await decrypt(session)
-        if(!payload){console.log("data not found in payload")}
-
         const orderCollection = await getCollection("orders")
         if(orderCollection){
           const orders = await orderCollection.find().toArray()
@@ -126,12 +120,6 @@ export async function updateOrderStatus(orderId: string, newStatus: string) {
       { _id: new ObjectId(orderId) },
       { $set: { status: newStatus } }
     );
-
-    const session = (await cookies()).get("session")?.value;
-    const payload = session ? await decrypt(session) : null;
-    if (!payload) {
-      return { errors: { session: "User session not found" } };
-    }
 
     const order = await orderCollection.findOne({ _id: new ObjectId(orderId) });
     if (order) {
@@ -188,8 +176,6 @@ export async function getVendorOrders() {
       console.log("User is not vendor.")
       return[]
     }
-
-
     const vendorId = session.user.id;
 
     const orderCollection = await getCollection("orders");
@@ -210,13 +196,14 @@ export async function getVendorOrders() {
 
 export async function getCustomerOrders(){
   try {
-    const sessionCookie = (await cookies()).get("session")?.value;
-    const payload = await decrypt(sessionCookie);
-    if(!payload || payload.role !== "customer"){
-      console.log("Unauthorized access. Customer session required");
-      return [];
+
+    const session = await getServerSession(authOptions)
+    if(!session){
+      console.log("No Session found.")
+      return []
     }
-    const customerId = payload.userId;
+
+    const customerId = session.user.id;
   
     const ordersCollection = await getCollection("orders");
     if(!ordersCollection) throw new Error("Orders Collection not found");

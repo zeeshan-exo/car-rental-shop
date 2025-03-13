@@ -16,7 +16,6 @@ export async function signup(state: any, formData: FormData) {
   if (!validatedFields.success) {
     return { errors: validatedFields.error.flatten().fieldErrors };
   }
-
   const { email, password, role, idCard, name, address } = validatedFields.data;
 
   try {
@@ -45,7 +44,6 @@ export async function signup(state: any, formData: FormData) {
 
     await userCollection.insertOne(newUser);
 
-    // Send verification email
     const templatePath = path.join(process.cwd(), "templates", "verifyEmail.ejs");
     const emailHtml = await ejs.renderFile(templatePath, { name, otp });
 
