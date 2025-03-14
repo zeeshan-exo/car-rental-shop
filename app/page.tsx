@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Features from "@/components/sections/Features";
 import { Button } from "@/components/ui/button";
-import { logout } from "../actions/auth";
+import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { LogOut, Car, Calendar, MapPin, Search, Star } from "lucide-react";
@@ -12,18 +12,21 @@ import { MdFeaturedPlayList } from "react-icons/md";
 import Image from "next/image";
 
 export default function Home() {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [pickupDate, setPickupDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
 
-  useEffect(() => {
-    const getUserSession = async () => {
-      const response = await fetch("/api/session");
-      const data = await response.json();
-      setUser(data?.user);
-    };
-    getUserSession();
-  }, []);
+  const  {data: session} = useSession()
+  const user = session?.user
+
+  // useEffect(() => {
+  //   const getUserSession = async () => {
+  //     const response = await fetch("/api/session");
+  //     const data = await response.json();
+  //     setUser(data?.user);
+  //   };
+  //   getUserSession();
+  // }, []);
 
   const navLinks = [
     { label: "Home", href: "/" },

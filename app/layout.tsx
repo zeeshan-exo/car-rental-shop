@@ -1,5 +1,6 @@
 "use client"
 import type { Metadata } from "next";
+import { Providers } from "@/providers";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
@@ -29,13 +30,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <SessionProvider>
+        <Providers>
         <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
          {children}
 
           <Toaster richColors position="top-right"/>
         </ReCaptchaProvider>
-        </SessionProvider>
+        </Providers>
       </body>
     </html>
   );

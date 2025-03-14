@@ -1,16 +1,15 @@
 "use server";
 import { getCollection } from "@/lib/db";
 import { BookingSchema, BookingType} from "@/lib/definations/bookingdefinations";
-import { decrypt } from "@/lib/session";
-import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 import ejs from 'ejs'
 import path from "path";
 import { sendMail } from "@/lib/email";
 import { getSocket } from "@/lib/socket";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth";
+import { headers } from "next/headers";
+
 
 export async function bookingOrder(state: any, formData: BookingType) {
   // const rawData = formData as Record<string, any>;
@@ -55,7 +54,7 @@ export async function bookingOrder(state: any, formData: BookingType) {
     return { errors: validatedFields.error.flatten().fieldErrors };
   }
 
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
   if(!session){
     console.log("No session found")
     return []
@@ -166,7 +165,7 @@ export async function getOneOrder(id:string) {
 
 export async function getVendorOrders() {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession( authOptions)
     if(!session){
       console.log("No user found")
       return[]
@@ -197,13 +196,13 @@ export async function getVendorOrders() {
 export async function getCustomerOrders(){
   try {
 
-    const session = await getServerSession(authOptions)
-    if(!session){
+    const session = await getServerSession( authOptions);
+      if(!session){
       console.log("No Session found.")
       return []
     }
 
-    const customerId = session.user.id;
+    const customerId = session?.user?.id;
   
     const ordersCollection = await getCollection("orders");
     if(!ordersCollection) throw new Error("Orders Collection not found");

@@ -33,7 +33,7 @@ const OtpVerify = () => {
         e.preventDefault()
         const otpValue = otpValues.join('')
         
-        const res = await fetch('/api/otp-verifiy', {
+        const res = await fetch('/api/otp-verify', {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({ email, otp: otpValue })

@@ -1,12 +1,12 @@
+
 import React from 'react';
-import { cookies } from 'next/headers';
-import { decrypt } from '@/lib/session';
 import Link from 'next/link';
 import VendorOrdersManagement from './displayOrder';
-import { useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth/auth';
 
 export default async function OrdersPage() {
-  const {data: session} = useSession()
+  const session =await  getServerSession(authOptions)
 
   return (
     <div className="min-h-screen ">

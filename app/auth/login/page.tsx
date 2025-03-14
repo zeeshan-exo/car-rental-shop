@@ -9,18 +9,20 @@ export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "authenticated" && session?.user) {
-      const role = session.user.role;
-      if (role === "customer") router.push("/user");
-      else if (role === "vendor") router.push("/vendor");
-      else if (role === "admin") router.push("/admin");
-      else router.push("/");
+    if (status === "authenticated") {
+      const role = session?.user?.role;
+      if (role) {
+        const roleRoutes: { [key: string]: string } = {
+          customer: "/user",
+          vendor: "/vendor",
+          admin: "/admin",
+        };
+        router.push(roleRoutes[role] || "/");
+      } else {
+        router.push("/");
+      }
     }
   }, [status, session, router]);
 
-  return (
-    <div>
-      <LoginForm />
-    </div>
-  );
+  return <LoginForm />;
 }

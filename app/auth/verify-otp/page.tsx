@@ -1,9 +1,9 @@
-import OtpVerification from "./OtpVerificationForm"
+import OtpVerify from "./OtpVerificationForm"
 
 const page = () => {
   return (
    <div>
-    <OtpVerification/>
+    <OtpVerify/>
    </div>
   )
 }

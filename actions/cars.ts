@@ -2,7 +2,9 @@
 import { getCollection } from "@/lib/db";
 import { CarSchema } from "@/lib/definations/carDefinations";
 import { ObjectId } from "mongodb";
-import { getServerSession } from "@/lib/auth-utils";
+import { authOptions } from "@/lib/auth/auth";
+import { getServerSession } from "next-auth";
+
 
 export async function addCar(state: any, formData: FormData) {
   const rawData = Object.fromEntries(formData.entries()) as Record<string, any>;
@@ -18,10 +20,31 @@ export async function addCar(state: any, formData: FormData) {
     }
   }
 
-  // Rest of the parsing code...
-  
-  // Use our wrapped getServerSession function with no arguments
-  const session = await getServerSession();
+  if (rawData.details) {
+    if (typeof rawData.details === "string" && rawData.details.trim() !== "") {
+      try {
+        rawData.details = JSON.parse(rawData.details as string);
+      } catch (error) {
+        console.error("Error parsing details field:", error);
+      }
+    } else {
+      rawData.details = { text: "", specs: {} };
+    }
+  } else {
+    rawData.details = { text: "", specs: {} };
+  }
+
+  if (rawData.modelYear) {
+    rawData.modelYear = Number(rawData.modelYear);
+  }
+  if (rawData.rentalRate) {
+    rawData.rentalRate = Number(rawData.rentalRate);
+  }
+  if (rawData.carQuantity) {
+    rawData.carQuantity = Number(rawData.carQuantity);
+  }
+ 
+ const session = await getServerSession( authOptions)
   if(!session){
     console.log("No Session found")
     return []
@@ -33,33 +56,37 @@ export async function addCar(state: any, formData: FormData) {
     vendorEmail: session.user?.email,
   };
 
-  // Rest of the function remains the same...
-}
+  const validatedFields = CarSchema.safeParse(rawData);
+  if (!validatedFields.success) {
+    console.error("Validation Errors:", validatedFields.error.flatten());
+    return { errors: validatedFields.error.flatten().fieldErrors };
+  }
 
-// Update other functions to use the new getServerSession approach
-export async function getVendorCars() {
+  const now = new Date();
+  const finalCarData = {
+    ...validatedFields.data,
+    createdAt: validatedFields.data.createdAt || now,
+    updatedAt: now,
+  };
+
   try {
-    const session = await getServerSession();
-    if (!session) {
-      console.log("No session found");
-      return [];
+    const carsCollection = await getCollection("cars"); 
+    if (!carsCollection) {
+      return { errors: { database: "Cars collection not found" } };
     }
-
-    if (session.user?.role !== "vendor") {
-      console.log("User is not a vendor");
-      return [];
-    }
-    
-    // Rest of the function remains the same...
-  } catch (error) {
-    console.error("Error fetching vendor cars:", error);
-    return [];
+    const result = await carsCollection.insertOne(finalCarData);
+    console.log("Data:", result);
+    return { success: true, message: "Car added successfully!" };
+  } catch (error: any) {
+    console.error("Error creating car:", error);
+    return {
+      errors: {
+        database: "Failed to create car",
+        details: error.message,
+      },
+    };
   }
 }
-
-// Other functions remain the same...
-
-// The rest of your functions remain the same, just ensure they're using the new authOptions import
 
 export async function getAllCars(query = "", page: number | string = 1, limit = 9) {
   try {
@@ -117,10 +144,9 @@ export async function getCar(id:string) {
   }
 }
 
-
 export async function getVendorCars() {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(authOptions)
     if (!session) {
       console.log("No session found");
       return [];
@@ -130,7 +156,7 @@ export async function getVendorCars() {
       console.log("User is not a vendor");
       return [];
     }
-    
+
     const vendorId = session.user?.id;
     const carsCollection = await getCollection("cars");
     if (carsCollection) {
@@ -140,15 +166,13 @@ export async function getVendorCars() {
         _id: car._id.toString(),
       }));
     }
-    
+
     return [];
   } catch (error) {
     console.error("Error fetching vendor cars:", error);
     return [];
   }
 }
-
-
 
 
 export async function updateCar(carId: string, formData: FormData) {

@@ -17,14 +17,12 @@ const OtpVerification= () => {
         newOtpValues[index] = value.substring(0, 1)
         setOtpValues(newOtpValues)
 
-        // Move to next input if current field is filled
         if (value && index < 5) {
             inputRefs.current[index + 1].focus()
         }
     }
 
     const handleKeyDown = (index, e) => {
-        // Move to previous input on backspace
         if (e.key === 'Backspace' && !otpValues[index] && index > 0) {
             inputRefs.current[index - 1].focus()
         }
@@ -34,7 +32,7 @@ const OtpVerification= () => {
         e.preventDefault()
         const otpValue = otpValues.join('')
         
-        const res = await fetch('/api/otp-verifiy', {
+        const res = await fetch('/api/otp-verify', {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({ email, otp: otpValue })
@@ -53,7 +51,7 @@ const OtpVerification= () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="w-full max-w-md p-6">
                 <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-                    {/* Header */}
+
                     <div className="bg-indigo-700 p-6 text-center">
                         <h1 className="text-2xl font-bold text-white">Verification Code</h1>
                         <p className="mt-2 text-indigo-100">
