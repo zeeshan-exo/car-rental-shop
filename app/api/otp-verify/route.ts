@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request){
 
-    console.log("otp verifiication email....")
     const {email, otp} = await req.json()
     const userCollection = await getCollection("users")
 
@@ -16,7 +15,7 @@ export async function POST(req: Request){
         return NextResponse.json({error: "Token expires or no OTP found"}, {status: 400})
     }
 
-    await userCollection.updateOne({email}, {$set:  {status:"active", otp: "verified", otpExpires: null}})
+    await userCollection.updateOne({email}, {$set:  { otp: "verified", otpExpires: null}})
 
     return NextResponse.json({success: true})
 }

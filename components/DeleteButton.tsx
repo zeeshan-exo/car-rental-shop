@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { deleteUser } from "@/actions/users";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { MdDelete } from "react-icons/md";
 
 interface Props{

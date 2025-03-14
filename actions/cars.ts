@@ -10,7 +10,6 @@ export async function addCar(state: any, formData: FormData) {
   const rawData = Object.fromEntries(formData.entries()) as Record<string, any>;
 
   delete rawData.image;
-  console.log("RawData:", rawData);
 
   if (rawData.images) {
     try {
@@ -147,6 +146,7 @@ export async function getCar(id:string) {
 export async function getVendorCars() {
   try {
     const session = await getServerSession(authOptions)
+
     if (!session) {
       console.log("No session found");
       return [];
