@@ -132,7 +132,7 @@ const ProductForm = ({ carData = null }) => {
   return (
     <div>
       <button
-        className="bg-blue-600 text-white rounded-lg px-4 py-2 mb-4 flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-md"
+        className="bg-AppPrimary text-white rounded-lg px-4 py-2 mb-4 flex items-center gap-2 hover:bg-AppPrimary2 ransition-colors shadow-md"
         onClick={() => setIsModalOpen(true)}
       >
         {carData ? <><Edit size={18} /> Edit Car</> : <><Plus size={18} /> Add Car</>}
@@ -141,7 +141,7 @@ const ProductForm = ({ carData = null }) => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-hidden">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative flex flex-col max-h-[95vh]">
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 flex justify-between items-center flex-shrink-0">
+            <div className="bg-gradient-to-r from-AppPrimary to-AppPrimary2 p-6 flex justify-between items-center flex-shrink-0">
               <h2 className="text-2xl font-bold text-white">
                 {carData ? "Edit Car Details" : "Add New Car"}
               </h2>
@@ -190,7 +190,7 @@ const ProductForm = ({ carData = null }) => {
                     />
                     <button
                       type="button"
-                      className="mt-2 text-blue-600 flex items-center gap-1 text-sm hover:text-blue-800 transition-colors"
+                      className="mt-2 text-AppPrimary flex items-center gap-1 text-sm hover:text-AppPrimary2 transition-colors"
                       onClick={() => setShowDetailsSpecs((prev) => !prev)}
                     >
                       {showDetailsSpecs ? (
@@ -256,7 +256,7 @@ const ProductForm = ({ carData = null }) => {
                       />
                       <label 
                         htmlFor="image-upload" 
-                        className="flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer"
+                        className="flex items-center gap-2 bg-blue-50 text-AppPrimary px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer"
                       >
                         <ImageIcon size={18} /> Choose Files
                       </label>

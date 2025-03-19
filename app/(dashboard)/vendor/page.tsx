@@ -312,20 +312,13 @@ const Dashboard = () => {
                 </Card>
               </div>
 
-              {/* Right Column */}
               <div className="col-span-12 lg:col-span-4 space-y-6">
-                {/* Orders with improved UI */}
                 <Card className="shadow-sm">
-                  <CardHeader className="pb-2 pt-4 px-4">
-                    <CardTitle className="text-lg text-gray-800">Current Orders</CardTitle>
-                    <CardDescription className="text-gray-500">Recent activity from customers</CardDescription>
-                  </CardHeader>
                   <CardContent className="px-2 pt-2 pb-4">
                     <CurrentOrders/>
                   </CardContent>
                 </Card>
 
-                {/* Featured Vehicle with improved visual hierarchy */}
                 <div className="relative rounded-xl overflow-hidden shadow-sm h-64 group">
                   <div 
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"

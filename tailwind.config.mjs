@@ -9,13 +9,12 @@ export default {
   theme: {
   	extend: {
   		colors: {
-			AppPrimary:"#FFF27A",
-			AppSecondary: "#242529",
-			AppTertiary: "#DCDCDD",
-			AppLightPrimary:"#E7E7E7",
-			AppLightSecomdary:"#B2B5C2",
-			AppLightTertiary:"#B1B1B1",
-			AppMutedGray:"#726D6A",
+			AppPrimary: "#007BFF", 
+			AppPrimary2:"#004ea3", 
+			AppSecondary: "#1C1C1C", 
+			AppAccent: "#FF9500",  
+			AppLight: "#F5F5F5",  
+			AppDark: "#4B5563",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

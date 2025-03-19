@@ -26,7 +26,7 @@ const CurrentOrders = () => {
   const fetchOrders = async () => {
     try {
       const fetchedOrders = await getVendorOrders();
-      setOrders(fetchedOrders);
+      setOrders(fetchedOrders.slice(0, 3));
     } catch (error) {
       console.error("Error fetching orders:", error);
     }

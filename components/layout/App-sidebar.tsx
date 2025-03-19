@@ -52,7 +52,7 @@ export function AppSidebar() {
           <SidebarGroupLabel className="px-6 py-6">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-3 text-2xl font-bold text-gray-800">
-                <Car className="h-8 w-8 text-blue-600" />
+                <Car className="h-8 w-8 text-AppPrimary" />
                 AutoNex
               </span>
               <ChevronDown className="h-5 w-5 text-gray-500 cursor-pointer" />
@@ -67,7 +67,7 @@ export function AppSidebar() {
                   className={`
                     group relative mb-1 
                     ${activeItem === item.title 
-                      ? 'bg-blue-50 text-blue-600' 
+                      ? 'bg-blue-50 text-AppPrimary' 
                       : 'hover:bg-gray-100 text-gray-700'}
                   `}
                   onClick={() => setActiveItem(item.title)}
@@ -82,8 +82,8 @@ export function AppSidebar() {
                           className={`
                             h-5 w-5 
                             ${activeItem === item.title 
-                              ? 'text-blue-600' 
-                              : 'text-gray-500 group-hover:text-gray-700'}
+                              ? 'text-AppPrimary' 
+                              : 'text-AppDark group-hover:text-AppSecondary'}
                           `} 
                         />
                         <span className="font-medium">{item.title}</span>
@@ -108,16 +108,16 @@ export function AppSidebar() {
           className="flex items-center gap-4 w-full px-4 py-3 
                      hover:bg-gray-100 rounded-lg transition-colors"
         >
-          <Settings className="h-5 w-5 text-gray-500" />
-          <span className="text-gray-700 font-medium">Settings</span>
+          <Settings className="h-5 w-5 text-AppDark" />
+          <span className="text-AppSecondary font-medium">Settings</span>
         </SidebarMenuButton>
         
         <SidebarMenuButton 
           className="flex items-center gap-4 w-full px-4 py-3 
                      hover:bg-gray-100 rounded-lg transition-colors mt-2"
         >
-          <HelpCircle className="h-5 w-5 text-gray-500" />
-          <span className="text-gray-700 font-medium">Help & Support</span>
+          <HelpCircle className="h-5 w-5 text-AppDark" />
+          <span className="text-AppSecondary font-medium">Help & Support</span>
         </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>

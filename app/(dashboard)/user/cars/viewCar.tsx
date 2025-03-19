@@ -66,9 +66,9 @@ export default function Viewcar({ carId }: ViewcarProps) {
     <div>
       <Button
         onClick={openModal}
-        className="bg-amber-500 text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-yellow-700 transition-all duration-300 font-medium flex items-center gap-2"
+        className="bg-AppAccent text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-yellow-700 transition-all duration-300 font-medium flex items-center gap-2"
       >
-        View Details <ChevronRight size={16} />
+        Details <ChevronRight size={16} />
       </Button>
 
       {isOpen && (
@@ -82,7 +82,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                 </div>
               ) : car && (
                 <>
-                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 py-4 px-8 flex justify-between items-center">
+                  <div className="bg-gradient-to-r from-AppPrimary to-blue-600 py-4 px-8 flex justify-between items-center">
                     <h2 className="text-xl font-bold text-white flex items-center">
                       <Star className="mr-2" size={20} fill="white" stroke="none" /> 
                       Car Details
@@ -110,7 +110,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                       </div>
 
                       <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg border border-blue-100">
-                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-AppPrimary">
                           <CircleUserRound size={20} />
                         </div>
                         <div>
@@ -121,11 +121,11 @@ export default function Viewcar({ carId }: ViewcarProps) {
                       
                       <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-sm">
                         <h3 className="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-                          <Star className="mr-2 text-blue-500" size={18} /> Car Features
+                          <Star className="mr-2 text-AppPrimary" size={18} /> Car Features
                         </h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-y-5 gap-x-4">
                           {features.map((feature, index) => (
-                            <div key={index} className="flex items-center gap-2 text-gray-700 group hover:text-blue-600 transition-colors cursor-default">
+                            <div key={index} className="flex items-center gap-2 text-gray-700 group hover:text-AppPrimary transition-colors cursor-default">
                               <div className="p-1.5 bg-blue-50 rounded-lg group-hover:bg-blue-100 transition-colors">
                                 {feature.icon}
                               </div>
@@ -140,13 +140,13 @@ export default function Viewcar({ carId }: ViewcarProps) {
                       <div className="flex justify-between items-center mb-4">
                         <div className="flex gap-3">
                           <button 
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'overview' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`} 
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'overview' ? 'bg-blue-100 text-AppPrimary' : 'text-gray-600 hover:bg-gray-100'}`} 
                             onClick={() => setActiveTab('overview')}
                           >
                             Overview
                           </button>
                           <button 
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'booking' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}`}
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'booking' ? 'bg-blue-100 text-AppPrimary' : 'text-gray-600 hover:bg-gray-100'}`}
                             onClick={() => setActiveTab('booking')}
                           >
                             Booking
@@ -160,16 +160,16 @@ export default function Viewcar({ carId }: ViewcarProps) {
                             <div>
                               <div className="flex items-center gap-3 mb-2">
                                 <h2 className="text-3xl font-bold text-gray-800">{car.carName}</h2>
-                                <div className="flex items-center gap-1 text-blue-500">
+                                <div className="flex items-center gap-1 text-AppPrimary">
                                   <Star size={20} fill="currentColor" />
                                   <span className="text-sm font-medium">4.8</span>
                                 </div>
                               </div>
                               <div className="flex gap-2">
-                                <span className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">
+                                <span className="px-3 py-1 bg-blue-50 text-AppPrimary border border-blue-100 rounded-full text-sm font-medium">
                                   {car.brand}
                                 </span>
-                                <span className="px-3 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded-full text-sm font-medium">
+                                <span className="px-3 py-1 bg-blue-50 text-AppPrimary border border-blue-100 rounded-full text-sm font-medium">
                                   {car.modelYear}
                                 </span>
                                 <span className="px-3 py-1 bg-green-50 text-green-700 border border-green-100 rounded-full text-sm font-medium">
@@ -198,10 +198,10 @@ export default function Viewcar({ carId }: ViewcarProps) {
 
                             <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 shadow-sm">
                               <div className="flex items-end gap-2 mb-1">
-                                <span className="text-3xl font-bold text-blue-900">${car.rentalRate}</span>
-                                <span className="text-blue-700 mb-1">/day</span>
+                                <span className="text-3xl font-bold text-AppPrimary2">${car.rentalRate}</span>
+                                <span className="text-AppPrimary mb-1">/day</span>
                               </div>
-                              <p className="text-blue-700 text-sm mt-1">All taxes and fees included</p>
+                              <p className="text-AppPrimary text-sm mt-1">All taxes and fees included</p>
                             </div>
                           </>
                         )}

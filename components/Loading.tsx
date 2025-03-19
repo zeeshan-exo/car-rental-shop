@@ -80,11 +80,4 @@ const Loading = ({
   );
 };
 
-// Add these animations to your global CSS or Tailwind config
-// @keyframes fadeIn {
-//   from { opacity: 0; transform: scale(0.95); }
-//   to { opacity: 1; transform: scale(1); }
-// }
-// .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
-
 export default Loading;

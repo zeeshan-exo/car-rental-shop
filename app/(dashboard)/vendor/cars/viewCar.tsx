@@ -71,15 +71,15 @@ export default function Viewcar({ carId }: ViewcarProps) {
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-4xl font-extrabold text-gray-900 mb-2">{car.carName}</h2>
-              <div className="flex items-center space-x-2 text-gray-600">
-                <Fuel className="text-blue-500" size={18} />
+              <div className="flex items-center space-x-2 text-AppDark">
+                <Fuel className="text-AppPrimary" size={18} />
                 <span className="text-sm">
                   {car.details?.specs?.fuelType || 'N/A'} | {car.details?.specs?.transmission || 'N/A'}
                 </span>
               </div>
             </div>
             <button 
-              className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-sm font-semibold transition-all duration-300 hover:shadow-md"
+              className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-AppPrimary rounded-lg text-sm font-semibold transition-all duration-300 hover:shadow-md"
               onClick={() => setIsEditing(true)}
             >
               <Edit size={16} /> Edit Details
@@ -87,16 +87,16 @@ export default function Viewcar({ carId }: ViewcarProps) {
           </div>
 
           <div className="bg-gray-50 p-6 rounded-xl border border-gray-200 shadow-sm space-y-4">
-            <p className="text-gray-700 italic">{car.details?.text || 'No additional details available.'}</p>
+            <p className="text-AppDark italic">{car.details?.text || 'No additional details available.'}</p>
             
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center space-x-2">
-                <GaugeCircle className="text-blue-500" size={18} />
-                <span className="text-sm text-gray-600">Mileage: {car.details?.specs?.mileage || 'N/A'}</span>
+                <GaugeCircle className="text-AppPrimary" size={18} />
+                <span className="text-sm text-AppSecondary">Mileage: {car.details?.specs?.mileage || 'N/A'}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Users className="text-blue-500" size={18} />
-                <span className="text-sm text-gray-600">Capacity: {car.details?.specs?.capacity || 'N/A'}</span>
+                <Users className="text-AppPrimary" size={18} />
+                <span className="text-sm text-AppSecondary">Capacity: {car.details?.specs?.capacity || 'N/A'}</span>
               </div>
             </div>
 
@@ -121,10 +121,10 @@ export default function Viewcar({ carId }: ViewcarProps) {
             <div className="flex justify-between items-center">
               <div>
                 <div className="flex items-end gap-2">
-                  <span className="text-4xl font-bold text-blue-900">${car.rentalRate}</span>
-                  <span className="text-blue-700 mb-1">/day</span>
+                  <span className="text-4xl font-bold text-AppPrimary2">${car.rentalRate}</span>
+                  <span className="text-AppPrimary2 mb-1">/day</span>
                 </div>
-                <p className="text-sm text-blue-700 mt-1">Competitive daily rental rate</p>
+                <p className="text-sm text-AppPrimary2 mt-1">Competitive daily rental rate</p>
               </div>
               <Shield className="text-green-500" size={36} />
             </div>
@@ -138,7 +138,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
     <div>
       <Button
         onClick={openModal}
-        className="bg-blue-600 text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 font-medium flex items-center gap-2"
+        className="bg-AppPrimary text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-AppPrimary transition-all duration-300 font-medium flex items-center gap-2"
       >
         View Details <ChevronRight size={16} />
       </Button>
@@ -146,7 +146,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
       {isOpen && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 overflow-y-auto">
           <div className="min-h-screen px-4 py-8 flex items-center justify-center">
-            <div className="bg-white w-full max-w-6xl rounded-3xl shadow-2xl relative overflow-hidden">
+            <div className="bg-AppLight w-full max-w-6xl rounded-3xl shadow-2xl relative overflow-hidden">
               {loading ? (
                 <div className="h-96 flex flex-col items-center justify-center">
                   <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
@@ -154,14 +154,14 @@ export default function Viewcar({ carId }: ViewcarProps) {
                 </div>
               ) : (
                 <>
-                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 py-5 px-8 flex justify-between items-center">
+                  <div className="bg-AppPrimary y py-5 px-8 flex justify-between items-center">
                     <h2 className="text-2xl font-bold text-white flex items-center">
                       <Star className="mr-3" size={24} fill="white" stroke="none" /> 
                       Car Details
                     </h2>
                     <button
                       onClick={closeModal}
-                      className="p-3 hover:bg-blue-700/50 rounded-full transition-colors text-white"
+                      className="p-3 hover:bg-AppSecondary/50 rounded-full transition-colors text-white"
                     >
                       <IoClose size={28} />
                     </button>

@@ -22,7 +22,7 @@ const CarCard = ({ car }) => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </div>
         )}
-        <span className="absolute top-4 right-4 bg-yellow-400 text-black text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
+        <span className="absolute top-4 right-4 bg-AppAccent text-black text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
           ${car.rentalRate}/day
         </span>
       </div>

@@ -6,12 +6,14 @@ import Link from "next/link";
 import { Search, House, Heart, ShoppingBag, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { useSession } from "next-auth/react";
+import { motion } from "framer-motion";
+import Loading from "@/components/Loading";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return <div><Loading variant="minimal"/></div>;
   }
 
   const user = session?.user;
@@ -20,7 +22,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="flex h-screen bg-gray-100">
       <div className="flex flex-col flex-1">
         <Header
-          title="Expo"
+          title="AutoNex"
           navLinks={[
             { label: <House />, href: "/" },
             { label: <LayoutDashboard />, href: "/user" },

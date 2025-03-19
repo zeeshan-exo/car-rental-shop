@@ -11,12 +11,12 @@ export default async function DisplayVendorCars() {
 
   if (!cars || cars.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-        <Car className="w-12 h-12 text-gray-300 mb-2" />
-        <p className="text-gray-500 text-center font-medium">
+      <div className="flex flex-col items-center justify-center h-64 bg-AppLight rounded-lg border border-dashed border-AppSecondary/30">
+        <Car className="w-12 h-12 text-AppSecondary/50 mb-2" />
+        <p className="text-AppSecondary text-center font-medium">
           No cars found in your inventory.
         </p>
-        <p className="text-gray-400 text-sm">Add your first car to get started.</p>
+        <p className="text-AppSecondary/70 text-sm">Add your first car to get started.</p>
       </div>
     );
   }
@@ -27,13 +27,13 @@ export default async function DisplayVendorCars() {
         {cars.map((car) => (
           <div
             key={car._id}
-            className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+            className="bg-white border border-AppLight rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
           >
             <div className="relative h-60">
               {car.images &&
               Array.isArray(car.images) &&
               car.images.length > 0 ? (
-                <div className="h-full ">
+                <div className="h-full">
                   <ImageSlider images={car.images} />
                 </div>
               ) : (
@@ -44,7 +44,7 @@ export default async function DisplayVendorCars() {
                 />
               )}
               <div className="absolute top-3 right-3">
-                <span className="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                <span className="bg-AppPrimary text-white text-xs font-bold px-2 py-1 rounded-full">
                   {car.brand}
                 </span>
               </div>
@@ -52,10 +52,10 @@ export default async function DisplayVendorCars() {
             
             <div className="p-5">
               <div className="flex justify-between items-start mb-2">
-                <h2 className="text-xl font-bold text-gray-800 line-clamp-1">
+                <h2 className="text-xl font-bold text-AppDark line-clamp-1">
                   {car.carName}
                 </h2>
-                <p className="text-green-600 font-bold text-xl">
+                <p className="text-AppAccent font-bold text-xl">
                   <span className="flex items-center">
                     <DollarSign className="w-5 h-5" />
                     {car.rentalRate}
@@ -64,36 +64,34 @@ export default async function DisplayVendorCars() {
               </div>
               
               <div className="space-y-2 mb-3">
-                <div className="flex items-center text-gray-600">
-                  <Tag className="w-4 h-4 mr-2 text-gray-400" />
+                <div className="flex items-center text-AppSecondary">
+                  <Tag className="w-4 h-4 mr-2 text-AppPrimary/70" />
                   <span className="text-sm">Model Year:</span>
                   <span className="ml-1 text-sm font-medium">
                     {car.modelYear}
                   </span>
                 </div>
                 
-                <div className="flex items-center text-gray-600">
-                  <Box className="w-4 h-4 mr-2 text-gray-400" />
+                <div className="flex items-center text-AppSecondary">
+                  <Box className="w-4 h-4 mr-2 text-AppPrimary/70" />
                   <span className="text-sm">Available:</span>
                   <span className="ml-1 text-sm font-medium">
                     {car.carQuantity} units
                   </span>
                 </div>
 
-                <div className="flex items-center text-gray-600">
-                  <MapPin className="w-4 h-4 mr-2 text-gray-400" />
+                <div className="flex items-center text-AppSecondary">
+                  <MapPin className="w-4 h-4 mr-2 text-AppPrimary/70" />
                   <span className="text-sm">City:</span>
                   <span className="ml-1 text-sm font-medium">{car.city}</span>
                 </div>
               </div>
               
-              <p className="text-gray-500 text-sm line-clamp-1 mb-4 ">
+              <p className="text-AppSecondary/80 text-sm line-clamp-1 mb-4">
                 {car.details?.text}
               </p>
-
               
-              
-              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+              <div className="flex items-center justify-between pt-3 border-t border-AppLight">
                 <Viewcar carId={car._id.toString()} />
                 <DeletecarButton carId={car._id.toString()} />
               </div>
