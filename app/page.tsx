@@ -4,16 +4,17 @@ import { motion } from 'framer-motion';
 import Footer from '@/components/layout/Footer';
 import Features from '@/components/sections/Features';
 import { getAllCars } from '@/actions/cars';
+import Link from 'next/link';
 
 const LandingPage = () => {
   const [cars, setCars] = useState([]);
-  const [filters, setFilters] = useState({
-    brand: "",
-    availability: "all",
-    minPrice: 0,
-    maxPrice: 3000,
-    city: ""
-  });
+  // const [filters, setFilters] = useState({
+  //   brand: "",
+  //   availability: "all",
+  //   minPrice: 0,
+  //   maxPrice: 3000,
+  //   city: ""
+  // });
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -34,15 +35,15 @@ const LandingPage = () => {
     fetchCars();
   }, []);
 
-  const filteredCars = cars.filter(car => {
-    return (
-      (filters.brand === "" || car.brand.toLowerCase().includes(filters.brand.toLowerCase())) &&
-      (filters.availability === "all" || car.isAvailable === filters.availability) &&
-      (filters.city === "" || car.city.toLowerCase().includes(filters.city.toLowerCase())) &&
-      car.rentalRate >= filters.minPrice &&
-      car.rentalRate <= filters.maxPrice
-    );
-  });
+  // const filteredCars = cars.filter(car => {
+  //   return (
+  //     (filters.brand === "" || car.brand.toLowerCase().includes(filters.brand.toLowerCase())) &&
+  //     (filters.availability === "all" || car.isAvailable === filters.availability) &&
+  //     (filters.city === "" || car.city.toLowerCase().includes(filters.city.toLowerCase())) &&
+  //     car.rentalRate >= filters.minPrice &&
+  //     car.rentalRate <= filters.maxPrice
+  //   );
+  // });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -81,7 +82,7 @@ const LandingPage = () => {
             animate={{ y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Find Your Perfect Ride
+            Need a Ride? We've Got You Covered!
           </motion.h1>
           <motion.p 
             className="text-xl mb-8"
@@ -89,16 +90,16 @@ const LandingPage = () => {
             animate={{ y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            Explore our extensive collection of premium vehicles
+            Whether it's a quick drive around the city or the weekend getaway, we've got the perfect ride for you.
           </motion.p>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <a href="#cars" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
+            <Link href="/user/cars" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
               Browse Cars
-            </a>
+            </Link>
           </motion.div>
         </div>
       </motion.div>
@@ -114,13 +115,13 @@ const LandingPage = () => {
             Available Cars
           </motion.h2>
           
-          <motion.div 
+          {/* <motion.div 
             className="flex flex-wrap gap-3"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-          >
-            <input
+          > */}
+            {/* <input
               type="text"
               placeholder="Search by brand"
               className="border border-gray-300 rounded-md px-4 py-2"
@@ -145,9 +146,9 @@ const LandingPage = () => {
               <option value="500">Under $500</option>
               <option value="750">Under $750</option>
               <option value="1000">Under $100</option>
-            </select>
-          </motion.div>
-        </div>
+            </select>*/}
+          {/* </motion.div> */}
+        </div> 
 
         <motion.div 
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -155,7 +156,7 @@ const LandingPage = () => {
           initial="hidden"
           animate="visible"
         >
-          {filteredCars.map((car) => (
+          {cars.map((car) => (
             <motion.div 
               key={car._id}
               className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
@@ -215,7 +216,7 @@ const LandingPage = () => {
           ))}
         </motion.div>
         
-        {filteredCars.length === 0 && (
+        {cars.length === 0 && (
           <motion.div 
             className="bg-white p-6 rounded-lg shadow text-center"
             initial={{ opacity: 0 }}

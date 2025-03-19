@@ -141,7 +141,7 @@ const ProductForm = ({ carData = null }) => {
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-hidden">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative flex flex-col max-h-[95vh]">
-            <div className="bg-gradient-to-r from-AppPrimary to-AppPrimary2 p-6 flex justify-between items-center flex-shrink-0">
+            <div className="bg-AppPrimary p-6 flex justify-between items-center flex-shrink-0 rounded-xl">
               <h2 className="text-2xl font-bold text-white">
                 {carData ? "Edit Car Details" : "Add New Car"}
               </h2>

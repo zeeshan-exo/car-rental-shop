@@ -25,7 +25,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
               </Link>
             }
             navLinks={[
-              { label: <House className="text-gray-700" />, href: "/" },
+              // { label: <House className="text-gray-700" />, href: "/" },
               { 
                 label: <LayoutDashboard className="text-gray-700" />, 
                 href: "/vendor",
@@ -38,10 +38,10 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
                 label: <ShoppingCart className="text-gray-700" />, 
                 href: "/vendor/orders",
               },
-              { 
-                label: <Search className="text-gray-700" />, 
-                href: "/vendor/search" 
-              },
+              // { 
+              //   label: <Search className="text-gray-700" />, 
+              //   href: "/vendor/search" 
+              // },
             ]}
             rightContent={
               <div className="flex items-center gap-4">

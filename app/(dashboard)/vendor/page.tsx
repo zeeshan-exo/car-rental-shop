@@ -276,8 +276,8 @@ const Dashboard = () => {
                       </Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-0">
-                    <div className="h-80 relative">
+                  <CardContent className="p-0 ">
+                    <div className="relative">
                       {loading ? (
                         <div className="absolute inset-0 flex items-center justify-center bg-gray-50/80">
                           <div className="animate-spin h-8 w-8 border-4 border-sky-600 border-t-transparent rounded-full"></div>
@@ -288,7 +288,6 @@ const Dashboard = () => {
                   </CardContent>
                 </Card>
 
-                {/* Chart with improved UI */}
                 <Card className="shadow-sm">
                   <CardHeader className="pb-2 pt-4 px-4 flex flex-row justify-between items-center">
                     <div>
@@ -304,7 +303,7 @@ const Dashboard = () => {
                       <Button size="sm" className="rounded-sm bg-white text-sky-700 shadow-sm text-xs">Yearly</Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="pt-4 pb-5">
+                  <CardContent >
                     <div className="p-2">
                       <PieChartWithCustomizedLabel />
                     </div>

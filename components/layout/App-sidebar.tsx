@@ -89,11 +89,11 @@ export function AppSidebar() {
                         <span className="font-medium">{item.title}</span>
                       </div>
                       
-                      {item.notifications && (
+                      {/* {item.notifications && (
                         <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
                           {item.notifications}
                         </span>
-                      )}
+                      )} */}
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

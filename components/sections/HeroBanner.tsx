@@ -31,10 +31,10 @@ const HeroBanner = () => {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }} 
         >
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight drop-shadow-md">
-            Elevate Your Journey
+          Need a Ride? We've Got You Covered!
           </h1>
           <p className="text-base sm:text-lg text-gray-200 opacity-90 drop-shadow-sm">
-            Rent premium cars for unforgettable adventures
+           Whether it's a quick drive around the city or the weekend getaway, we've got the perfect ride for you.
           </p>
 
           <motion.div 

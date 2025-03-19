@@ -75,9 +75,9 @@ export default async function DisplayVendorCars() {
                 <div className="flex items-center text-AppSecondary">
                   <Box className="w-4 h-4 mr-2 text-AppPrimary/70" />
                   <span className="text-sm">Available:</span>
-                  <span className="ml-1 text-sm font-medium">
+                  {/* <span className="ml-1 text-sm font-medium">
                     {car.carQuantity} units
-                  </span>
+                  </span> */}
                 </div>
 
                 <div className="flex items-center text-AppSecondary">

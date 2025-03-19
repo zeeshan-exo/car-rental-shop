@@ -99,7 +99,6 @@ export default function BookingForm({
   const [state, action, isPending] = useActionState(bookingOrder, null);
   const [initialValues, setInitialValues] = useState({});
 
-  // Use NextAuth's useSession hook instead of manual fetch
   const { data: session } = useSession();
   const user = session?.user;
 

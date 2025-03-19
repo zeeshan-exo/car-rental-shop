@@ -13,7 +13,7 @@ const fallbackData = [
 ];
 
 const COLORS = {
-  bar: "#2563eb",
+  bar: "#007BFF",
   hover: "#1d4ed8"
 };
 
@@ -42,13 +42,12 @@ const BarChartComponent = () => {
             }
           });
           
-          // Convert to format needed for bar chart
+    
           const transformedData = Object.keys(brandCounts).map(brand => ({
             name: brand,
             value: brandCounts[brand]
           }));
-          
-          // Sort by value descending for better visualization
+
           transformedData.sort((a, b) => b.value - a.value);
           
           setCarData(transformedData);
