@@ -1,10 +1,10 @@
-"use client";
+"use client"
 import React from "react";
 import Header from "@/components/layout/Header";
 import { useSession } from "next-auth/react";
 import ProfileImage from "@/components/user/ProfileImage";
 import Link from "next/link";
-import { House, Search, ShoppingCart, ShoppingBag, LayoutDashboard } from "lucide-react";
+import { House, Search, ShoppingCart, Car, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/App-sidebar";
@@ -31,7 +31,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
                 href: "/vendor",
               },
               { 
-                label: <ShoppingBag className="text-gray-700" />, 
+                label: <Car className="text-gray-700" />, 
                 href: "/vendor/cars",
               },
               { 

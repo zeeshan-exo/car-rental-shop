@@ -78,7 +78,7 @@ const ProfileImage = () => {
 
             <Button
               onClick={() => signOut()}
-              className="mt-6 w-full text-sm font-medium text-white bg-red-500 hover:bg-red-600 p-3 rounded-md flex items-center justify-center transition-colors"
+              className="mt-6 w-full text-sm font-medium text-white bg-AppDanger hover:bg-red-600 p-3 rounded-md flex items-center justify-center transition-colors"
             >
               <LogOut size={16} className="mr-2" /> Logout
             </Button>

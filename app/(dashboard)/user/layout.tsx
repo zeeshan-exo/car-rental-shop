@@ -3,10 +3,9 @@ import React from "react";
 import Header from "../../../components/layout/Header";
 import ProfileImage from "@/components/user/ProfileImage";
 import Link from "next/link";
-import { Search, House, Heart, ShoppingBag, LayoutDashboard } from "lucide-react";
+import { Search, House, Heart,Car , LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { useSession } from "next-auth/react";
-import { motion } from "framer-motion";
 import Loading from "@/components/Loading";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
@@ -26,7 +25,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           navLinks={[
             { label: <House />, href: "/" },
             { label: <LayoutDashboard />, href: "/user" },
-            { label: <ShoppingBag />, href: "/user/cars" },
+            { label: <Car />, href: "/user/cars" },
             { label: <Heart />, href: "" },
             { label: <Search />, href: "" },
           ]}

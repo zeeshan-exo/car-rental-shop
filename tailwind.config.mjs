@@ -15,6 +15,7 @@ export default {
 			AppAccent: "#FF9500",  
 			AppLight: "#F5F5F5",  
 			AppDark: "#4B5563",
+			AppDanger: "#DC3545",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

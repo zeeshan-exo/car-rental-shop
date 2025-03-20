@@ -11,7 +11,12 @@ import { useRouter } from "next/navigation"
 import { getAllCars } from "@/actions/cars"
 import { getCustomerOrders } from "@/actions/booking"
 import { Input } from "@/components/ui/input"
+import { Tabs, TabsTrigger, TabsList, TabsContent } from "@radix-ui/react-tabs"
 import { useSession } from "next-auth/react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@radix-ui/react-label"
+import CustomTabs from "@/components/Tabs"
+import StatusCards from "@/components/StatusCards"
 
 interface Order {
   _id: string;
@@ -54,6 +59,34 @@ const page = () => {
 
   const { data: session } = useSession()
   const user = session?.user
+
+  const tabsData = [
+    {
+      value: 'booking',
+      tabTitle: 'Booking',
+      cardTitle: 'Book Now',
+      cardDescription: 'Plenty of Car Options for you to book .',
+      cardContent: ""
+    },
+    {
+      value: 'track',
+      tabTitle: 'Track',
+      cardTitle: 'Track Your Order',
+      cardDescription: 'This is the description for track.',
+    },
+    {
+      value: 'messages',
+      tabTitle: 'Messages',
+      cardTitle: 'Messsage from vendor',
+      cardDescription: 'Message about your Booking.',
+    },
+    {
+      value: 'history',
+      tabTitle: 'History',
+      cardTitle: 'Your past bookings',
+      cardDescription: 'You have rented these cars in the past would you like to rent them again.',
+    },
+  ]
 
   return (
     <MapProvider>
@@ -100,6 +133,10 @@ const page = () => {
               </Button>
             </div>
           </div>
+        </div>
+
+        <div className="container mx-auto px-4 py-6">
+          <CustomTabs tabs={tabsData}/>
         </div>
 
         <div className="container mx-auto px-4 py-8">
@@ -171,14 +208,15 @@ const page = () => {
 
             <div className="col-span-12 lg:col-span-4 space-y-6">
               {/* <CurrentOrders/> */}
-
+            
               <div className="relative rounded-xl overflow-hidden shadow-md h-64 group">
                 <div 
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                   style={{ backgroundImage: "url('/pexels-murdashots.jpg')" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                  <h3 className="text-xl font-bold text-white">All Vehicles</h3>
+            
+                <CardHeader>All Vehicles</CardHeader>
                   <Button 
                     size="sm" 
                     className="mt-3 bg-white text-sky-800 hover:bg-sky-50 w-32"
@@ -189,53 +227,38 @@ const page = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                <div className="bg-white rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-sky-700">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h2 className="text-gray-700 font-medium">Available Cars</h2>
-                      <p className="text-3xl font-bold text-gray-800 mt-2">{totalCars}</p>
-                      <p className="text-gray-500 text-sm mt-1">Ready for rent in your inventory</p>
-                    </div>
-                    <div className="h-12 w-12 rounded-full bg-sky-100 flex items-center justify-center">
-                      <Car className="h-5 w-5 text-sky-700" />
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-white rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-amber-600">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h2 className="text-gray-700 font-medium">Rented Cars</h2>
-                      <p className="text-3xl font-bold text-gray-800 mt-2">{rentedCars.length}</p>
-                      <p className="text-gray-500 text-sm mt-1">You have rented {rentedCars.length} cars.</p>
-                      <Button variant="outline" size="sm" className="mt-3 text-xs rounded-md text-amber-600 border-amber-600 hover:bg-amber-50">
-                        View Details
-                      </Button>
-                    </div>
-                    <div className="h-12 w-12 rounded-full bg-amber-100 flex items-center justify-center">
-                      <Car className="h-5 w-5 text-amber-600" />
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="bg-white rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-indigo-600 sm:col-span-2 lg:col-span-1">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h2 className="text-gray-700 font-medium">Car Rent</h2>
-                      <p className="text-3xl font-bold text-gray-800 mt-2">$1400</p>
-                      <p className="text-gray-500 text-sm mt-1">It will increase to 5% after due date</p>
-                    </div>
-                    <div className="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
-                      <CreditCard className="h-5 w-5 text-indigo-600" />
-                    </div>
-                  </div>
-                </div>
+              <StatusCards
+              title="Available Cars"
+              count={totalCars}
+              icon={< Car className="h-5 w-5 text-AppPrimary"/>}
+              description={`Ready for rent i your inventory.`}
+              iconBgColor="bg-blue-100"
+              borderColor="border-AppPrimary"
+              />
+
+             <StatusCards
+              title="Rented Cars"
+              count={rentedCars.length}
+              description={`you have ${rentedCars.length} rented cars.`}
+              buttonText="View Details"
+              icon={<Car className="h-5 w-5 text-AppAccent"/>}
+              iconBgColor="bg-amber-100"
+              borderColor="border-AppAccent"
+             />
+
+             <StatusCards
+              title="Previous Bookings"
+              count={rentedCars.length}
+              description={`you have booked ${rentedCars.length} rented cars.`}
+              icon={<Car className="h-5 w-5 text-indigo-600"/>}
+              iconBgColor="bg-indigo-100"
+              borderColor="border-indigo-600"
+             />
+
               </div>
             </div>
           </div>
         </div>
-      </div>
     </MapProvider>
   )
 }

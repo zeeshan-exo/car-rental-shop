@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SlidersHorizontal } from "lucide-react";
+import { Dialog, DialogClose } from "@radix-ui/react-dialog";
 
 interface FilterField {
   key: string;
@@ -34,7 +35,11 @@ const FilterModal: React.FC<FilterProps> = ({ filterFields, onFilterChange }) =>
         </Button>
       </DrawerTrigger>
       <DrawerContent className="p-4 w-80 h-full fixed right-0 bg-AppLight shadow-lg">
-        <h2 className="text-lg font-semibold mb-4">Filter Cars</h2>
+        <DrawerHeader>
+          <DrawerTitle>Filter By:</DrawerTitle>
+          <DrawerDescription>Filter Cars which suits you best.
+          </DrawerDescription>
+        </DrawerHeader>
         {filterFields.map((field) => (
           <div key={field.key} className="mb-4">
             <label className="text-sm font-medium block mb-2">{field.label}</label>
@@ -52,9 +57,12 @@ const FilterModal: React.FC<FilterProps> = ({ filterFields, onFilterChange }) =>
             </Select>
           </div>
         ))}
+        <DialogClose asChild>
         <Button className="mt-4 w-full bg-AppAccent hover:bg-amber-600" onClick={() => setIsOpen(false)}>
           Apply
         </Button>
+        </DialogClose>
+
       </DrawerContent>
     </Drawer>
   );
