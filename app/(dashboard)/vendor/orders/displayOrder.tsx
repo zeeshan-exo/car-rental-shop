@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { getVendorOrders, updateOrderStatus } from "@/actions/booking";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Booking } from "@/lib/definations/bookingdefinations";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -52,10 +53,10 @@ interface Order {
 }
 
 export default function VendorOrdersManagement() {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<Booking[]>([]);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   const fetchOrders = async () => {
@@ -79,8 +80,8 @@ export default function VendorOrdersManagement() {
     if (searchTerm) {
       const filtered = orders.filter(
         (order) =>
-          order.userDetails?.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          order.carDetails?.carName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order?.userDetails?.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          order?.carDetails?.carName.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.userDetails?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
           order.status.toLowerCase().includes(searchTerm.toLowerCase())
       );

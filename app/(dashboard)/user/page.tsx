@@ -5,36 +5,20 @@ import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, Search } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
 import { Map } from "@/components/Map"
-import CurrentOrders from "@/app/(dashboard)/vendor/cars/currentBookings"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { getAllCars } from "@/actions/cars"
 import { getCustomerOrders } from "@/actions/booking"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsTrigger, TabsList, TabsContent } from "@radix-ui/react-tabs"
 import { useSession } from "next-auth/react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@radix-ui/react-label"
-import CustomTabs from "@/components/Tabs"
+import { CardHeader} from "@/components/ui/card"
+import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
 import StatusCards from "@/components/StatusCards"
-
-interface Order {
-  _id: string;
-  userName: string;
-  productName: string;
-  carName: string;
-  carModel: string;
-  email: string;
-  contact: string;
-  date: string;
-  time: string;
-  address: string;
-  status: string;
-}
+import { Booking } from "@/lib/definations/bookingdefinations"
 
 const page = () => {
-  const [orders, setOrders] = useState<Order[]>([])
+  const [orders, setOrders] = useState<Booking[]>([])
   const [carsdata, setCars] = useState([])
+  const [activeTab, setActiveTab] = useState("overview")
   const router = useRouter()
 
   const fetchData = async () => {
@@ -59,34 +43,6 @@ const page = () => {
 
   const { data: session } = useSession()
   const user = session?.user
-
-  const tabsData = [
-    {
-      value: 'booking',
-      tabTitle: 'Booking',
-      cardTitle: 'Book Now',
-      cardDescription: 'Plenty of Car Options for you to book .',
-      cardContent: ""
-    },
-    {
-      value: 'track',
-      tabTitle: 'Track',
-      cardTitle: 'Track Your Order',
-      cardDescription: 'This is the description for track.',
-    },
-    {
-      value: 'messages',
-      tabTitle: 'Messages',
-      cardTitle: 'Messsage from vendor',
-      cardDescription: 'Message about your Booking.',
-    },
-    {
-      value: 'history',
-      tabTitle: 'History',
-      cardTitle: 'Your past bookings',
-      cardDescription: 'You have rented these cars in the past would you like to rent them again.',
-    },
-  ]
 
   return (
     <MapProvider>
@@ -119,14 +75,6 @@ const page = () => {
                   Book
                 </Button>
               </div>
-              <div className="hidden md:flex relative max-w-xs">
-                <Search className="h-4 w-4 absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <Input 
-                  type="text"
-                  placeholder="Search cars, orders..." 
-                  className="pl-8 h-9 pr-4 text-sm bg-gray-50 border-gray-200 focus:bg-white" 
-                />
-              </div>
               <Button onClick={fetchData} size="sm" variant="outline" className="bg-white hover:bg-gray-50">
                 <RefreshCw className="h-4 w-4 mr-1" />
                 Refresh Data
@@ -136,10 +84,17 @@ const page = () => {
         </div>
 
         <div className="container mx-auto px-4 py-6">
-          <CustomTabs tabs={tabsData}/>
-        </div>
+      <TabsWrapper value={activeTab} onValueChange={setActiveTab} className="mb-6">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="booking">Booking</TabsTrigger>
+          <TabsTrigger value="track">Track</TabsTrigger>
+          <TabsTrigger value="messages">Messages</TabsTrigger>
+          <TabsTrigger value="report">Reports</TabsTrigger>
+        </TabsList>
 
         <div className="container mx-auto px-4 py-8">
+          <TabsContent value="overview">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <StatCard 
               title="Rented Car" 
@@ -147,12 +102,14 @@ const page = () => {
               change="+40%" 
               icon={<Car className="h-6 w-6 text-sky-700" />} 
             />
+            
             <StatCard 
               title="Active Vendor" 
               value="12" 
               change="+12%" 
               icon={<Users className="h-6 w-6 text-emerald-600" />} 
             />
+
             <StatCard 
               title="Monthly Revenue" 
               value="$24,350" 
@@ -257,7 +214,11 @@ const page = () => {
 
               </div>
             </div>
+            </TabsContent>
+         
           </div>
+          </TabsWrapper>
+        </div>
         </div>
     </MapProvider>
   )

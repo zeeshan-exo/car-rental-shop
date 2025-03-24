@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { addCar, updateCar } from "@/actions/cars";
+import { AddCarType } from "@/lib/definations/carDefinations";
 import { Button } from "@/components/ui/button";
 import { 
   Plus, 

@@ -30,3 +30,11 @@ export const CarSchema = z.object({
     })
   ),
 });
+
+export const CarDefinations = CarSchema.extend({
+  _id:z.string()
+})
+
+export type AddCarType = z.infer<typeof CarSchema>
+export type CarType = z.infer<typeof CarDefinations>
+

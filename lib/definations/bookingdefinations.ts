@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const BookingSchema = z.object({
+export const BookingCreateSchema = z.object({
   pickupDate: z.preprocess(
     (arg) => (typeof arg === "string" || arg instanceof Date ? new Date(arg) : arg),
     z.date({ required_error: "Pickup date is required" })
@@ -42,5 +42,12 @@ export const BookingSchema = z.object({
   createdAt: z.date().optional(),
 });
 
-export type BookingType = z.infer<typeof BookingSchema>;
+export const BookingSchema = BookingCreateSchema.extend({
+  _id: z.string(),
+  carName: z.string(),
+  carModel: z.string()
+})
+
+export type BookingCreate = z.infer<typeof BookingCreateSchema>
+export type Booking = z.infer<typeof BookingSchema>;
 

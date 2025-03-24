@@ -6,14 +6,10 @@ import { authOptions } from '@/lib/auth/auth';
 
 export default async function ProductsPage() {
 
-  const  session = await getServerSession( authOptions)
-
-  const role = session?.user?.role
-
   return (
     <div className="p-4">
-      {role === "vendor" && <ProductForm />}
-      {session?.user?.id && role === "vendor" && <DisplayVendorCars/>}
+       <ProductForm />
+     <DisplayVendorCars/>
     </div>
   );
 }

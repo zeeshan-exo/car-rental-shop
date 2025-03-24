@@ -4,17 +4,14 @@ import { motion } from 'framer-motion';
 import Footer from '@/components/layout/Footer';
 import Features from '@/components/sections/Features';
 import { getAllCars } from '@/actions/cars';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 const LandingPage = () => {
   const [cars, setCars] = useState([]);
-  // const [filters, setFilters] = useState({
-  //   brand: "",
-  //   availability: "all",
-  //   minPrice: 0,
-  //   maxPrice: 3000,
-  //   city: ""
-  // });
+
+  const {data: session} = useSession()
+  const user = session?.user
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -34,16 +31,6 @@ const LandingPage = () => {
   
     fetchCars();
   }, []);
-
-  // const filteredCars = cars.filter(car => {
-  //   return (
-  //     (filters.brand === "" || car.brand.toLowerCase().includes(filters.brand.toLowerCase())) &&
-  //     (filters.availability === "all" || car.isAvailable === filters.availability) &&
-  //     (filters.city === "" || car.city.toLowerCase().includes(filters.city.toLowerCase())) &&
-  //     car.rentalRate >= filters.minPrice &&
-  //     car.rentalRate <= filters.maxPrice
-  //   );
-  // });
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -97,9 +84,16 @@ const LandingPage = () => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
+          {user ? (
             <Link href="/user/cars" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
-              Browse Cars
+            Browse 
             </Link>
+          ):(
+            <Link href="/login" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
+            Login 
+           </Link>
+          )}
+
           </motion.div>
         </div>
       </motion.div>
@@ -115,39 +109,6 @@ const LandingPage = () => {
             Available Cars
           </motion.h2>
           
-          {/* <motion.div 
-            className="flex flex-wrap gap-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          > */}
-            {/* <input
-              type="text"
-              placeholder="Search by brand"
-              className="border border-gray-300 rounded-md px-4 py-2"
-              onChange={(e) => setFilters({...filters, brand: e.target.value})}
-            />
-            <select 
-              className="border border-gray-300 rounded-md px-4 py-2"
-              onChange={(e) => setFilters({...filters, availability: e.target.value})}
-            >
-              <option value="all">All Cars</option>
-              <option value="available">Available</option>
-              <option value="booked">Booked</option>
-            </select>
-            <select 
-              className="border border-gray-300 rounded-md px-4 py-2"
-              onChange={(e) => setFilters({...filters, maxPrice: parseInt(e.target.value)})}
-            >
-              <option value="1000">Any Price</option>
-              <option value="50">Under $100</option>
-              <option value="200">Under $200</option>
-              <option value="350">Under $350</option>
-              <option value="500">Under $500</option>
-              <option value="750">Under $750</option>
-              <option value="1000">Under $100</option>
-            </select>*/}
-          {/* </motion.div> */}
         </div> 
 
         <motion.div 

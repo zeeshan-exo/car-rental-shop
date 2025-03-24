@@ -3,24 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getVendorOrders } from "@/actions/booking";
 import { useRouter } from "next/navigation";
-
-
-interface Order {
-  _id: string;
-  userName: string;
-  productName: string;
-  carName: string;
-  carModel: string;
-  email: string;
-  contact: string;
-  date: string;
-  time: string;
-  address: string;
-  status: string;
-}
+import { Booking } from "@/lib/definations/bookingdefinations";
 
 const CurrentOrders = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<Booking[]>([]);
   const router = useRouter()
 
   const fetchOrders = async () => {
