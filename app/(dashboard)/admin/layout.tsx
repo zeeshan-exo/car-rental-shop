@@ -1,12 +1,18 @@
+"use client"
 import React from 'react'
 import Notifications from '@/components/Notifications'
 import { House, LayoutDashboard, Search } from 'lucide-react'
 import Header from '@/components/layout/Header'
-import ProfileImage from '@/components/ProfileImage'
+import { useSession } from 'next-auth/react'
+import ProfileImage from '@/components/user/ProfileImage'
+import Link from 'next/link'
 import { User2 } from 'lucide-react'
 
 
 const layout = ({children}:{children: React.ReactNode}) => {
+  const{data: session} = useSession()
+
+  const user = session?.user
   return (
     <div className="flex h-screen bg-gray-100">
       <div className="flex flex-col flex-1">
@@ -21,7 +27,17 @@ const layout = ({children}:{children: React.ReactNode}) => {
      ]}
       rightContent={
         <div className="flex justify-between items-center gap-14 flex-wrap">
-         //profile
+          {user ?(
+            <ProfileImage/>
+          ):(
+            <Link
+            href="/auth/login"
+            className="text-blue-500 font-medium hover:underline"
+          >
+            Login
+          </Link>
+          )}
+
       </div>
       
     }

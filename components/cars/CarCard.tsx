@@ -46,15 +46,15 @@ const CarCard = ({ car }) => {
         <div className="grid grid-cols-2 gap-3 text-sm">
           <div className="flex items-center gap-2 text-gray-600">
             <Users size={16} />
-            <span>4 Seats</span>
+            <span >4 Seats</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <GaugeCircle size={16} />
-            <span>{car.details?.specs?.transmission || "N/A"}</span>
+            <span className="line-clamp-1">{car.details?.specs?.transmission || "N/A"}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <Fuel size={16} />
-            <span>{car.details?.specs?.fuelType || "N/A"}</span>
+            <span className="line-clamp-1">{car.details?.specs?.fuelType || "N/A"}</span>
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <CalendarDays size={16} />

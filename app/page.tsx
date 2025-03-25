@@ -89,7 +89,7 @@ const LandingPage = () => {
             Browse 
             </Link>
           ):(
-            <Link href="/login" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
+            <Link href="/auth/login" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
             Login 
            </Link>
           )}

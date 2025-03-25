@@ -87,11 +87,11 @@ export async function addCar(state: any, formData: FormData) {
   }
 }
 
-export async function getAllCars(query = "", page: number | string = 1, limit = 9) {
+export async function getAllCars(page: number | string = 1, limit = 9) {
   try {
-    const numericPage = Number(page ) || 1
-     const valid = Math.max(1, numericPage)
-     const skip = (valid - 1) * limit
+    const numericPage = Number(page) || 1;
+    const validPage = Math.max(1, numericPage);
+    const skip = (validPage - 1) * limit;
 
     const carsCollection = await getCollection("cars");
     if (!carsCollection) {
@@ -99,20 +99,18 @@ export async function getAllCars(query = "", page: number | string = 1, limit = 
       return { cars: [], totalPages: 1 };
     }
 
-    const filter = query ? { carName: { $regex: query, $options: "i" } } : {};
-
-    const totalCars = await carsCollection.countDocuments(filter);
+    const totalCars = await carsCollection.countDocuments();
     const totalPages = Math.ceil(totalCars / limit);
 
     const cars = await carsCollection
-      .find(filter)
+      .find()
       .skip(skip)
       .limit(limit)
       .toArray();
 
-    const serializedCars = cars.map(car => ({
-        ...car,
-        _id: car._id.toString(), 
+    const serializedCars = cars.map((car) => ({
+      ...car,
+      _id: car._id.toString(), 
     }));
 
     return { cars: serializedCars, totalPages };
@@ -135,6 +133,7 @@ export async function getCar(id:string) {
       return {
         ...car,
         _id: car._id.toString(),
+        images: car.images || [car.image]
       };
     }
   } catch (error) {

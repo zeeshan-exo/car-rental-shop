@@ -165,7 +165,7 @@ export default function ReusableForm({
           <Button
             type="submit"
             disabled={pending}
-            className="px-6 py-3 bg-sky-400 text-white font-semibold rounded-lg shadow-md hover:bg-sky-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-AppPrimary text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {pending ? "Booking..." : "Confirm Booking"}
           </Button>

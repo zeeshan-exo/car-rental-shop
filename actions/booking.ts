@@ -1,6 +1,6 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { BookingSchema, BookingType} from "@/lib/definations/bookingdefinations";
+import { BookingSchema, BookingCreate} from "@/lib/definations/bookingdefinations";
 import { ObjectId } from "mongodb";
 import ejs from 'ejs'
 import path from "path";
@@ -11,8 +11,9 @@ import { authOptions } from "@/lib/auth/auth";
 import { headers } from "next/headers";
 
 
-export async function bookingOrder(state: any, formData: BookingType) {
+export async function bookingOrder(state: any, formData: BookingCreate) {
   // const rawData = formData as Record<string, any>;
+
   const rawData = formData
   const carDetails = rawData.carDetails ? JSON.parse(rawData.carDetails) : {};
   const vendorDetails = rawData.vendorDetails ? JSON.parse(rawData.vendorDetails) : {};
@@ -46,7 +47,6 @@ export async function bookingOrder(state: any, formData: BookingType) {
     paymentStatus: rawData.paymentMethod === "card" ? "pending" : "paid",
     createdAt: rawData.createdAt,
   };
-
 
   const validatedFields = BookingSchema.safeParse(bookingData);
   if (!validatedFields.success) {

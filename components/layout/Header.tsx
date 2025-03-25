@@ -6,6 +6,7 @@ import React from "react";
 interface NavLink{
   label: string,
   href?: string
+  onClick?: ()=> void
 }
 
 interface HeaderProps{
@@ -22,7 +23,7 @@ const Header = ({ title, navLinks, rightContent, className }: HeaderProps) => {
       
         <div className='text-2xl font-bold font-sans tracking-wide'>{title}</div>
 
-        <ul className='hidden md:flex space-x-6 text-lg font-medium'>
+        {/* <ul className='hidden md:flex space-x-6 text-lg font-medium'>
           {navLinks.map((link, idx) => (
             <li key={idx} className="hover:text-gray-300 transition duration-300">
               {link.href ? (
@@ -32,7 +33,24 @@ const Header = ({ title, navLinks, rightContent, className }: HeaderProps) => {
               )}
             </li>
           ))}
-        </ul>
+        </ul> */}
+
+        <div className='hidden md:flex space-x-6 text-lg font-medium'>
+          {navLinks.map((link, idx)=>(
+            <div key={idx}>
+              {link.onClick ? (
+                <button onClick={link.onClick} className="text-gray-600 hover:text-blue-500">
+                     {link.label}
+                </button>
+              ) :(
+                <Link href={link.href} className="text-gray-600 hover:text-blue-500">
+                {link.label}
+                </Link>
+              )}
+            </div>
+          ))}
+
+        </div>
 
         <div>
           {rightContent}

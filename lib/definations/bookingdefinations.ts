@@ -17,7 +17,7 @@ export const BookingCreateSchema = z.object({
 
   carDetails: z.object({
     carId: z.string().optional(),
-    carModel: z.preprocess((val) => String(val), z.string().optional()),
+    carModel: z.number(),
     carName: z.string().optional(),
   }),
 
@@ -41,13 +41,14 @@ export const BookingCreateSchema = z.object({
 
   createdAt: z.date().optional(),
 });
+export type BookingCreate = z.infer<typeof BookingCreateSchema>
+
 
 export const BookingSchema = BookingCreateSchema.extend({
-  _id: z.string(),
-  carName: z.string(),
-  carModel: z.string()
+  _id: z.string().optional(),
+  // carName: z.string().optional(),
+  // carModel: z.string()
 })
 
-export type BookingCreate = z.infer<typeof BookingCreateSchema>
 export type Booking = z.infer<typeof BookingSchema>;
 
