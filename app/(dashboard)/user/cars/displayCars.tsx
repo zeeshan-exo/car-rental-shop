@@ -1,69 +1,122 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
+import { Filter, SlidersHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { 
+  Sheet, 
+  SheetClose, 
+  SheetContent, 
+  SheetHeader, 
+  SheetTitle, 
+  SheetTrigger 
+} from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
 import CarCard from "@/components/cars/CarCard";
 import HeroBanner from "@/components/sections/HeroBanner";
-import FilterModal from "@/components/cars/Filters";
+import Filters from "@/components/cars/Filters";
 
-export default function Displaycars({ cars }: { cars: any[] }) {
+type Car = {
+  _id: string;
+  brand: string;
+  city: string;
+  isAvailable: boolean;
+  rentalRate: number;
+  [key: string]: any;
+};
+
+export default function DisplayCars({ cars }: { cars: Car[] }) {
   const [filters, setFilters] = useState<Record<string, string | number>>({});
-  const [brands, setBrands] = useState<{ value: string; label: string }[]>([]);
-  const [rentalRates, setRentalRates] = useState<{ value: number; label: string }[]>([]);
 
-  useEffect(() => {
-    const uniqueBrands = Array.from(new Set(cars.map((car) => car.brand))).map((brand) => ({
-      value: brand,
-      label: brand,
-    }));
-    
-    const maxRentalRate = Math.max(...cars.map((car) => car.rentalRate));
-    const rentalRateOptions = [
-      { value: 500, label: "Under $500" },
-      { value: 2000, label: "Under $2000" },
-      { value: maxRentalRate, label: `Up to $${maxRentalRate}` },
-    ];
+  // Filtered cars with memoization
+  const filteredCars = useMemo(() => {
+    return cars.filter((car) => {
+      return (
+        (!filters.brand || car.brand === filters.brand) &&
+        (!filters.city || car.city === filters.city) &&
+        (!filters.availability || (filters.availability === "available" ? car.isAvailable : !car.isAvailable)) &&
+        (!filters.rentalRate || car.rentalRate <= Number(filters.rentalRate))
+      );
+    });
+  }, [cars, filters]);
 
-    setBrands(uniqueBrands);
-    setRentalRates(rentalRateOptions);
-  }, [cars]);
-
-  const filterFields = [
-    { key: "brand", label: "Brand", options: brands },
-    { key: "city", label: "City", options: Array.from(new Set(cars.map((car) => car.city))).map((city) => ({ value: city, label: city })) },
-    {
-      key: "availability",
-      label: "Availability",
-      options: [
-        { value: "available", label: "Available" },
-        { value: "booked", label: "Booked" },
-      ],
-    },
-    { key: "rentalRate", label: "Rental Rate", options: rentalRates },
-  ];
-
-  const handleFilterChange = (updatedFilters: Record<string, string | number>) => {
-    setFilters(updatedFilters);
+  // Clear all filters
+  const clearFilters = () => {
+    setFilters({});
   };
 
-  const filteredCars = cars.filter((car) => {
-    return (
-      (!filters.brand || car.brand === filters.brand) &&
-      (!filters.city || car.city === filters.city) &&
-      (!filters.availability || (filters.availability === "available" ? car.isAvailable : !car.isAvailable)) &&
-      (!filters.rentalRate || car.rentalRate <= Number(filters.rentalRate))
-    );
-  });
+  // Active filters display
+  const activeFilters = Object.entries(filters).map(([key, value]) => ({
+    key,
+    label: key === 'rentalRate' ? `Max Rate: $${value}` : 
+           key === 'availability' ? `Availability: ${value}` : 
+           `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`
+  }));
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-gray-50">
-     <FilterModal filterFields={filterFields} onFilterChange={handleFilterChange}/>
+    <div className="bg-gray-50">
+      {/* HeroBanner */}
       <HeroBanner />
 
-      <div id="cars" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 scroll-t-16">
-        {filteredCars.length > 0 ? (
-          filteredCars.map((car) => <CarCard key={car._id} car={car} />)
-        ) : (
-          <p className="col-span-full text-center text-gray-500">No cars match your filters.</p>
-        )}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Filter Section */}
+        <div className="mb-6 flex justify-between items-center">
+          {/* Left-side Sheet (Drawer) Filter */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" className="flex items-center gap-2">
+                <Filter className="h-4 w-4" />
+                Filter Cars
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[400px] overflow-y-auto">
+              <SheetHeader className="mb-6">
+                <SheetTitle>Filter Your Cars</SheetTitle>
+              </SheetHeader>
+
+              {/* Filters Component */}
+              <Filters 
+                cars={cars}
+                filters={filters}
+                setFilters={setFilters}
+                clearFilters={clearFilters}
+              />
+
+              {/* Clear Filters Button */}
+              {Object.keys(filters).length > 0 && (
+                <Button 
+                  variant="destructive" 
+                  className="w-full mt-4"
+                  onClick={clearFilters}
+                >
+                  <SlidersHorizontal className="h-4 w-4 mr-2" /> Clear All Filters
+                </Button>
+              )}
+            </SheetContent>
+          </Sheet>
+
+          {/* Active Filters */}
+          <div className="flex items-center gap-4">
+            <div className="flex gap-2">
+              {activeFilters.map((filter) => (
+                <Badge key={filter.key} variant="secondary">
+                  {filter.label}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Cars Grid */}
+        <div id="cars" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {filteredCars.length > 0 ? (
+            filteredCars.map((car) => <CarCard key={car._id} car={car} />)
+          ) : (
+            <div className="col-span-full text-center py-12 bg-white rounded-lg shadow-md">
+              <p className="text-xl text-gray-500 mb-4">No cars match your filters</p>
+              <Button onClick={clearFilters}>Reset Filters</Button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

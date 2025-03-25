@@ -1,71 +1,140 @@
 "use client";
-import React, { useState } from "react";
-import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { SlidersHorizontal } from "lucide-react";
-import { Dialog, DialogClose } from "@radix-ui/react-dialog";
+import React, { useMemo } from "react";
+import { 
+  Car, 
+  MapPin, 
+  DollarSign, 
+  CheckCircle2, 
+  XCircle 
+} from "lucide-react";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
 
-interface FilterField {
-  key: string;
-  label: string;
-  options: { value: string | number; label: string }[];
-}
-
-interface FilterProps {
-  filterFields: FilterField[];
-  onFilterChange: (filters: Record<string, string | number>) => void;
-}
-
-const FilterModal: React.FC<FilterProps> = ({ filterFields, onFilterChange }) => {
-  const [filters, setFilters] = useState<Record<string, string | number>>({});
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleChange = (key: string, value: string | number) => {
-    const updatedFilters = { ...filters, [key]: value };
-    setFilters(updatedFilters);
-    onFilterChange(updatedFilters);
-  };
-
-  return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
-      <DrawerTrigger asChild>
-        <Button variant="outline" className="flex items-center gap-2">
-          <SlidersHorizontal className="w-5 h-5" /> Filters
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent className="p-4 w-80 h-full fixed right-0 bg-AppLight shadow-lg">
-        <DrawerHeader>
-          <DrawerTitle>Filter By:</DrawerTitle>
-          <DrawerDescription>Filter Cars which suits you best.
-          </DrawerDescription>
-        </DrawerHeader>
-        {filterFields.map((field) => (
-          <div key={field.key} className="mb-4">
-            <label className="text-sm font-medium block mb-2">{field.label}</label>
-            <Select onValueChange={(value) => handleChange(field.key, value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={`Select ${field.label}`} />
-              </SelectTrigger>
-              <SelectContent>
-                {field.options.map((option) => (
-                  <SelectItem key={option.value} value={String(option.value)}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        ))}
-        <DialogClose asChild>
-        <Button className="mt-4 w-full bg-AppAccent hover:bg-amber-600" onClick={() => setIsOpen(false)}>
-          Apply
-        </Button>
-        </DialogClose>
-
-      </DrawerContent>
-    </Drawer>
-  );
+type FiltersProps = {
+  cars: any[];
+  filters: Record<string, string | number>;
+  setFilters: React.Dispatch<React.SetStateAction<Record<string, string | number>>>;
+  clearFilters: () => void;
 };
 
-export default FilterModal;
+export default function Filters({ 
+  cars, 
+  filters, 
+  setFilters, 
+  clearFilters 
+}: FiltersProps) {
+  // Memoized filter options to prevent unnecessary re-renders
+  const filterOptions = useMemo(() => {
+    return {
+      brands: Array.from(new Set(cars.map((car) => car.brand))).map((brand) => ({
+        value: brand,
+        label: brand,
+      })),
+      cities: Array.from(new Set(cars.map((car) => car.city))).map((city) => ({
+        value: city,
+        label: city,
+      })),
+      rentalRates: [
+        { value: 500, label: "Under $500" },
+        { value: 1000, label: "Under $1000" },
+        { value: 2000, label: "Under $2000" },
+        { value: Math.max(...cars.map((car) => car.rentalRate)), label: `Full Range` },
+      ],
+    };
+  }, [cars]);
+
+  return (
+    <div className="grid gap-6">
+      {/* Brand Filter */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+          <Car className="h-4 w-4" /> Brand
+        </label>
+        <Select 
+          value={filters.brand as string} 
+          onValueChange={(value) => setFilters(prev => ({...prev, brand: value}))}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select Brand" />
+          </SelectTrigger>
+          <SelectContent>
+            {filterOptions.brands.map((brand) => (
+              <SelectItem key={brand.value} value={brand.value}>
+                {brand.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* City Filter */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+          <MapPin className="h-4 w-4" /> City
+        </label>
+        <Select 
+          value={filters.city as string} 
+          onValueChange={(value) => setFilters(prev => ({...prev, city: value}))}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select City" />
+          </SelectTrigger>
+          <SelectContent>
+            {filterOptions.cities.map((city) => (
+              <SelectItem key={city.value} value={city.value}>
+                {city.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Rental Rate Filter */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+          <DollarSign className="h-4 w-4" /> Rental Rate
+        </label>
+        <Select 
+          value={filters.rentalRate ? String(filters.rentalRate) : undefined} 
+          onValueChange={(value) => setFilters(prev => ({...prev, rentalRate: Number(value)}))}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select Max Rate" />
+          </SelectTrigger>
+          <SelectContent>
+            {filterOptions.rentalRates.map((rate) => (
+              <SelectItem key={rate.value} value={String(rate.value)}>
+                {rate.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Availability Filter */}
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+          {filters.availability === 'available' ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" />} 
+          Availability
+        </label>
+        <Select 
+          value={filters.availability as string} 
+          onValueChange={(value) => setFilters(prev => ({...prev, availability: value}))}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select Availability" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="available">Available</SelectItem>
+            <SelectItem value="booked">Booked</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+}

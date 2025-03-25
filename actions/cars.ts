@@ -183,8 +183,6 @@ export async function updateCar(carId: string, formData: FormData) {
     newData[key] = value;
   });
 
-  console.log("Converted newData:", newData);
-
   if (Object.keys(newData).length === 0) {
     throw new Error("newData is empty, update will not be performed.");
   }
@@ -225,14 +223,10 @@ export async function updateCar(carId: string, formData: FormData) {
     throw new Error("Car not found in the database.");
   }
 
-  console.log("Existing Car Data:", existingCar);
-
   const result = await carcollection.updateOne(
     { _id: objectId },
     { $set: newData }
   );
-
-  console.log("Update Result:", result);
   return result;
 }
 
