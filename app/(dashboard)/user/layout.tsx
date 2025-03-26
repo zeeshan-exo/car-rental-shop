@@ -47,8 +47,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             { label: <House />, href: "/" },
             { label: <LayoutDashboard />, href: "/user" },
             { label: <Car />, href: "/user/cars" },
-            { label: <Heart />, href: "" },
-            { label: <Search />, href: "#", onClick: handleOpenSearch },
+            { label: <Heart />, href: "#" },
+            { label: <Search />,  onClick: handleOpenSearch },
           ]}
           rightContent={
             <div className="flex justify-between items-center gap-14 flex-wrap">

@@ -28,7 +28,7 @@ export default function Filters({
   setFilters, 
   clearFilters 
 }: FiltersProps) {
-  // Memoized filter options to prevent unnecessary re-renders
+
   const filterOptions = useMemo(() => {
     return {
       brands: Array.from(new Set(cars.map((car) => car.brand))).map((brand) => ({
@@ -50,9 +50,8 @@ export default function Filters({
 
   return (
     <div className="grid gap-6">
-      {/* Brand Filter */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+        <label className=" text-sm font-medium text-gray-700 flex items-center gap-2">
           <Car className="h-4 w-4" /> Brand
         </label>
         <Select 
@@ -72,9 +71,8 @@ export default function Filters({
         </Select>
       </div>
 
-      {/* City Filter */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           <MapPin className="h-4 w-4" /> City
         </label>
         <Select 
@@ -94,9 +92,8 @@ export default function Filters({
         </Select>
       </div>
 
-      {/* Rental Rate Filter */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
           <DollarSign className="h-4 w-4" /> Rental Rate
         </label>
         <Select 
@@ -116,9 +113,8 @@ export default function Filters({
         </Select>
       </div>
 
-      {/* Availability Filter */}
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
+        <label className=" text-sm font-medium text-gray-700 flex items-center gap-2">
           {filters.availability === 'available' ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" />} 
           Availability
         </label>

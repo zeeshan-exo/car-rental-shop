@@ -4,7 +4,12 @@ import { useEffect, useState, useRef } from "react";
 import { getSocket } from "@/lib/socket";
 import { Bell, X, CheckCircle, AlertCircle } from "lucide-react";
 
-export default function Notifications({ userId, role }: { userId: string; role: "customer" | "vendor" }) {
+interface NotificationProps{
+  userId: string,
+  role: "customer" | "vendor"
+}
+
+const Notifications : React.FC<NotificationProps> = ({ userId, role })=> {
   const [notifications, setNotifications] = useState<{ message: string; type?: string; timestamp?: Date }[]>([]);
   const [openModal, setModal] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -153,3 +158,5 @@ export default function Notifications({ userId, role }: { userId: string; role: 
     </div>
   );
 }
+
+export default Notifications

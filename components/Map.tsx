@@ -1,4 +1,4 @@
-"use client";
+
 
 import { useState, useEffect } from "react";
 import { GoogleMap, Polyline, Marker } from "@react-google-maps/api";
@@ -17,7 +17,7 @@ const MAP_OPTIONS = {
   mapTypeId: "roadmap",
 };
 
-const Map = () => {
+export default function Map () {
   const [currentLocation, setCurrentLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [destination, setDestination] = useState<{ lat: number; lng: number } | null>(null);
   const [route, setRoute] = useState<{ lat: number; lng: number }[]>([]);
@@ -118,4 +118,3 @@ const Map = () => {
   );
 };
 
-export { Map };

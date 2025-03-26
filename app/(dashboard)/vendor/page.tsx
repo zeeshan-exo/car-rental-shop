@@ -5,7 +5,6 @@ import StatCard from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, MapPin, Search } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
-import { Map } from "@/components/Map"
 import CurrentOrders from "@/app/(dashboard)/vendor/cars/currentBookings"
 import { getVendorOrders } from "@/actions/booking"
 import { getVendorCars } from "@/actions/cars"
@@ -16,6 +15,8 @@ import StatusCards from "@/components/StatusCards"
 import { Booking } from "@/lib/definations/bookingdefinations"
 import { CarType } from "@/lib/definations/carDefinations"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
+import dynamic from "next/dynamic"
+const Map = dynamic(() => import("@/components/Map"))
 
 const Dashboard = () => {
   const [orders, setOrders] = useState<Booking[]>([])

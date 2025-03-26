@@ -5,17 +5,14 @@ import { IoClose } from "react-icons/io5";
 import ImageSlider from "@/components/cars/ImageSlider";
 import ProductForm from "./carForm";
 import { Button } from "@/components/ui/button";
-import { 
-  Calendar, 
+import {  
   Users, 
   Fuel, 
   GaugeCircle, 
-  MapPin, 
   Shield, 
   Star,
   Edit,
   ChevronRight,
-  Check
 } from "lucide-react";
 
 interface ViewcarProps {

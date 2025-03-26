@@ -4,7 +4,7 @@ import StatCard from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, Search } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
-import { Map } from "@/components/Map"
+import dynamic from "next/dynamic"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { getAllCars } from "@/actions/cars"
@@ -14,6 +14,8 @@ import { CardHeader} from "@/components/ui/card"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
 import StatusCards from "@/components/StatusCards"
 import { Booking } from "@/lib/definations/bookingdefinations"
+const Map = dynamic(() => import("@/components/Map"), {ssr: false}) 
+
 
 const page = () => {
   const [orders, setOrders] = useState<Booking[]>([])

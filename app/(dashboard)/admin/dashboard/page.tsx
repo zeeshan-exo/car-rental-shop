@@ -158,6 +158,7 @@ const Dashboard = () => {
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                 style={{ backgroundImage: "url('/api/placeholder/800/400')" }}
+                
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
                 <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-full mb-2 w-fit">Featured</span>

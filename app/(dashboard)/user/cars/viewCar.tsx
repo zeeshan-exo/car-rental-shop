@@ -27,9 +27,10 @@ const benefits = [
 
 interface ViewcarProps {
   carId: string;
+  onClose?: () =>void
 }
 
-export default function Viewcar({ carId }: ViewcarProps) {
+const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [car, setCar] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -104,6 +105,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                           <img
                             src={car.image}
                             alt={car.carName}
+                            loading="lazy"
                             className="w-full h-full object-cover"
                           />
                         )}
@@ -230,3 +232,5 @@ export default function Viewcar({ carId }: ViewcarProps) {
     </div>
   );
 }
+
+export default Viewcar

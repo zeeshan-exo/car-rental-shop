@@ -45,7 +45,7 @@ export type BookingCreate = z.infer<typeof BookingCreateSchema>
 
 
 export const BookingSchema = BookingCreateSchema.extend({
-  _id: z.string().optional(),
+  _id: z.string(),
   // carName: z.string().optional(),
   // carModel: z.string()
 })

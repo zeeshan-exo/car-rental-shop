@@ -6,9 +6,11 @@ import Features from '@/components/sections/Features';
 import { getAllCars } from '@/actions/cars';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { CarType } from '@/lib/definations/carDefinations';
+
 
 const LandingPage = () => {
-  const [cars, setCars] = useState([]);
+  const [cars, setCars] = useState<CarType[]>([]);
 
   const {data: session} = useSession()
   const user = session?.user
@@ -128,6 +130,7 @@ const LandingPage = () => {
                 <img 
                   src={car.images && car.images.length > 0 ? car.images[0].cloudinaryUrl : "/api/placeholder/800/500"} 
                   alt={`${car.brand} ${car.carName}`} 
+                  loading='lazy'
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 {car.isAvailable === "booked" && (

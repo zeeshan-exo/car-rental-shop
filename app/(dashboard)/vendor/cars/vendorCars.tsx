@@ -3,8 +3,7 @@ import { getVendorCars } from "@/actions/cars";
 import DeletecarButton from "./deleteCar";
 import ImageSlider from "@/components/cars/ImageSlider";
 import Viewcar from "@/app/(dashboard)/vendor/cars/viewCar";
-import { Button } from "@/components/ui/button";
-import { Clock, MapPin, Car, Box, DollarSign, Tag, Eye } from "lucide-react";
+import { MapPin, Car, Box, DollarSign, Tag } from "lucide-react";
 
 export default async function DisplayVendorCars() {
   const cars = await getVendorCars();

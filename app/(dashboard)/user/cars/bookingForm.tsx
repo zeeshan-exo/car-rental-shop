@@ -13,7 +13,6 @@ import {
   X,
   User,
   CarFront,
-  Check,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 
@@ -25,6 +24,7 @@ interface BookingFormProps {
   vendorId: string;
   vendorName: string;
   rentalRate: string;
+  onClick?: () => void
 }
 
 const initialBookingFields = [
@@ -86,7 +86,7 @@ const initialBookingFields = [
   },
 ];
 
-export default function BookingForm({
+const BookingForm : React.FC<BookingFormProps>=({
   carModel,
   carName,
   carId,
@@ -94,7 +94,7 @@ export default function BookingForm({
   vendorId,
   vendorName,
   rentalRate,
-}: BookingFormProps) {
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [state, action, isPending] = useActionState(bookingOrder, null);
   const [initialValues, setInitialValues] = useState({});
@@ -190,3 +190,5 @@ export default function BookingForm({
     </div>
   );
 }
+
+export default BookingForm

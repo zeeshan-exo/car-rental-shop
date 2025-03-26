@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { addCar, updateCar } from "@/actions/cars";
-import { AddCarType } from "@/lib/definations/carDefinations";
-import { Button } from "@/components/ui/button";
+import { AddCarType, CarType } from "@/lib/definations/carDefinations";
 import { 
   Plus, 
   Edit, 
@@ -14,7 +13,9 @@ import {
   ChevronUp 
 } from "lucide-react";
 
-const ProductForm = ({ carData = null }) => {
+
+
+const CarForm = ({ carData = null }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -303,4 +304,4 @@ const ProductForm = ({ carData = null }) => {
   );
 };
 
-export default ProductForm;
+export default CarForm;
