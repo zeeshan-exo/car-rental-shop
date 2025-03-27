@@ -1,6 +1,7 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
+import { timeStamp } from "node:console";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -36,6 +37,31 @@ app.prepare().then(() => {
       // console.log(` Emitting to user:${data.order.userId}`);
       io.to(`user:${data.order.userDetails.userId}`).emit("order_updated", data);
     });
+
+    socket.on("send_message", ({senderId, senderRole, recieverId, reciverRole, message})=>{
+      const senderRoom = `${senderRole}:${senderId}`
+      const recieverRoom = `${reciverRole}:${recieverId}`
+
+      io.to(recieverRoom).emit("recieveMessage",{
+        recieverId,
+        reciverRole, 
+        senderId,
+        senderRole,
+        message,
+        timeStamp: new Date().toISOString()
+      })
+
+      io.to(senderRoom).emit("recieveMessage", {
+        recieverId,
+        reciverRole,
+        senderId,
+        senderRole,
+        message,
+        timeStamp: new Date().toISOString()
+      })
+
+      console.log(`Message from ${senderRoom} to ${recieverRoom}: ${message}`)
+    })
     
     socket.on("disconnect", () => {
       console.log("User disconnected");

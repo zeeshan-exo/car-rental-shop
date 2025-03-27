@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Booking } from "@/lib/definations/bookingdefinations";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -25,32 +26,6 @@ import {
   User,
   Car
 } from "lucide-react";
-
-interface Order {
-  _id: string;
-  pickupTime: string;
-  returnDate?: string;
-  pickupDate?:string;
-  pickupLocation: string;
-  paymentStatus: string
-  status: string;
-  carDetails:{
-    carId: string
-    carName: string;
-    carModel: string
-  }
-  userDetails:{
-    userId: string
-    userName: string;
-    email:string
-    contact: string
-  }
-  vendorDetails:{
-    vendorId: string,
-    vendorName: string,
-    vendorEmail: string
-  }
-}
 
 export default function VendorOrdersManagement() {
   const [orders, setOrders] = useState<Booking[]>([]);
@@ -101,29 +76,20 @@ export default function VendorOrdersManagement() {
           )
         );
       } else {
-        alert("Failed to update order status.");
+        toast("Failed to update order status.");
       }
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "confirmed":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case "dispatched":
-        return "bg-purple-100 text-purple-800 border-purple-200";
-      case "delivered":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "reject":
-        return "bg-red-100 text-red-800 border-red-200";
-      default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
+ const getStatusColor = (status: string)=>({
+    pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+    confirmed: "bg-blue-100 text-blue-800 border-blue-200",
+    dispatched: "bg-purple-100 text-purple-800 border-purple-200",
+    delivered: "bg-green-100 text-green-800 border-green-200",
+    reject: "bg-red-100 text-red-800 border-red-200",
+ }[status.toLowerCase()] ||  "bg-gray-100 text-gray-800 border-gray-200")
 
   const toggleOrderExpansion = (orderId: string) => {
     if (expandedOrder === orderId) {
@@ -268,7 +234,7 @@ export default function VendorOrdersManagement() {
                       <div className="hidden md:block">
                         <div className="flex items-center text-sm text-gray-600">
                           <Calendar className="h-4 w-4 mr-2" />
-                          <span>{order.pickupDate?.toString()} {order.pickupTime}</span>
+                          <span>{order.dateRange?.from.toDateString()} {order.pickupTime}</span>
                         </div>
                       </div>
                       <div>
@@ -321,11 +287,11 @@ export default function VendorOrdersManagement() {
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
                               <Calendar className="h-4 w-4 text-gray-400 mr-2" />
-                              {order.pickupDate?.toString()} at {order.pickupTime}
+                              {order.dateRange?.from.toDateString()} at {order.pickupTime}
                             </p>
-                            {order.returnDate?.toString() && (
+                            {order.dateRange?.to.toDateString() && (
                               <p className="text-sm ml-6">
-                                Return: {order.returnDate.toString()}
+                                Return: {order.dateRange?.to.toDateString()}
                               </p>
                             )}
                             <p className="text-sm flex items-start">

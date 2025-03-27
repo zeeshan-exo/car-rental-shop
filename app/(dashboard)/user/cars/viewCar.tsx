@@ -17,6 +17,7 @@ import {
   Check,
   CircleUserRound
 } from "lucide-react";
+import { formatCurrency } from "@/lib/currency";
 
 const benefits = [
   "Free cancellation up to 24 hours before pickup",
@@ -200,7 +201,7 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
 
                             <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200 shadow-sm">
                               <div className="flex items-end gap-2 mb-1">
-                                <span className="text-3xl font-bold text-AppPrimary2">${car.rentalRate}</span>
+                                <span className="text-3xl font-bold text-AppPrimary2">{formatCurrency(car.rentalRate)}</span>
                                 <span className="text-AppPrimary mb-1">/day</span>
                               </div>
                               <p className="text-AppPrimary text-sm mt-1">All taxes and fees included</p>

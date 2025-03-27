@@ -1,6 +1,7 @@
 'use client'
 import { useActionState, useRef, useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { Input } from '@/components/ui/input'
 import axios from 'axios'
 import Image from 'next/image'
 
@@ -51,7 +52,7 @@ export default function SignupForm() {
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
+                <Input
                   id="name"
                   name="name"
                   type="text"
@@ -70,7 +71,7 @@ export default function SignupForm() {
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
+                <Input
                   id="email"
                   name="email"
                   type="email"
@@ -89,7 +90,7 @@ export default function SignupForm() {
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
+                <Input
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}

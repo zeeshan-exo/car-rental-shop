@@ -3,6 +3,7 @@ import ImageSlider from "./ImageSlider";
 import Image from "next/image";
 import Viewcar from "@/app/(dashboard)/user/cars/viewCar";
 import { Users, GaugeCircle, Fuel, CalendarDays } from "lucide-react";
+import { formatCurrency } from "@/lib/currency";
 
 const CarCard = ({ car }) => {
   return (
@@ -23,7 +24,7 @@ const CarCard = ({ car }) => {
           </div>
         )}
         <span className="absolute top-4 right-4 bg-AppAccent text-black text-sm font-bold px-4 py-1.5 rounded-full shadow-sm">
-          ${car.rentalRate}/day
+          {formatCurrency(car.rentalRate)}/day
         </span>
       </div>
 

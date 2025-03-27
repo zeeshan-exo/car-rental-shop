@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Avatar } from '@/components/ui/avatar'
 import { Tabs,TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { formatCurrency } from '@/lib/currency'
 
 const Dashboard = () => {
       const [activeTab, setActiveTab] = useState("overview")
@@ -37,7 +38,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Quick filters for better usability */}
       <div className="container mx-auto px-4 py-3">
       <Tabs defaultValue="overview" className="mb-6" onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-3 md:grid-cols-5 lg:w-[500px]">
@@ -76,11 +76,8 @@ const Dashboard = () => {
             </Card>
         </div>
 
-        {/* Main content with improved organization and spacing */}
         <div  className={`${activeTab === "overview" ? "block" : "hidden"} grid grid-cols-1 lg:grid-cols-3 gap-6`}>
-          {/* Left section with stats and chart */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Stats cards with more consistent styling */}
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
               <StatCard 
                 title="Active Customers" 
@@ -96,7 +93,7 @@ const Dashboard = () => {
               />
               <StatCard 
                 title="Monthly Revenue" 
-                value="$24,850"
+                value={formatCurrency(2840)}
                 change="+18%" 
                 icon={<CreditCard className="h-6 w-6 text-emerald-600" />} 
               />
@@ -108,7 +105,7 @@ const Dashboard = () => {
               />
             </div>
 
-            {/* Chart section with better controls */}
+
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between gap-3">
                 <div className="flex items-center">
@@ -130,7 +127,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Recent activities for better context */}
             <div className="bg-white rounded-xl shadow-sm p-4">
               <div className="flex items-center mb-4">
                 <Clock className="h-5 w-5 text-sky-700 mr-2" />
@@ -151,9 +147,8 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Right section with cards and featured vehicle */}
+ 
           <div className="space-y-6">
-            {/* Featured vehicle with better visibility */}
             <div className="relative rounded-xl overflow-hidden shadow-sm h-64 group">
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
@@ -168,7 +163,6 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Status cards with better color coding and information hierarchy */}
             <div className="space-y-4">
               <div className="bg-white rounded-xl p-5 shadow-sm transition-all duration-300 hover:shadow border-l-4 border-sky-600">
                 <div className="flex justify-between items-start">
@@ -202,7 +196,7 @@ const Dashboard = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-gray-700 font-medium">Pending Payments</h2>
-                    <p className="text-3xl font-bold text-gray-800 mt-2">$3,240</p>
+                    <p className="text-3xl font-bold text-gray-800 mt-2">{formatCurrency(3240)}</p>
                     <p className="text-gray-500 text-sm mt-1">From 6 active rentals</p>
                     <Button variant="outline" size="sm" className="mt-3 text-xs rounded-md text-indigo-600 border-indigo-600 hover:bg-indigo-50">Process Payments</Button>
                   </div>

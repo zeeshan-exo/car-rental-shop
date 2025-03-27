@@ -1,6 +1,6 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { BookingSchema, BookingCreate} from "@/lib/definations/bookingdefinations";
+import { BookingSchema, BookingCreate, Booking} from "@/lib/definations/bookingdefinations";
 import { ObjectId } from "mongodb";
 import ejs from 'ejs'
 import path from "path";
@@ -8,19 +8,15 @@ import { sendMail } from "@/lib/email";
 import { getSocket } from "@/lib/socket";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
-import { headers } from "next/headers";
-
 
 export async function bookingOrder(state: any, formData: BookingCreate) {
-  // const rawData = formData as Record<string, any>;
 
   const rawData = formData
   const carDetails = rawData.carDetails ? JSON.parse(rawData.carDetails) : {};
   const vendorDetails = rawData.vendorDetails ? JSON.parse(rawData.vendorDetails) : {};
 
   const bookingData = {
-    pickupDate: rawData.pickupDate,
-    returnDate: rawData.returnDate,
+    dateRange: rawData.dateRange,
     pickupTime: rawData.pickupTime,
     pickupLocation: rawData.pickupLocation,
     status: rawData.status,
@@ -82,7 +78,7 @@ export async function bookingOrder(state: any, formData: BookingCreate) {
 
     if (socket) {
       socket.emit("order_placed", {
-        message: `New order placed for ${newOrder.carDetails.carName} from ${newOrder.pickupDate} to ${newOrder.returnDate} at ${newOrder.pickupTime}.`,
+        message: `New order placed for ${newOrder.carDetails.carName} from ${newOrder.dateRange?.from.toDateString()} to ${newOrder.dateRange?.to.toDateString()} at ${newOrder.pickupTime}.`,
         order: newOrder,
       });
     } else {
@@ -163,7 +159,7 @@ export async function getOneOrder(id:string) {
   }
 }
 
-export async function getVendorOrders() {
+export async function getVendorOrders(): Promise<Booking[]> {
   try {
     const session = await getServerSession( authOptions)
     if(!session){
@@ -183,6 +179,12 @@ export async function getVendorOrders() {
     }
     
     const orders = await orderCollection.find({ "vendorDetails.vendorId": vendorId }).toArray();
+
+    if(!orders?.length){
+      return []
+    }
+
+
     return orders?.length ? orders.map(order => ({
       ...order,
       _id: order._id.toString(),

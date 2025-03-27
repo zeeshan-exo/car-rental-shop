@@ -4,6 +4,7 @@ import DeletecarButton from "./deleteCar";
 import ImageSlider from "@/components/cars/ImageSlider";
 import Viewcar from "@/app/(dashboard)/vendor/cars/viewCar";
 import { MapPin, Car, Box, DollarSign, Tag } from "lucide-react";
+import { formatCurrency } from "@/lib/currency";
 
 export default async function DisplayVendorCars() {
   const cars = await getVendorCars();
@@ -56,8 +57,7 @@ export default async function DisplayVendorCars() {
                 </h2>
                 <p className="text-AppAccent font-bold text-xl">
                   <span className="flex items-center">
-                    <DollarSign className="w-5 h-5" />
-                    {car.rentalRate}
+                    {formatCurrency(car.rentalRate)}
                   </span>
                 </p>
               </div>

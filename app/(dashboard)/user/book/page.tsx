@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input'
 import { User } from 'lucide-react'
 import React from 'react'
 
@@ -16,7 +17,7 @@ const formbook = () => {
           </label>
           <div>
                    <span  className="absolute inset-y-0 left-0 pl-3 flex items-center"><User/></span>
-                   <input 
+                   <Input
                    type="text"
                   placeholder='email' 
                   required
@@ -34,7 +35,7 @@ const formbook = () => {
           </label>
           <div>
                    <span  className="absolute inset-y-0 left-0 pl-3 flex items-center"><User/></span>
-                   <input 
+                   <Input 
                    type="text"
                   placeholder='email' 
                   required
@@ -52,7 +53,7 @@ const formbook = () => {
           </label>
           <div>
                    <span  className="absolute inset-y-0 left-0 pl-3 flex items-center"><User/></span>
-                   <input 
+                   <Input 
                    type="text"
                   placeholder='email' 
                   required
@@ -70,7 +71,7 @@ const formbook = () => {
           </label>
           <div>
                    <span  className="absolute inset-y-0 left-0 pl-3 flex items-center"><User/></span>
-                   <input 
+                   <Input 
                    type="text"
                   placeholder='email' 
                   required

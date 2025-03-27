@@ -14,6 +14,7 @@ import { CardHeader} from "@/components/ui/card"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
 import StatusCards from "@/components/StatusCards"
 import { Booking } from "@/lib/definations/bookingdefinations"
+import { formatCurrency } from "@/lib/currency"
 const Map = dynamic(() => import("@/components/Map"), {ssr: false}) 
 
 
@@ -114,7 +115,7 @@ const page = () => {
 
             <StatCard 
               title="Monthly Revenue" 
-              value="$24,350" 
+              value={formatCurrency(24350)} 
               change="+18%" 
               icon={<CreditCard className="h-6 w-6 text-indigo-600" />} 
             />

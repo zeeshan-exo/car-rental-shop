@@ -7,6 +7,7 @@ import { getAllCars } from '@/actions/cars';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { CarType } from '@/lib/definations/carDefinations';
+import { formatCurrency } from '@/lib/currency';
 
 
 const LandingPage = () => {
@@ -142,7 +143,7 @@ const LandingPage = () => {
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-bold">{car.brand} {car.carName}</h3>
-                  <p className="text-lg font-bold text-blue-600">${car.rentalRate}/day</p>
+                  <p className="text-lg font-bold text-blue-600">{formatCurrency(car.rentalRate)}/day</p>
                 </div>
                 <p className="text-gray-600 mb-3">Year: {car.modelYear}</p>
                 <p className="text-gray-800 mb-4 line-clamp-1">{car.details?.text || "Experience luxury and comfort"}</p>

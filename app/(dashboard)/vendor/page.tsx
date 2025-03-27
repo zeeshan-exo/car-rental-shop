@@ -16,6 +16,7 @@ import { Booking } from "@/lib/definations/bookingdefinations"
 import { CarType } from "@/lib/definations/carDefinations"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
 import dynamic from "next/dynamic"
+import { formatCurrency } from "@/lib/currency"
 const Map = dynamic(() => import("@/components/Map"))
 
 const Dashboard = () => {
@@ -204,7 +205,7 @@ const Dashboard = () => {
                 />
                 <StatCard
                   title="Monthly Revenue"
-                  value="$24,350"
+                  value={formatCurrency(24350)}
                   change="+15%"
                   icon={<CreditCard className="h-6 w-6 text-indigo-600" />}
                 />
@@ -310,7 +311,7 @@ const Dashboard = () => {
                       title="Pending Payments"
                       icon={<CreditCard className="h-5 w-5 text-indigo-600" />}
                       iconBgColor="bg-indigo-100"
-                      count="$890"
+                      count={formatCurrency(890)}
                       description="From 6 active rentals"
                       borderColor="border-indigo-600"
                     />

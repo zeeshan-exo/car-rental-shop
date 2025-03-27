@@ -14,6 +14,7 @@ import {
   Edit,
   ChevronRight,
 } from "lucide-react";
+import { formatCurrency } from "@/lib/currency";
 
 interface ViewcarProps {
   carId: string;
@@ -118,7 +119,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
             <div className="flex justify-between items-center">
               <div>
                 <div className="flex items-end gap-2">
-                  <span className="text-4xl font-bold text-AppPrimary2">${car.rentalRate}</span>
+                  <span className="text-4xl font-bold text-AppPrimary2">{formatCurrency(car.rentalRate)}</span>
                   <span className="text-AppPrimary2 mb-1">/day</span>
                 </div>
                 <p className="text-sm text-AppPrimary2 mt-1">Competitive daily rental rate</p>

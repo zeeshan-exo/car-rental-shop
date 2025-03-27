@@ -5,6 +5,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -57,7 +61,7 @@ export default function LoginForm() {
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
+                <Input
                   id="email"
                   name="email"
                   type="email"
@@ -74,7 +78,7 @@ export default function LoginForm() {
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
-                <input
+                <Input
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
@@ -84,6 +88,7 @@ export default function LoginForm() {
                 />
                 <button
                   type="button"
+                  
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
@@ -94,9 +99,11 @@ export default function LoginForm() {
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
 
-            <div className="mb-1">
-              <input type="checkbox" name="remember" id="remember" />
-              <label className="p-2">Remember me</label>
+            <div className="mb-1 flex items-center space-x-2">
+              <Checkbox id="remember" className=""/>
+              <Label htmlFor="remember" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Remember me
+              </Label>
             </div>
 
             <div className="mb-4 text-sm">
@@ -105,13 +112,13 @@ export default function LoginForm() {
               </p>
             </div>
 
-            <button
+            <Button
               disabled={loading}
               type="submit"
               className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
             >
               {loading ? "Processing..." : "Login"}
-            </button>
+            </Button>
 
             <p className="text-center text-sm text-gray-600">
               Create a new account?{" "}

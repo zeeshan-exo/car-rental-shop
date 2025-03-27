@@ -3,6 +3,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { formatCurrency } from "@/lib/currency";
 
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -55,7 +56,7 @@ export default function CheckoutButton({ car }: CheckoutButtonProps) {
       <h1 className="text-xl font-bold">Checkout</h1>
       <div>
         <h2>{car.carName}</h2>
-        <p>Price per day: ${car.rentalRate}</p>
+        <p>Price per day: {formatCurrency(car.rentalRate)}</p>
       </div>
 
       <Button
