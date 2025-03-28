@@ -92,9 +92,14 @@ const LandingPage = () => {
             Browse 
             </Link>
           ):(
-            <Link href="/auth/login" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
+            <div className='flex items-start gap-4'>
+              <Link href="/auth/login" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-xl hover:bg-blue-50 transition duration-300">
             Login 
            </Link>
+           <Link href="/auth/signup" className="bg-AppAccent text-white hover:bg-amber-600 font-bold py-3 px-6 rounded-xl transition duration-300">
+            Signup
+           </Link>
+            </div>
           )}
 
           </motion.div>

@@ -1,8 +1,6 @@
 "use client"
-import PieChartWithCustomizedLabel from "@/components/cars/BarChart"
-import StatCard from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
-import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, Search } from "lucide-react"
+import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw } from "lucide-react"
 import { MapProvider } from "@/provider/map-provider"
 import dynamic from "next/dynamic"
 import { useState, useEffect } from "react"
@@ -12,9 +10,11 @@ import { getCustomerOrders } from "@/actions/booking"
 import { useSession } from "next-auth/react"
 import { CardHeader} from "@/components/ui/card"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
-import StatusCards from "@/components/StatusCards"
 import { Booking } from "@/lib/definations/bookingdefinations"
 import { formatCurrency } from "@/lib/currency"
+const PieChartWithCustomizedLabel = dynamic(() => import ("@/components/cars/BarChart"))
+const StatCard = dynamic(() => import("@/components/StatCard"))
+const StatusCards = dynamic(() => import("@/components/StatusCards"))
 const Map = dynamic(() => import("@/components/Map"), {ssr: false}) 
 
 
@@ -73,7 +73,11 @@ const page = () => {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Button variant="outline" size="sm" className="text-green-700 border-green-200 hover:bg-green-50">
+                <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => router.push("/user/cars")}
+                className="text-green-700 border-green-200 hover:bg-green-50">
                   <Car className="h-4 w-4 mr-1" /> 
                   Book
                 </Button>
@@ -176,11 +180,11 @@ const page = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
             
-                <CardHeader>All Vehicles</CardHeader>
+                <CardHeader className="text-white">All Vehicles</CardHeader>
                   <Button 
                     size="sm" 
                     className="mt-3 bg-white text-sky-800 hover:bg-sky-50 w-32"
-                    onClick={()=> router.push("/dashboard/products")}
+                    onClick={()=> router.push("/user/car")}
                   >
                     View All
                   </Button>
