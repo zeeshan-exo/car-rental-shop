@@ -9,8 +9,11 @@ const page = () => {
     const user = session?.user
     const userId = session?.user.id
     const role = session?.user?.role
+
+    // console.log("Role:", role)
+    // console.log("User Id:", userId)
   return (
-    <div><Chat userId='userId' userRole='role'/></div>
+    <div><Chat userId={session?.user.id} userRole={session?.user?.role}/></div>
   )
 }
 

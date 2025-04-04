@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, ReactNode } from 'react'
 import io from 'socket.io-client'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -7,10 +7,8 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Send } from 'lucide-react'
 import { Sheet, 
-    SheetClose,
      SheetContent, 
     SheetDescription, 
-    SheetFooter,
      SheetHeader,
      SheetTitle,
      SheetTrigger
@@ -30,7 +28,7 @@ interface Message {
 }
 
 interface ChatProps {
-    userId: string;
+    userId: string | ReactNode;
     userRole: "customer" | "vendor";
     recieverId: string;
     recieverRole: "customer" | "vendor";
@@ -77,7 +75,7 @@ export const Chat: React.FC<ChatProps> = ({
                 message: input,
                 timestamp: new Date().toISOString()
             }
-
+            console.log("Message:", messageData)
             socket.emit("sendMessage", messageData)
 
             setMessages((prev) => [...prev, messageData])
@@ -99,11 +97,11 @@ export const Chat: React.FC<ChatProps> = ({
             </SheetTrigger>
             <SheetContent side="right">
                 <SheetHeader>
-                    <SheetTitle>Real time cha</SheetTitle>
+                    <SheetTitle>Chat</SheetTitle>
                     <SheetDescription>Start Chat with the vendor for more details.</SheetDescription>
                 </SheetHeader>
-                <Card className="w-full max-w-md mx-auto">
-            <CardContent className="p-4">
+                <Card className="w-full max-w-md mx-auto mt-6 bg-slate-50">
+            <CardContent className="p-4 rounded-t-xl mb-2">
                 <ScrollArea 
                     ref={scrollAreaRef} 
                     className="h-[400px] pr-4"
@@ -117,7 +115,7 @@ export const Chat: React.FC<ChatProps> = ({
                                 <div 
                                     className={`max-w-[70%] p-2 rounded-lg ${
                                         msg.senderId === userId 
-                                            ? 'bg-AppAccent text-white' 
+                                            ? 'bg-AppPrimary text-white' 
                                             : 'bg-gray-200 text-black'
                                     }`}
                                 >
@@ -128,22 +126,22 @@ export const Chat: React.FC<ChatProps> = ({
                     </div>
                 </ScrollArea>
             </CardContent>
-            <CardFooter className="flex gap-2">
+            <CardFooter className="flex gap-2 z-50">
                 <Input 
-                    placeholder="Type a message..." 
+                    placeholder="Send message..." 
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyPress}
-                    className="flex-1"
+                    className="flex-1 border-gray-400"
                 />
                 <Button 
                     onClick={sendMessage} 
                     disabled={!input.trim()}
                     size="icon"
-                    className='bg-AppAccent'
+                    className='bg-AppPrimary'
                     
                 >
-                    <Send className="h-4 w-4 bg-AppAccent" />
+                    <Send className="h-4 w-4 bg-AppPrimary" />
                 </Button>
             </CardFooter>
         </Card>
