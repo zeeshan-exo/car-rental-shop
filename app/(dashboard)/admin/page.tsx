@@ -3,9 +3,9 @@ import DisplayUsers from './users/displayUsers'
 
 const page = () => {
   return (
-    <div>
+    <>
       Admin Pages
-    </div>
+    </>
   )
 }
 

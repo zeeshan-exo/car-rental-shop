@@ -35,7 +35,7 @@ const sidebarItems = [
     icon: ShoppingCart 
   },
   { 
-    title: "Notifications", 
+    title: "Messages", 
     url: "/notifications", 
     icon: Bell,
     notifications: 3 

@@ -17,7 +17,7 @@ import { CarType } from "@/lib/definations/carDefinations"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
 import dynamic from "next/dynamic"
 import { formatCurrency } from "@/lib/currency"
-const Map = dynamic(() => import("@/components/Map"))
+const Map = dynamic(() => import("@/components/Map"), {ssr: false})
 
 const Dashboard = () => {
   const [orders, setOrders] = useState<Booking[]>([])

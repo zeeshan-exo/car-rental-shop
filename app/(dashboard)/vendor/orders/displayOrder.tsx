@@ -7,6 +7,7 @@ import { Booking } from "@/lib/definations/bookingdefinations";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { useSession } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,13 +27,19 @@ import {
   User,
   Car
 } from "lucide-react";
+import { Chat } from "@/components/Chat";
 
 export default function VendorOrdersManagement() {
+
   const [orders, setOrders] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredOrders, setFilteredOrders] = useState<Booking[]>([]);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+
+  const {data: token, session} = useSession()
+
+  const role = session?.user?.role
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -246,7 +253,7 @@ export default function VendorOrdersManagement() {
                   {expandedOrder === order._id && (
                     <div className="p-4 bg-white border-t">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div>
+                        <>
                           <h4 className="font-medium text-gray-700 mb-2">Customer Information</h4>
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
@@ -262,9 +269,9 @@ export default function VendorOrdersManagement() {
                               {order.userDetails?.contact}
                             </p>
                           </div>
-                        </div>
+                        </>
                         
-                        <div>
+                        <>
                           <h4 className="font-medium text-gray-700 mb-2">Vehicle Details</h4>
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
@@ -280,9 +287,9 @@ export default function VendorOrdersManagement() {
                               </p>
                             )}
                           </div>
-                        </div>
+                        </>
                         
-                        <div>
+                        <>
                           <h4 className="font-medium text-gray-700 mb-2">Appointment Details</h4>
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
@@ -299,9 +306,9 @@ export default function VendorOrdersManagement() {
                               <span className="flex-1">{order.pickupLocation}</span>
                             </p>
                           </div>
-                        </div>
+                        </>
 
-                        <div>
+                        <>
                           <h4 className="font-medium text-gray-700 mb-2">Payment Details</h4>
                           <div className="space-y-2">
                             <p className="text-sm flex items-center">
@@ -309,7 +316,12 @@ export default function VendorOrdersManagement() {
                               {order.paymentStatus}
                             </p>
                           </div>
-                        </div>
+                        </>
+
+                        <>
+                        <h4 className="font-medium text-gray-700 mb-2">Chat</h4>
+                        <Chat userId={order?.vendorDetails?.vendorId} userRole={order?.vendorDetails?.role} recieverId={order?.userDetails?.userId} recieverRole={order?.userDetails?.role}/>
+                        </>
                       </div>
                       
                       <div className="mt-4 pt-4 border-t">

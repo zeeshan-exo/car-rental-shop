@@ -30,7 +30,7 @@ interface Message {
 interface ChatProps {
     userId: string | ReactNode;
     userRole: "customer" | "vendor";
-    recieverId: string;
+    recieverId: string | ReactNode;
     recieverRole: "customer" | "vendor";
 }
 
@@ -76,7 +76,7 @@ export const Chat: React.FC<ChatProps> = ({
                 timestamp: new Date().toISOString()
             }
             console.log("Message:", messageData)
-            socket.emit("sendMessage", messageData)
+            socket.emit("send_message", messageData)
 
             setMessages((prev) => [...prev, messageData])
 
@@ -95,7 +95,7 @@ export const Chat: React.FC<ChatProps> = ({
             <SheetTrigger asChild>
                 <Button variant={"outline"}>Chat</Button>
             </SheetTrigger>
-            <SheetContent side="right">
+            <SheetContent side={"bottom"}>
                 <SheetHeader>
                     <SheetTitle>Chat</SheetTitle>
                     <SheetDescription>Start Chat with the vendor for more details.</SheetDescription>

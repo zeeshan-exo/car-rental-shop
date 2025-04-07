@@ -13,8 +13,8 @@ import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Ta
 import { Booking } from "@/lib/definations/bookingdefinations"
 import { formatCurrency } from "@/lib/currency"
 const PieChartWithCustomizedLabel = dynamic(() => import ("@/components/cars/BarChart"))
-const StatCard = dynamic(() => import("@/components/StatCard"))
-const StatusCards = dynamic(() => import("@/components/StatusCards"))
+const StatCard = dynamic(() => import("@/components/StatCard"), {ssr: false})
+const StatusCards = dynamic(() => import("@/components/StatusCards"), {ssr: false})
 const Map = dynamic(() => import("@/components/Map"), {ssr: false}) 
 
 

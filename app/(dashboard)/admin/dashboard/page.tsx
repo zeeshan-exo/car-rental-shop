@@ -13,7 +13,7 @@ const Dashboard = () => {
     
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Header with improved contrast and clarity */}
+      
       <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-white p-6 shadow-md">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>

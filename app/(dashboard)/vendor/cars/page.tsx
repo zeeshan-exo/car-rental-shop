@@ -4,9 +4,9 @@ import ProductsPage from './carsPage'
  function productPage  () {
   
   return (
-    <div>
+    <>
       <ProductsPage/>
-    </div>
+    </>
   )
 }
 

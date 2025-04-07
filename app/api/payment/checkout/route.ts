@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
 
-    const { carId, carName, rentalRate, userEmail } = await req.json();
+    const { carId, carName, rentalRate, pickupDate, userEmail } = await req.json();
 
     if (!rentalRate || isNaN(rentalRate)) {
       return NextResponse.json(
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
       mode: "payment",
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/cancel`,
-      metadata: { carId, userEmail },
+      metadata: { carId, userEmail, pickupDate },
     });
 
     console.log("Stripe session created:", session.id);
