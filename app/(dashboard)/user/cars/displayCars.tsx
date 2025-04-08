@@ -11,7 +11,6 @@ import {
   SheetTrigger 
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
-// import CarCard from "@/components/cars/CarCard";
 import dynamic from "next/dynamic";
 const CarCard = dynamic(() => import("@/components/cars/CarCard"))
 import HeroBanner from "@/components/sections/HeroBanner";

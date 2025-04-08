@@ -195,7 +195,7 @@ export async function getVendorOrders(): Promise<Booking[]> {
   }
 }
 
-export async function getCustomerOrders(){
+export async function getUserOrders(){
   try {
 
     const session = await getServerSession( authOptions);

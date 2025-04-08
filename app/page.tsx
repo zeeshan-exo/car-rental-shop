@@ -60,7 +60,7 @@ const LandingPage = () => {
     <div className="min-h-screen bg-gray-50">
      
       <motion.div 
-        className="bg-blue-600 text-white py-16"
+        className="bg-AppPrimary text-white py-16"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -88,12 +88,12 @@ const LandingPage = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
           {user ? (
-            <Link href="/user/cars" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
+            <Link href="/user/cars" className="bg-white text-AppPrimary font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
             Browse 
             </Link>
           ):(
             <div className='flex items-start gap-4'>
-              <Link href="/auth/login" className="bg-white text-blue-600 font-bold py-3 px-6 rounded-xl hover:bg-blue-50 transition duration-300">
+              <Link href="/auth/login" className="bg-white text-AppPrimary font-bold py-3 px-6 rounded-xl hover:bg-blue-50 transition duration-300">
             Login 
            </Link>
            <Link href="/auth/signup" className="bg-AppAccent text-white hover:bg-amber-600 font-bold py-3 px-6 rounded-xl transition duration-300">
@@ -148,7 +148,7 @@ const LandingPage = () => {
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-xl font-bold">{car.brand} {car.carName}</h3>
-                  <p className="text-lg font-bold text-blue-600">{formatCurrency(car.rentalRate)}/day</p>
+                  <p className="text-lg font-bold text-AppPrimary">{formatCurrency(car.rentalRate)}/day</p>
                 </div>
                 <p className="text-gray-600 mb-3">Year: {car.modelYear}</p>
                 <p className="text-gray-800 mb-4 line-clamp-1">{car.details?.text || "Experience luxury and comfort"}</p>
@@ -171,13 +171,13 @@ const LandingPage = () => {
                 <div className="flex justify-between">
                   <button 
                     className={`px-4 py-2 rounded-md ${car.isAvailable === "available" 
-                      ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                      ? "bg-AppPrimary hover:bg-[#0062cc] text-white" 
                       : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
                     disabled={car.isAvailable !== "available"}
                   >
                     {car.isAvailable === "available" ? "Book Now" : "Not Available"}
                   </button>
-                  <button className="px-4 py-2 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition duration-300">
+                  <button className="px-4 py-2 border border-AppPrimary text-AppPrimary rounded-md hover:bg-blue-50 transition duration-300">
                     Details
                   </button>
                 </div>

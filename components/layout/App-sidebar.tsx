@@ -1,4 +1,4 @@
-import { Car, Home, ShoppingCart, Settings, Bell, HelpCircle, ChevronDown } from "lucide-react";
+import { Car, Home, ChartNoAxesCombined ,Mail , UserRoundCheck,  Users , ShoppingCart, Settings, Bell, HelpCircle, ChevronDown, TicketCheck } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -25,19 +25,37 @@ const sidebarItems = [
     icon: ShoppingCart 
   },
   { 
-    title: "My Cars", 
+    title: "Cars", 
     url: "/vendor/cars", 
     icon: Car 
   },
   { 
-    title: "Orders", 
+    title: "Bookings", 
     url: "/vendor/orders", 
-    icon: ShoppingCart 
+    icon: TicketCheck 
   },
   { 
     title: "Messages", 
     url: "/notifications", 
-    icon: Bell,
+    icon: Mail ,
+    notifications: 3 
+  },
+  { 
+    title: "Tracking", 
+    url: "/notifications", 
+    icon: UserRoundCheck ,
+    notifications: 3 
+  },
+  { 
+    title: "Clients", 
+    url: "/notifications", 
+    icon: Users ,
+    notifications: 3 
+  },
+  { 
+    title: "Report", 
+    url: "/notifications", 
+    icon: ChartNoAxesCombined ,
     notifications: 3 
   },
 ];

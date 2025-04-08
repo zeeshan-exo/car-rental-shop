@@ -84,7 +84,7 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
                 </div>
               ) : car && (
                 <>
-                  <div className="bg-gradient-to-r from-AppPrimary to-blue-600 py-4 px-8 flex justify-between items-center">
+                  <div className="bg-gradient-to-r from-AppPrimary to-AppPrimaryHover py-4 px-8 flex justify-between items-center">
                     <h2 className="text-xl font-bold text-white flex items-center">
                       <Star className="mr-2" size={20} fill="white" stroke="none" /> 
                       Car Details

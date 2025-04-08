@@ -8,6 +8,7 @@ import { MapProvider } from "@/provider/map-provider"
 import CurrentOrders from "@/app/(dashboard)/vendor/cars/currentBookings"
 import { getVendorOrders } from "@/actions/booking"
 import { getVendorCars } from "@/actions/cars"
+import { useSession } from "next-auth/react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
@@ -24,6 +25,9 @@ const Dashboard = () => {
   const [cars, setCars] = useState<CarType[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("overview")
+
+  const{data: session} = useSession()
+  const userName = session?.user?.name
 
   const fetchData = async () => {
     setLoading(true)
@@ -56,9 +60,10 @@ const Dashboard = () => {
           <div className="container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
-                <h1 className="text-3xl font-bold">Car Rental Dashboard</h1>
+                <h1 className="text-3xl font-bold">AutoNex Dashboard</h1>
                 <p className="text-sky-100 mt-1">
-                  Welcome back! You have {reservations.length} pending reservations
+                  Welcome back! {userName ? 
+              userName?.charAt(0).toLocaleUpperCase() +userName?.slice(1) : ""} You have {reservations.length} pending reservations
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -153,7 +158,7 @@ const Dashboard = () => {
             <TabsContent value="bookings">
               <Card>
                 <CardHeader>
-                  <CardTitle>Bookings</CardTitle>
+                  <CardTitle>Booking List</CardTitle>
                   <CardDescription>Bookings</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -191,29 +196,29 @@ const Dashboard = () => {
 
             <TabsContent value="overview">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <StatCard
-                  title="Total Cars Rented"
-                  value={rentedCars.length}
-                  change="+12%"
-                  icon={<Car className="h-6 w-6 text-sky-700" />}
-                />
-                <StatCard
-                  title="Active Customers"
-                  value="12"
-                  change="+8%"
-                  icon={<Users className="h-6 w-6 text-emerald-600" />}
-                />
-                <StatCard
+              <StatCard
                   title="Monthly Revenue"
                   value={formatCurrency(24350)}
                   change="+15%"
                   icon={<CreditCard className="h-6 w-6 text-indigo-600" />}
                 />
                 <StatCard
+                  title="Rented Cars"
+                  value= {rentedCars.length }
+                  change="+12%"
+                  icon={<Car className="h-6 w-6 text-sky-700" />}
+                />
+                <StatCard
                   title="Pending Reservations"
-                  value={reservations.length}
+                  value={reservations.length} Units
                   change="+4%"
                   icon={<Calendar className="h-6 w-6 text-amber-600" />}
+                />
+                <StatCard
+                  title="Available Cars"
+                  value={totalCars}
+                  change="+8%"
+                  icon={<Car className="h-6 w-6 text-emerald-600" />}
                 />
               </div>
 
@@ -250,13 +255,13 @@ const Dashboard = () => {
 
                   <Card className="shadow-sm">
                     <CardHeader className="pb-2 pt-4 px-4 flex flex-row justify-between items-center">
-                      <div>
+                      <>
                         <CardTitle className="text-lg text-gray-800 flex items-center">
                           <BarChart3 className="h-5 w-5 text-sky-700 mr-2" />
                           Car Distribution
                         </CardTitle>
                         <CardDescription className="text-gray-500">Fleet analytics by model and status</CardDescription>
-                      </div>
+                      </>
                       <div className="flex bg-gray-100 rounded-md p-1">
                         <Button variant="ghost" size="sm" className="rounded-sm hover:bg-white text-xs">Weekly</Button>
                         <Button variant="ghost" size="sm" className="rounded-sm hover:bg-white text-xs">Monthly</Button>

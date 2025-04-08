@@ -10,7 +10,7 @@ export default {
   	extend: {
   		colors: {
 			AppPrimary: "#007BFF", 
-			AppPrimary2:"#004ea3", 
+			AppPrimaryHover:"#0062cc", 
 			AppSecondary: "#1C1C1C", 
 			AppAccent: "#FF9500",  
 			AppLight: "#F5F5F5",  

@@ -1,6 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
-const ImageSlider = dynamic(() => import("./ImageSlider"), {ssr : false})
+// const ImageSlider = dynamic(() => import("./ImageSlider"), {ssr : false})
+import ImageSlider from "./ImageSlider";
 import Image from "next/image";
 import Viewcar from "@/app/(dashboard)/user/cars/viewCar";
 import { Users, GaugeCircle, Fuel, CalendarDays } from "lucide-react";

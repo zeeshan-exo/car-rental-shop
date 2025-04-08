@@ -45,7 +45,7 @@ const page = () => {
   const totalCars = carsdata.length
 
   const { data: session } = useSession()
-  const user = session?.user
+  const userName = session?.user?.name
 
   return (
     <MapProvider>
@@ -54,7 +54,8 @@ const page = () => {
           <div className="container mx-auto flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold">Dashboard</h1>
-              <p className="text-sky-100 mt-1">Welcome to car rental shop</p>
+              <p className="text-sky-100 mt-1">Welcome {userName ? 
+              userName?.charAt(0).toLocaleUpperCase() +userName?.slice(1) : ""} to AutoNex. You have booked current total {rentedCars.length} cars.</p>
             </div>
             <div className="hidden md:flex space-x-2">
               <Button size="sm" className="bg-white/20 hover:bg-white/30 backdrop-blur-sm">
@@ -63,7 +64,7 @@ const page = () => {
               </Button>
               <Button size="sm" className="bg-white text-sky-800 hover:bg-sky-100">
                 <Clock className="h-4 w-4 mr-2" />
-                Activity Log
+                Profile
               </Button>
             </div>
           </div>
@@ -104,15 +105,15 @@ const page = () => {
           <TabsContent value="overview">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
             <StatCard 
-              title="Rented Car" 
+              title="Current Reservation" 
               value={rentedCars.length}
               change="+40%" 
               icon={<Car className="h-6 w-6 text-sky-700" />} 
             />
             
             <StatCard 
-              title="Active Vendor" 
-              value="12" 
+              title="Booking Status" 
+              value="Pending" 
               change="+12%" 
               icon={<Users className="h-6 w-6 text-emerald-600" />} 
             />

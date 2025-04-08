@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 interface CardProps {
   title: string;
-  value: number | string ,
+  value: number | string | ReactNode,
   change: string,
   icon: ReactNode;
 }
