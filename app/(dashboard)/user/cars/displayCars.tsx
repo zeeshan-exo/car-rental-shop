@@ -15,7 +15,8 @@ import dynamic from "next/dynamic";
 const CarCard = dynamic(() => import("@/components/cars/CarCard"))
 import HeroBanner from "@/components/sections/HeroBanner";
 import Filters from "@/components/cars/Filters";
-
+import Footer from "@/components/layout/Footer";
+import Features from "@/components/sections/Features";
 type Car = {
   _id: string;
   brand: string;
@@ -119,6 +120,8 @@ const DisplayCars : React.FC<DisplayCarsProps> = ({ cars }) => {
           )}
         </div>
       </div>
+      {/* <Features/>
+      <Footer/> */}
     </div>
   );
 }

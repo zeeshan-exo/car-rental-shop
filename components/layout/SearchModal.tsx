@@ -226,9 +226,10 @@ const SearchModal = ({
             <Button 
               onClick={handleSearch} 
               disabled={!inputValue}
-              className="flex items-center"
+              
+              className="flex items-center text-white bg-AppPrimary hover:bg-AppPrimaryHover"
             >
-              <Search className="mr-2 h-4 w-4" />
+              <Search className="h-4 w-4" />
               Search
             </Button>
           </div>

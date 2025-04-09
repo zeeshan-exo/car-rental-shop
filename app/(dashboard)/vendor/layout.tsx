@@ -3,6 +3,7 @@ import React from "react";
 import Header from "@/components/layout/Header";
 import { useSession } from "next-auth/react";
 import ProfileImage from "@/components/user/ProfileImage";
+import Profile from "@/components/Tabs/Profile";
 import Link from "next/link";
 import { House, Search, ShoppingCart, Car, LayoutDashboard } from "lucide-react";
 import Notifications from "@/components/Notifications";
@@ -48,7 +49,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
                       <Notifications userId={user.id} role={user.role || "vendor"} />
                     </div>
                     <div className="flex items-center gap-2">
-                      <ProfileImage />
+                      <Profile />
                     </div>
                   </>
                 ) : (

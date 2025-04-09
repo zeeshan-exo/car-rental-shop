@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Header from "../../../components/layout/Header";
 import ProfileImage from "@/components/user/ProfileImage";
+import Profile from "@/components/Tabs/Profile";
 import Link from "next/link";
 import Viewcar from "./cars/viewCar";
 import { Search, House, Heart, Car, LayoutDashboard } from "lucide-react";
@@ -56,7 +57,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 {user ? (
                   <>
                     <Notifications userId={user.id} role={user.role || "customer"} />
-                    <ProfileImage />
+                    <Profile/>
                   </>
                 ) : (
                   <Link

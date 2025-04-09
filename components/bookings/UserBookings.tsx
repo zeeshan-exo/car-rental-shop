@@ -94,7 +94,7 @@ export default function VendorOrdersManagement() {
       <Card className="shadow-sm border-gray-200">
         <CardHeader className="pb-2">
           <div className="flex justify-between items-center">
-            <CardTitle className="text-2xl font-bold text-gray-800">Orders Management</CardTitle>
+            <CardTitle className="text-2xl font-bold text-gray-800">Bookings</CardTitle>
             <Button 
               onClick={fetchOrders} 
               variant="outline"

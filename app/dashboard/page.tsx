@@ -7,6 +7,11 @@ import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from '@/components/Ta
 import { getAllCars } from '@/actions/cars'
 import { getUserOrders } from '@/actions/booking'
 import DisplayCars from '../(dashboard)/user/cars/displayCars'
+import Overview from '@/components/Tabs/Overview'
+import UserBookings from "@/components/bookings/UserBookings";
+import Welcome from '@/components/Tabs/Welcome'
+import History from '@/components/Tabs/History'
+import Track from '@/components/Tabs/Track'
 
 const  page= async() => {
 //   const [activeTab ,setActiveTab] = useState("overview")
@@ -25,35 +30,10 @@ const  page= async() => {
     ]}
     />
     
-    <div  className='flex flex-row gap-4'>
-     <StatCard
-    title='Current Reservation'
-    value="1"
-    change='3'
-    icon={<Ticket />}
-    />
-     <StatCard
-    title='Boking Status'
-    value="1"
-    change='3'
-    icon={<Ticket />}
-    />
-    <StatCard
-    title='Current Reservation'
-    value="1"
-    change='3'
-    icon={<Ticket />}
-    />
-     <StatCard
-    title='Boking Status'
-    value="1"
-    change='3'
-    icon={<Ticket />}
-    />
-    </div>
-
-    
     <div className='container mx-auto px-4 py-6'>
+      <div><Welcome/></div>
+    
+    <div className='container mx-auto py-6'>
         <TabsWrapper >
             <TabsList>
                 <TabsTrigger value='overview'>Overview</TabsTrigger>
@@ -64,7 +44,7 @@ const  page= async() => {
             </TabsList>
 
             <TabsContent value='overview'>
-                <p>Overview</p>
+                <Overview/>
                 
             </TabsContent>
 
@@ -74,18 +54,19 @@ const  page= async() => {
             </TabsContent>
 
             <TabsContent value="booking">
-                <p>Booking</p>
+                <UserBookings/>
             </TabsContent>
 
             <TabsContent value='track'>
-                <p>Track</p>
-            </TabsContent>
+                <Track/>
+             </TabsContent>
 
             <TabsContent value='history'>
-                <p>History</p>
+                <History/>
             </TabsContent>
         </TabsWrapper>
     </div>
+</div>
     
     </>
   )

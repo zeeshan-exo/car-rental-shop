@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { LogOut, X, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
+
 const ProfileImage = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
@@ -59,15 +60,20 @@ const ProfileImage = () => {
 
             {session ? (
               <div className="space-y-3 text-gray-600">
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <span className="text-xs text-gray-400">Email</span>
                   <span className="font-medium">{user?.email}</span>
-                </div>
-                {/* Optionally display role */}
-                {/* <div className="flex flex-col">
-                  <span className="text-xs text-gray-400">Role</span>
-                  <span className="font-medium">{user?.role}</span>
                 </div> */}
+                <div>
+                  <Button
+                  size="sm"
+                  className="bg-AppLight/20 hover:bg-AppLight/30 text-AppPrimary w-full"
+                  >
+                    <User className="h-5 w-5 text-AppPrimary"/>
+                    Profile Settings
+                  </Button>
+                </div>
+                
               </div>
             ) : (
               <div className="flex items-center justify-center py-4">
@@ -78,7 +84,8 @@ const ProfileImage = () => {
 
             <Button
               onClick={() => signOut()}
-              className="mt-6 w-full text-sm font-medium text-white bg-AppDanger hover:bg-red-600 p-3 rounded-md flex items-center justify-center transition-colors"
+              size={"sm"}
+              className="mt-4 w-full text-sm font-medium text-white bg-AppDanger hover:bg-red-600 p-3 rounded-md flex items-center justify-center transition-colors"
             >
               <LogOut size={16} className="mr-2" /> Logout
             </Button>

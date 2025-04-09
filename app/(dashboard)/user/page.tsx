@@ -6,7 +6,7 @@ import dynamic from "next/dynamic"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { getAllCars } from "@/actions/cars"
-import { getCustomerOrders } from "@/actions/booking"
+import { getUserOrders } from "@/actions/booking"
 import { useSession } from "next-auth/react"
 import { CardHeader} from "@/components/ui/card"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
@@ -25,7 +25,7 @@ const page = () => {
   const router = useRouter()
 
   const fetchData = async () => {
-    const orderData = await getCustomerOrders()
+    const orderData = await getUserOrders()
     setOrders(orderData)
 
     const { cars } = await getAllCars()

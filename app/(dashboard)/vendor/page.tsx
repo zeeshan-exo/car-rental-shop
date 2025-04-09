@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge"
 import StatusCards from "@/components/StatusCards"
 import { Booking } from "@/lib/definations/bookingdefinations"
 import { CarType } from "@/lib/definations/carDefinations"
+import Welcome from "@/components/Tabs/Welcome"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
 import dynamic from "next/dynamic"
 import { formatCurrency } from "@/lib/currency"
@@ -26,8 +27,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("overview")
 
-  const{data: session} = useSession()
-  const userName = session?.user?.name
+  // const{data: session} = useSession()
+  // const userName = session?.user?.name
 
   const fetchData = async () => {
     setLoading(true)
@@ -56,7 +57,7 @@ const Dashboard = () => {
   return (
     <MapProvider>
       <div className="bg-gray-50 min-h-screen">
-        <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-white p-6 shadow-md">
+        {/* <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-white p-6 shadow-md">
           <div className="container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
@@ -71,14 +72,15 @@ const Dashboard = () => {
                   <AlertCircle className="h-4 w-4 mr-2" />
                   Notifications
                 </Button>
-                <Button size="sm" className="bg-white text-sky-800 hover:bg-sky-100">
+                <Button size="sm" className="bg-AppLight text-sky-800 hover:bg-sky-100">
                   <Clock className="h-4 w-4 mr-2" />
                   Activity Log
                 </Button>
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+        <Welcome/>
 
         <div className="bg-white border-b shadow-sm py-3">
           <div className="container mx-auto px-4">

@@ -1,3 +1,32 @@
+
+// import { getAllCars } from "@/actions/cars"
+// import DisplayCars from "./(dashboard)/user/cars/displayCars"
+// import Pagination from "@/components/Pagination"
+
+
+// export default async function (props:{
+//   searchParams?: Promise<{
+//     page?: string
+//   }>
+// }) {
+//   const searchParams = await props.searchParams
+//   const currentPage = Number(searchParams?.page)|| 1
+//   const {cars, totalPages} = await getAllCars(currentPage)
+
+//   return (
+
+//     <div>
+//       <DisplayCars cars={cars}/>
+//       <div>
+//         {totalPages > 1 && <Pagination totalPages={totalPages}/>}
+//       </div>
+//       </div>
+//   )
+// }
+
+
+
+
 "use client"
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
