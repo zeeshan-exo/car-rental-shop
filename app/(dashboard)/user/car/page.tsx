@@ -10,14 +10,7 @@ import Features from '@/components/cars/Features'
 const page = async () => {
 
   const {cars} = await getAllCars()
-  
-  // useEffect(() => {
-  //   const fetchCars = async() =>{
-  //     const {cars} = await getAllCars()
-  //     setCars({})
-  //   }
-  //   fetchCars()
-  // }, [])
+
   return (
     <div>
         <SearchCars/>

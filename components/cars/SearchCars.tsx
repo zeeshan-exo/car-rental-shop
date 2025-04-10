@@ -35,6 +35,7 @@ const SearchCars = () => {
   const [city, setCity] = useState("")
   const [pickupTime, setPickupTime] = useState("")
   const [dropTime, setDropTime] = useState("")
+  const [tripType, setTripType] = useState("Within City")
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -54,15 +55,15 @@ const SearchCars = () => {
                 <p className='text-2xl mb-4'>Find the best and affordable cars</p>
             </div>
             <div >
-                <RadioGroup>
+                <RadioGroup value={tripType} onValueChange={setTripType}>
                   <div className='flex flex-wrap gap-4 mb-4'>
                   <div className='flex flex-row gap-2'>
-                    <RadioGroupItem value="Within City" />
+                    <RadioGroupItem value="Within City" id='within city' />
                     <Label>Within City</Label>
                   </div>
                   <div className='flex flex-row gap-2 '>
-                    <RadioGroupItem value='Out of City' />
-                    <Label>Out of City</Label>
+                    <RadioGroupItem value='Out of City' id='out-of-city' />
+                    <Label htmlFor='out-of-city'>Out of City</Label>
                   </div>
                   </div>
                 </RadioGroup>
@@ -138,25 +139,30 @@ const SearchCars = () => {
               </div>
             </div>
         </div>
-        <div className='bg-AppLight mb-4 p-6 border border-gray-400'>
-          {/* {checked && checked === ""} */}
-          <div className=''>
-              <div className='p-4'>
-                <div className='mb-2 '>
-                <h1 className='text-AppSecondary text-2xl flex items-center gap-2'> <ShieldAlert className='text-AppSecondary'/>Highlights for intracity</h1>
-                </div>
+        <div className='bg-AppLight mb-4 p-8 border border-gray-400'>
+          {tripType  && (
+                <>
+                <h1 className='text-AppSecondary text-2xl flex items-center gap-2 mb-2'> <ShieldAlert className='text-AppSecondary'/>Highlights for intracity</h1>
+                
                 <ul className='text-AppDark list-disc'>
                   <li className=''>
                     <p><span className=''>Fuel and Charges: </span>Customers are responsible for fuel consumption, toll taxes, and parking fees. No fuel charges for pickup and drop-off within a 10 km range of the driver’s location; otherwise, fuel charges apply.</p>
                   </li>
                   <li><span>Rental Duration:</span> Vehicle use is limited to up to 12 hours or until 12 AM, whichever is less. For Karachi City, the duration is up to 10 hours and till 10 PM.</li>
-                  <li>E-Challan: The chauffeur covers e-challan fees, but if the customer requests fast driving leading to a violation, the customer will be responsible for the e-challan.</li>
-                  <li>Bookme holds the right to offboard the customer for unethical or social unacceptable behaviour without any refund.</li>
-                </ul>
-              </div>
+                  {tripType === "Out of City" && (
 
-          </div>
-        </div>
+                  <li>Geographical Restrictions: Service is available only within Pakistan mainland. FATA and Northern Areas are excluded. When renting from us, note that standard vehicles are ideal for city and well-maintained roads but may not handle challenging terrains like mountains or off-road areas. For safety and vehicle protection, choose a vehicle suited to your route and conditions.</li>
+                                      
+                )}
+                  {/* <li>E-Challan: The chauffeur covers e-challan fees, but if the customer requests fast driving leading to a violation, the customer will be responsible for the e-challan.</li> */}
+                  <li>AutoNex holds the right to offboard the customer for unethical or social unacceptable behaviour without any refund.</li>
+                </ul>
+                </>
+          
+              )
+          }
+            </div> 
+
     </div>
   )
 }

@@ -58,14 +58,15 @@ const DisplayCars : React.FC<DisplayCarsProps> = ({ cars }) => {
   return (
     <div className="bg-AppLight">
       {/* <HeroBanner /> */}
-      {/* <div>
+      <div>
         <div>
           <div>
-          <span><ShieldAlert/></span>
-            <h2>Highlights for intracity</h2>
+          
+            <h2>Price</h2>
+            <Button >Rent from </Button>
           </div>
         </div>
-      </div> */}
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
