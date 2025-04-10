@@ -68,7 +68,7 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
     <div>
       <Button
         onClick={openModal}
-        className="bg-AppAccent text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-yellow-700 transition-all duration-300 font-medium flex items-center gap-2"
+        className="bg-AppPrimary text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-yellow-700 transition-all duration-300 font-medium flex items-center gap-2"
       >
         Details <ChevronRight size={16} />
       </Button>

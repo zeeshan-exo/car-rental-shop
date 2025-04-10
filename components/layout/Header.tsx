@@ -16,8 +16,8 @@ interface NavLinkWithOnClick {
 type NavLink = NavLinkWithHref | NavLinkWithOnClick
 
 interface HeaderProps{
-  title: string | React.ReactNode,
-  navLinks: NavLink[]
+  title?: string | React.ReactNode,
+  navLinks?: NavLink[]
   rightContent: React.ReactNode,
   className?: string
 }
@@ -28,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ title, navLinks, rightContent, classNam
       <div className='flex justify-between items-center'>
         <div className='text-2xl font-bold font-sans tracking-wide'>{title}</div>
         <div className='hidden md:flex space-x-6 text-lg font-medium'>
-          {navLinks.map((link, index)=>(
+          {navLinks && navLinks.map((link, index)=>(
             <div key={index}>
               {link.onClick ? (
                 <button onClick={link.onClick} className="text-gray-600 hover:text-blue-500">

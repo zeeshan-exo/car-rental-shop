@@ -60,7 +60,13 @@ const sidebarItems = [
   },
 ];
 
-export function AppSidebar() {
+interface AppSidebarProps {
+   title: string,
+   url: ReactNode | string
+   icon: ReactNode | string
+}
+
+export function AppSidebar({title, url, icon}: AppSidebarProps) {
   const [activeItem, setActiveItem] = useState("Home");
 
   return (

@@ -5,11 +5,30 @@ import ProfileImage from "@/components/user/ProfileImage";
 import Profile from "@/components/Tabs/Profile";
 import Link from "next/link";
 import Viewcar from "./cars/viewCar";
-import { Search, House, Heart, Car, LayoutDashboard } from "lucide-react";
+import { Search, House, MapPinned, Home, Ticket, Settings, HelpCircle, Heart, Car, LayoutDashboard, Bell } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { useSession } from "next-auth/react";
 import SearchModal from "@/components/layout/SearchModal";
 import Loading from "@/components/Loading";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import Sidebar from "@/components/layout/Sidebar"
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { title } from "process";
+
+const sidebarItems = [
+  {title: "Home", url: "/user/car", icon: Home},
+  {title: "Cars", url: "/user/cars", icon: Car},
+  {title: "MyBooking", url: "/user/car", icon: Ticket},
+  {title: "Notifications", url:"/", icon: Bell},
+  {title: "Track", url:"/user", icon: MapPinned}
+  
+]
+
+const footerItems = [
+  { title: "Account", url: "/account", icon: Settings },
+  { title: "Help & Support", url: "/help", icon: HelpCircle },
+];
+
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();
@@ -40,12 +59,18 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <div className="flex flex-col flex-1">
+    <SidebarProvider>
+    <div className="flex min-h-screen w-full bg-AppLight">
+      <Sidebar
+      items={sidebarItems}
+      footerItems={footerItems}
+      defaultActiveItems=""
+      />
+      <div className="flex flex-col flex-1 w-full max-w-[calc(100vw-16rem)]">
         <Header
           title="AutoNex"
           navLinks={[
-            { label: <House />, href: "/" },
+            { label: <Home/>, href: "/" },
             { label: <LayoutDashboard />, href: "/user" },
             { label: <Car />, href: "/user/cars" },
             { label: <Heart />, href: "#" },
@@ -71,8 +96,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
           }
         />
-        <main className="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-gray-blue-300 scrollbar-track-gray-100 bg-gray-50 shadow-inner rounded-lg">
-          {children}
+        <main className="flex-1 mt-4 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 mb-6 w-full">
+        <div className="md:hidden mb-4">
+              <SidebarTrigger className="p-2 rounded-md bg-white shadow-sm border border-gray-200" />
+            </div>
+            <div className="w-full h-screen">{children}</div>
         </main>
 
         <SearchModal
@@ -90,6 +118,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         )}
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 
