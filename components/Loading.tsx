@@ -38,7 +38,7 @@ const Loading = ({
   if (variant === 'minimal') {
     return (
       <div className={`${containerClasses} ${backgroundClasses} flex items-center justify-center`}>
-        <div className="bg-white/90 p-3 rounded-full shadow-lg">
+        <div className="bg-AppLight/90 p-3 rounded-full shadow-lg">
           <Loader2 className="h-6 w-6 text-primary animate-spin" />
         </div>
       </div>
@@ -51,7 +51,7 @@ const Loading = ({
     
     return (
       <div className={`${containerClasses} ${backgroundClasses} flex items-center justify-center`}>
-        <div className="bg-white p-6 rounded-lg shadow-lg w-64 flex flex-col items-center gap-4">
+        <div className="bg-AppLight p-6 rounded-lg shadow-lg w-64 flex flex-col items-center gap-4">
           <Loader2 className="h-8 w-8 text-primary animate-spin" />
           <p className="text-gray-700 font-medium">{message}</p>
           <div className="w-full bg-gray-200 rounded-full h-2.5">
@@ -69,7 +69,7 @@ const Loading = ({
   // Default variant
   return (
     <div className={`${containerClasses} ${backgroundClasses} flex items-center justify-center transition-opacity duration-200`}>
-      <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center gap-3 max-w-xs mx-auto w-full animate-fadeIn">
+      <div className="bg-AppLight p-6 rounded-lg shadow-lg flex flex-col items-center gap-3 max-w-xs mx-auto w-full animate-fadeIn">
         <div className="relative">
           <Loader2 className="h-10 w-10 text-primary animate-spin" />
           <div className="absolute inset-0 h-10 w-10 rounded-full border-t-2 border-primary opacity-20"></div>

@@ -115,7 +115,7 @@ export const Chat: React.FC<ChatProps> = ({
                                 <div 
                                     className={`max-w-[70%] p-2 rounded-lg ${
                                         msg.senderId === userId 
-                                            ? 'bg-AppPrimary text-white' 
+                                            ? 'bg-AppPrimary text-AppLight' 
                                             : 'bg-gray-200 text-black'
                                     }`}
                                 >

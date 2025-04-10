@@ -38,7 +38,7 @@ const Profile = () => {
         <DropdownMenuContent className="w-64 p-2 rounded-lg shadow-md" align="end">
           <div className="flex items-center gap-3 p-3">
             <div className="bg-blue-50 p-2 rounded-full">
-              <User size={20} className="text-blue-500" />
+              <User size={20} className="text-AppPrimary" />
             </div>
             <DropdownMenuLabel className="text-base font-medium m-0 p-0">
               {user?.name || "User"}
@@ -49,11 +49,11 @@ const Profile = () => {
 
           <DropdownMenuGroup>
             <DropdownMenuItem className="flex items-center gap-3 p-3 cursor-pointer rounded-md hover:bg-slate-50">
-                <User size={18} className='text-gray-600'/>
+                <User size={18} className='text-AppDark'/>
                 <span>Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-3 p-3 cursor-pointer rounded-md hover:bg-slate-50">
-              <Settings size={18} className="text-gray-600" />
+              <Settings size={18} className="text-AppDark" />
               <span>Account Settings</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -62,7 +62,7 @@ const Profile = () => {
 
           <DropdownMenuItem 
             onClick={() => signOut()}
-            className="flex items-center gap-3 p-3 cursor-pointer rounded-md hover:bg-red-50 text-red-600 focus:bg-red-50 focus:text-red-600"
+            className="flex items-center gap-3 p-3 cursor-pointer rounded-md hover:bg-red-50 text-AppDanger focus:bg-red-50 focus:text-AppDanger"
           >
             <LogOut size={18} />
             <span>Logout</span>

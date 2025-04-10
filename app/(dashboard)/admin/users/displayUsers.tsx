@@ -103,7 +103,7 @@ function UserTable({ role }: { role: UserRole }) {
   }
 
   return (
-    <div className="bg-white rounded-md shadow">
+    <div className="bg-AppLight rounded-md shadow">
       <div className="px-6 py-4 border-b border-gray-200">
         {/* <h2 className="text-xl font-semibold text-gray-800">{capitalizedRole}s</h2> */}
         <p className="text-sm text-gray-500">Total {users.length} {role}s</p>
@@ -124,7 +124,7 @@ function UserTable({ role }: { role: UserRole }) {
             {users.map((user) => (
               <tr 
                 key={user._id.toString()} 
-                className="bg-white border-b hover:bg-gray-50 transition-colors"
+                className="bg-AppLight border-b hover:bg-gray-50 transition-colors"
               >
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                   {user.name}

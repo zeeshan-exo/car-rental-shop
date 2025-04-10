@@ -57,7 +57,7 @@ const Dashboard = () => {
   return (
     <MapProvider>
       <div className="bg-gray-50 min-h-screen">
-        {/* <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-white p-6 shadow-md">
+        {/* <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-AppLight p-6 shadow-md">
           <div className="container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
@@ -68,7 +68,7 @@ const Dashboard = () => {
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button size="sm" className="bg-white/20 hover:bg-white/30 backdrop-blur-sm">
+                <Button size="sm" className="bg-AppLight/20 hover:bg-AppLight/30 backdrop-blur-sm">
                   <AlertCircle className="h-4 w-4 mr-2" />
                   Notifications
                 </Button>
@@ -82,7 +82,7 @@ const Dashboard = () => {
         </div> */}
         <Welcome/>
 
-        <div className="bg-white border-b shadow-sm py-3">
+        <div className="bg-AppLight border-b shadow-sm py-3">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -100,10 +100,10 @@ const Dashboard = () => {
                 <Input
                   type="text"
                   placeholder="Search cars, orders..."
-                  className="pl-8 h-9 pr-4 text-sm bg-gray-50 border-gray-200 focus:bg-white"
+                  className="pl-8 h-9 pr-4 text-sm bg-gray-50 border-gray-200 focus:bg-AppLight"
                 />
               </div>
-              <Button onClick={fetchData} size="sm" variant="outline" className="bg-white hover:bg-gray-50">
+              <Button onClick={fetchData} size="sm" variant="outline" className="bg-AppLight hover:bg-gray-50">
                 <RefreshCw className="h-4 w-4 mr-1" />
                 Refresh Data
               </Button>
@@ -265,9 +265,9 @@ const Dashboard = () => {
                         <CardDescription className="text-gray-500">Fleet analytics by model and status</CardDescription>
                       </>
                       <div className="flex bg-gray-100 rounded-md p-1">
-                        <Button variant="ghost" size="sm" className="rounded-sm hover:bg-white text-xs">Weekly</Button>
-                        <Button variant="ghost" size="sm" className="rounded-sm hover:bg-white text-xs">Monthly</Button>
-                        <Button size="sm" className="rounded-sm bg-white text-sky-700 shadow-sm text-xs">Yearly</Button>
+                        <Button variant="ghost" size="sm" className="rounded-sm hover:bg-AppLight text-xs">Weekly</Button>
+                        <Button variant="ghost" size="sm" className="rounded-sm hover:bg-AppLight text-xs">Monthly</Button>
+                        <Button size="sm" className="rounded-sm bg-AppLight text-sky-700 shadow-sm text-xs">Yearly</Button>
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -289,10 +289,10 @@ const Dashboard = () => {
                       style={{ backgroundImage: "url('/pexels-murdashots.jpg')" }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                      <Badge variant="outline" className="bg-amber-500 text-white border-0 mb-2 w-fit">Featured</Badge>
-                      <h3 className="text-xl font-bold text-white">Premium Vehicles</h3>
-                      <p className="text-white/80 text-sm mb-2">Explore our luxury collection</p>
-                      <Button size="sm" className="mt-2 bg-white text-sky-800 hover:bg-sky-50 w-32">View All</Button>
+                      <Badge variant="outline" className="bg-amber-500 text-AppLight border-0 mb-2 w-fit">Featured</Badge>
+                      <h3 className="text-xl font-bold text-AppLight">Premium Vehicles</h3>
+                      <p className="text-AppLight/80 text-sm mb-2">Explore our luxury collection</p>
+                      <Button size="sm" className="mt-2 bg-AppLight text-sky-800 hover:bg-sky-50 w-32">View All</Button>
                     </div>
                   </div>
 

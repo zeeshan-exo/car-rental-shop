@@ -34,9 +34,9 @@ const DeletecarButton = ({ carId}: {carId: string}) => {
 
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+          <div className="bg-AppLight rounded-lg p-6 w-96 shadow-lg">
             <h2 className="text-lg font-semibold">Confirm Deletion</h2>
-            <p className="mt-2 text-gray-600">Are you sure you want to delete this car?</p>
+            <p className="mt-2 text-AppDark">Are you sure you want to delete this car?</p>
             <div className="mt-4 flex justify-end gap-2">
               <button
                 className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
@@ -45,7 +45,7 @@ const DeletecarButton = ({ carId}: {carId: string}) => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                className="px-4 py-2 bg-red-600 text-AppLight rounded hover:bg-red-700"
                 onClick={handleDelete}
               >
                 Delete

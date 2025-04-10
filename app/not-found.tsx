@@ -37,7 +37,7 @@ const NotFound = () => {
                  </Button>
                  <Button
                  variant="outline"
-                 className='bg-AppAccent hover:bg-amber-600 text-white hover:text-white'
+                 className='bg-AppAccent hover:bg-amber-600 text-AppLight hover:text-AppLight'
                  >
                 <Link href="/">
                      Home

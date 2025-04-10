@@ -23,12 +23,12 @@ const page = () => {
                     <AlertTriangle className='h-12 w-12 text-AppDanger'/>
                 </div>
                 <CardTitle className='text-2xl font-bold text-gray-80'>Access Denied</CardTitle>
-                <CardDescription className='className="text-gray-600'>You don't have permission to view this page.</CardDescription>
+                <CardDescription className='className="text-AppDark'>You don't have permission to view this page.</CardDescription>
             </CardHeader>
             <CardContent className='text-center space-y-4'>
               <p className="text-sm text-gray-500">It's look like you wandered in the restricted territory.</p>
               <Button variant="ghost" 
-              className=" bg-AppPrimary text-white"
+              className=" bg-AppPrimary text-AppLight"
               onClick={handleGoBack}
               >
                   Go Back

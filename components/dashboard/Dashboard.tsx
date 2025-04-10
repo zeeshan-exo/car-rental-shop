@@ -101,7 +101,7 @@ const Dashboard = () => {
   return (
     <MapProvider>
       <div className="bg-gray-50 min-h-screen">
-        <div className="bg-gradient-to-r from-sky-800 to-indigo-900 text-white p-6">
+        <div className="bg-gradient-to-r from-sky-800 to-indigo-900 text-AppLight p-6">
           <div className="container mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-3xl font-bold">Car Rental Dashboard</h1>
@@ -110,11 +110,11 @@ const Dashboard = () => {
               </p>
             </div>
             <div className="flex space-x-2 w-full sm:w-auto">
-              <Button size="sm" className="bg-white/20 hover:bg-white/30 backdrop-blur-sm">
+              <Button size="sm" className="bg-AppLight/20 hover:bg-AppLight/30 backdrop-blur-sm">
                 <AlertCircle className="h-4 w-4 mr-2" />
                 Notifications
               </Button>
-              <Button size="sm" className="bg-white text-sky-800 hover:bg-sky-100">
+              <Button size="sm" className="bg-AppLight text-sky-800 hover:bg-sky-100">
                 <Clock className="h-4 w-4 mr-2" />
                 Activity
               </Button>
@@ -122,7 +122,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white border-b shadow-sm py-3 sticky top-0 z-10">
+        <div className="bg-AppLight border-b shadow-sm py-3 sticky top-0 z-10">
           <div className="container mx-auto px-4">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
               <div className="flex items-center space-x-2 w-full sm:w-auto">
@@ -140,7 +140,7 @@ const Dashboard = () => {
                 <Input
                   type="text"
                   placeholder="Search cars, orders..."
-                  className="pl-8 h-9 pr-4 text-sm bg-gray-50 border-gray-200 focus:bg-white w-full"
+                  className="pl-8 h-9 pr-4 text-sm bg-gray-50 border-gray-200 focus:bg-AppLight w-full"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -149,7 +149,7 @@ const Dashboard = () => {
                 onClick={fetchData}
                 size="sm"
                 variant="outline"
-                className="bg-white hover:bg-gray-50 w-full sm:w-auto"
+                className="bg-AppLight hover:bg-gray-50 w-full sm:w-auto"
                 disabled={loading}
               >
                 {loading ? (
@@ -204,7 +204,7 @@ const Dashboard = () => {
             {/* Main content area */}
             <div className="lg:col-span-8 space-y-6">
               {/* Map section */}
-              <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-AppLight rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="text-lg font-semibold text-gray-800">Your Location</h2>
                   <div className="flex items-center space-x-2">
@@ -221,7 +221,7 @@ const Dashboard = () => {
               </div>
 
               {/* Chart section */}
-              <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-AppLight rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between sm:items-center gap-3">
                   <div className="flex items-center">
                     <BarChart3 className="h-5 w-5 text-sky-700 mr-2" />
@@ -231,20 +231,20 @@ const Dashboard = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="rounded-md bg-white hover:bg-gray-50 text-xs"
+                      className="rounded-md bg-AppLight hover:bg-gray-50 text-xs"
                     >
                       Weekly
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
-                      className="rounded-md bg-white hover:bg-gray-50 text-xs"
+                      className="rounded-md bg-AppLight hover:bg-gray-50 text-xs"
                     >
                       Monthly
                     </Button>
                     <Button
                       size="sm"
-                      className="rounded-md bg-sky-700 text-white hover:bg-sky-800 text-xs"
+                      className="rounded-md bg-sky-700 text-AppLight hover:bg-sky-800 text-xs"
                     >
                       Yearly
                     </Button>
@@ -262,7 +262,7 @@ const Dashboard = () => {
               </div>
 
               {/* Recent orders/bookings section */}
-              <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-AppLight rounded-xl shadow-md overflow-hidden">
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="text-lg font-semibold text-gray-800">Recent Bookings</h2>
                   <Button
@@ -297,7 +297,7 @@ const Dashboard = () => {
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-AppLight divide-y divide-gray-200">
                           {filteredOrders.slice(0, 5).map((order) => (
                             <tr key={order._id} className="hover:bg-gray-50">
                               <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -350,13 +350,13 @@ const Dashboard = () => {
                   style={{ backgroundImage: "url('/pexels-murdashots.jpg')" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                  <h3 className="text-xl font-bold text-white">All Vehicles</h3>
-                  <p className="text-white/80 text-sm mb-3">
+                  <h3 className="text-xl font-bold text-AppLight">All Vehicles</h3>
+                  <p className="text-AppLight/80 text-sm mb-3">
                     Browse our complete collection of {totalCars} available cars
                   </p>
                   <Button
                     size="sm"
-                    className="bg-white text-sky-800 hover:bg-sky-50 w-32"
+                    className="bg-AppLight text-sky-800 hover:bg-sky-50 w-32"
                     onClick={() => router.push("/dashboard/products")}
                   >
                     View All
@@ -366,7 +366,7 @@ const Dashboard = () => {
 
               {/* Quick stats cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-                <div className="bg-white rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-sky-700">
+                <div className="bg-AppLight rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-sky-700">
                   <div className="flex justify-between items-start">
                     <div>
                       <h2 className="text-gray-700 font-medium">Available Cars</h2>
@@ -387,7 +387,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 
-                <div className="bg-white rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-amber-600">
+                <div className="bg-AppLight rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-amber-600">
                   <div className="flex justify-between items-start">
                     <div>
                       <h2 className="text-gray-700 font-medium">Rented Cars</h2>
@@ -408,7 +408,7 @@ const Dashboard = () => {
                   </div>
                 </div>
                 
-                <div className="bg-white rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-indigo-600 sm:col-span-2 lg:col-span-1">
+                <div className="bg-AppLight rounded-xl p-5 shadow-md transition-all duration-300 hover:shadow-lg border-l-4 border-indigo-600 sm:col-span-2 lg:col-span-1">
                   <div className="flex justify-between items-start">
                     <div>
                       <h2 className="text-gray-700 font-medium">Monthly Revenue</h2>

@@ -134,7 +134,7 @@ const CarForm = ({ carData = null }) => {
   return (
     <div>
       <button
-        className="bg-AppPrimary text-white rounded-lg px-4 py-2 mb-4 flex items-center gap-2 hover:bg-AppPrimary2 ransition-colors shadow-md"
+        className="bg-AppPrimary text-AppLight rounded-lg px-4 py-2 mb-4 flex items-center gap-2 hover:bg-AppPrimary2 ransition-colors shadow-md"
         onClick={() => setIsModalOpen(true)}
       >
         {carData ? <><Edit size={18} /> Edit Car</> : <><Plus size={18} /> Add Car</>}
@@ -142,14 +142,14 @@ const CarForm = ({ carData = null }) => {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-hidden">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl relative flex flex-col max-h-[95vh]">
+          <div className="bg-AppLight rounded-2xl shadow-2xl w-full max-w-4xl relative flex flex-col max-h-[95vh]">
             <div className="bg-AppPrimary p-6 flex justify-between items-center flex-shrink-0 rounded-xl">
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-2xl font-bold text-AppLight">
                 {carData ? "Edit Car Details" : "Add New Car"}
               </h2>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="text-white hover:bg-blue-700/30 rounded-full p-2 transition-colors"
+                className="text-AppLight hover:bg-blue-700/30 rounded-full p-2 transition-colors"
               >
                 <X size={24} />
               </button>
@@ -277,7 +277,7 @@ const CarForm = ({ carData = null }) => {
                           <button
                             type="button"
                             onClick={() => handleRemoveImage(index)}
-                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
+                            className="absolute -top-2 -right-2 bg-AppDanger text-AppLight rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
                           >
                             <X size={14} />
                           </button>
@@ -290,7 +290,7 @@ const CarForm = ({ carData = null }) => {
                 <div className="mt-6">
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                    className="w-full bg-blue-600 text-AppLight py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                   >
                     {carData ? <><Edit size={18} /> Save Changes</> : <><Plus size={18} /> Add Car</>}
                   </button>

@@ -75,19 +75,19 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
                 ) : (
                   <Link
                     href="/auth/login"
-                    className="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700"
+                    className="bg-sky-600 text-AppLight px-4 py-2 rounded-md hover:bg-sky-700"
                   >
                     Login
                   </Link>
                 )}
               </div>
             }
-            className="bg-white shadow-md w-full"
+            className="bg-AppLight shadow-md w-full"
           />
 
           <main className="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 mb-6 w-full">
             <div className="md:hidden mb-4">
-              <SidebarTrigger className="p-2 rounded-md bg-white shadow-sm border border-gray-200" />
+              <SidebarTrigger className="p-2 rounded-md bg-AppLight shadow-sm border border-gray-200" />
             </div>
             <div className="w-full h-screen">{children}</div>
           </main>

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import { Filter, SlidersHorizontal } from "lucide-react";
+import { Filter, ShieldAlert, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
   Sheet, 
@@ -58,9 +58,14 @@ const DisplayCars : React.FC<DisplayCarsProps> = ({ cars }) => {
   return (
     <div className="bg-AppLight">
       {/* <HeroBanner /> */}
-      <div>
-        <div></div>
-      </div>
+      {/* <div>
+        <div>
+          <div>
+          <span><ShieldAlert/></span>
+            <h2>Highlights for intracity</h2>
+          </div>
+        </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
@@ -113,7 +118,7 @@ const DisplayCars : React.FC<DisplayCarsProps> = ({ cars }) => {
           {filteredCars.length > 0 ? (
             filteredCars.map((car) => <CarCard key={car._id} car={car} />)
           ) : (
-            <div className="col-span-full text-center py-12 bg-white rounded-lg shadow-md">
+            <div className="col-span-full text-center py-12 bg-AppLight rounded-lg shadow-md">
               <p className="text-xl text-gray-500 mb-4">No cars match your filters</p>
               <Button 
               onClick={clearFilters} 

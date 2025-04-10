@@ -31,13 +31,13 @@ const Header: React.FC<HeaderProps> = ({ title, navLinks, rightContent, classNam
           {navLinks && navLinks.map((link, index)=>(
             <div key={index}>
               {link.onClick ? (
-                <button onClick={link.onClick} className="text-gray-600 hover:text-blue-500">
+                <button onClick={link.onClick} className="text-AppDark hover:text-AppPrimary">
                      {link.label}
                 </button>
               ) :(
                 <Link 
                 href={link.href} 
-                className="text-gray-600 hover:text-blue-500"
+                className="text-AppDark hover:text-AppPrimary"
                 aria-label={typeof link.label === "string" ? link.label : "Navigation link"}
                 >
                 {link.label}

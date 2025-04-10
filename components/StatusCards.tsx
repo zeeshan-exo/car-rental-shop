@@ -16,7 +16,7 @@ interface CarItems {
 
 const StatusCards: React.FC<CarItems> = ({title,count, description, icon, buttonText, iconBgColor, borderColor}) => {
   return (
-    <Card className={`bg-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border-l-4 ${borderColor}`}>
+    <Card className={`bg-AppLight rounded-xl shadow-md transition-all duration-300 hover:shadow-lg border-l-4 ${borderColor}`}>
         <CardHeader>
             <div className='flex justify-between'>
                <CardTitle>{title}</CardTitle>

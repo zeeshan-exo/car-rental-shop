@@ -52,7 +52,7 @@ export default function PreviewOrder({ orderId, onClose, onStatusUpdate,}: Previ
   if (loading) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="bg-AppLight p-6 rounded-lg shadow-lg">
           <p>Loading...</p>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function PreviewOrder({ orderId, onClose, onStatusUpdate,}: Previ
   if (!order) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="bg-AppLight p-6 rounded-lg shadow-lg">
           <p>Order not found.</p>
         </div>
       </div>
@@ -71,8 +71,8 @@ export default function PreviewOrder({ orderId, onClose, onStatusUpdate,}: Previ
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96" role="dialog" aria-modal="true">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-600 hover:text-black text-2xl">
+      <div className="bg-AppLight p-6 rounded-lg shadow-lg w-96" role="dialog" aria-modal="true">
+        <button onClick={onClose} className="absolute top-4 right-4 text-AppDark hover:text-black text-2xl">
           &times;
         </button>
         <h2 className="text-xl font-bold mb-4">Order Details</h2>
@@ -90,14 +90,14 @@ export default function PreviewOrder({ orderId, onClose, onStatusUpdate,}: Previ
         <div className="mt-4 flex justify-end space-x-2">
           <button 
           onClick={onClose}
-          className="px-4 py-2 border border-gray-500 text-gray-600 rounded-md hover:bg-gray-200 transition"
+          className="px-4 py-2 border border-gray-500 text-AppDark rounded-md hover:bg-gray-200 transition"
           >
             close
           </button>
           <button 
             onClick={handleConfirmation}
             disabled={confirming || order.status === "confirmed"}
-            className="bg-sky-500 text-white px-4 py-2 rounded-md"
+            className="bg-sky-500 text-AppLight px-4 py-2 rounded-md"
           >
             {confirming ? "Confirming..." : "Confirm"}
           </button>

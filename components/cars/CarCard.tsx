@@ -9,7 +9,7 @@ import { formatCurrency } from "@/lib/currency";
 
 const CarCard = ({ car }) => {
   return (
-    <article className="group bg-white rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300">
+    <article className="group bg-AppLight rounded-xl overflow-hidden border border-gray-100 hover:shadow-lg hover:border-gray-200 transition-all duration-300">
       <div className="relative aspect-[16/10]">
         {car.images && Array.isArray(car.images) && car.images.length > 0 ? (
           <ImageSlider images={car.images} />
@@ -47,25 +47,25 @@ const CarCard = ({ car }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-3 text-sm">
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-AppDark">
             <Users size={16} />
             <span >4 Seats</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-AppDark">
             <GaugeCircle size={16} />
             <span className="line-clamp-1">{car.details?.specs?.transmission || "N/A"}</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-AppDark">
             <Fuel size={16} />
             <span className="line-clamp-1">{car.details?.specs?.fuelType || "N/A"}</span>
           </div>
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-AppDark">
             <CalendarDays size={16} />
             <span>{car.modelYear}</span>
           </div>
         </div>
 
-        <p className="text-gray-600 text-sm line-clamp-1">{car.details?.text}</p>
+        <p className="text-AppDark text-sm line-clamp-1">{car.details?.text}</p>
 
         <div className="pt-4 flex items-center justify-between border-t border-gray-100">
           <div className="flex items-center gap-3">
@@ -74,7 +74,7 @@ const CarCard = ({ car }) => {
                 {car.vendor?.vendorName[0].toUpperCase()}
               </span>
             </div>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-AppDark">
               Listed by <span className="font-medium text-gray-900">{car.vendor?.vendorName}</span>
             </span>
           </div>

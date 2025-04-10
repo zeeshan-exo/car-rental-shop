@@ -16,7 +16,7 @@ const Features = () => {
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div 
-              className="bg-white p-6 rounded-lg shadow-md text-center"
+              className="bg-AppLight p-6 rounded-lg shadow-md text-center"
               whileHover={{ y: -10 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -26,11 +26,11 @@ const Features = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2">Fast & Simple</h3>
-              <p className="text-gray-600">Book your car in minutes with our streamlined process.</p>
+              <p className="text-AppDark">Book your car in minutes with our streamlined process.</p>
             </motion.div>
             
             <motion.div 
-              className="bg-white p-6 rounded-lg shadow-md text-center"
+              className="bg-AppLight p-6 rounded-lg shadow-md text-center"
               whileHover={{ y: -10 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -40,11 +40,11 @@ const Features = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2">Quality Assured</h3>
-              <p className="text-gray-600">All our vehicles undergo thorough inspection and maintenance.</p>
+              <p className="text-AppDark">All our vehicles undergo thorough inspection and maintenance.</p>
             </motion.div>
             
             <motion.div 
-              className="bg-white p-6 rounded-lg shadow-md text-center"
+              className="bg-AppLight p-6 rounded-lg shadow-md text-center"
               whileHover={{ y: -10 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -54,14 +54,14 @@ const Features = () => {
                 </svg>
               </div>
               <h3 className="text-xl font-bold mb-2">24/7 Support</h3>
-              <p className="text-gray-600">Our customer service team is available round the clock.</p>
+              <p className="text-AppDark">Our customer service team is available round the clock.</p>
             </motion.div>
           </div>
         </div>
       </motion.div>
 
       <motion.div 
-        className="bg-AppPrimary text-white py-16"
+        className="bg-AppDark text-AppLight py-16"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -72,7 +72,7 @@ const Features = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">Experience the freedom of the open road with our premium car rental service. Book today and enjoy the journey!</p>
           <Link
             href="/user/cars"
-            className="bg-white text-blue-600 font-bold py-3 px-8 rounded-lg hover:bg-blue-50 transition duration-300"
+            className="bg-AppLight text-AppPrimary font-bold py-3 px-8 rounded-lg hover:bg-blue-50 transition duration-300"
             // whileHover={{ scale: 1.05 }}
             // whileTap={{ scale: 0.95 }}
           >

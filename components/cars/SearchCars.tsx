@@ -8,7 +8,7 @@ import { Label } from '../ui/label'
 import { getAllCars } from '@/actions/cars'
 import TimePicker from 'react-time-picker'
 import { CarType } from '@/lib/definations/carDefinations'
-import { Search } from 'lucide-react'
+import { Icon, Search, ShieldAlert } from 'lucide-react'
 
 const Time = [
   {value: "06:00 AM", label: "06:00 AM"},
@@ -137,6 +137,25 @@ const SearchCars = () => {
 
               </div>
             </div>
+        </div>
+        <div className='bg-AppLight mb-4 p-6 border border-gray-400'>
+          {/* {checked && checked === ""} */}
+          <div className=''>
+              <div className='p-4'>
+                <div className='mb-2 '>
+                <h1 className='text-AppSecondary text-2xl flex items-center gap-2'> <ShieldAlert className='text-AppSecondary'/>Highlights for intracity</h1>
+                </div>
+                <ul className='text-AppDark list-disc'>
+                  <li className=''>
+                    <p><span className=''>Fuel and Charges: </span>Customers are responsible for fuel consumption, toll taxes, and parking fees. No fuel charges for pickup and drop-off within a 10 km range of the driver’s location; otherwise, fuel charges apply.</p>
+                  </li>
+                  <li><span>Rental Duration:</span> Vehicle use is limited to up to 12 hours or until 12 AM, whichever is less. For Karachi City, the duration is up to 10 hours and till 10 PM.</li>
+                  <li>E-Challan: The chauffeur covers e-challan fees, but if the customer requests fast driving leading to a violation, the customer will be responsible for the e-challan.</li>
+                  <li>Bookme holds the right to offboard the customer for unethical or social unacceptable behaviour without any refund.</li>
+                </ul>
+              </div>
+
+          </div>
         </div>
     </div>
   )

@@ -84,7 +84,7 @@ const Notifications : React.FC<NotificationProps> = ({ userId, role })=> {
       >
         <Bell className="w-5 h-5 text-gray-700" />
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+          <span className="absolute -top-1 -right-1 bg-AppDanger text-AppLight text-xs w-5 h-5 flex items-center justify-center rounded-full">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -92,7 +92,7 @@ const Notifications : React.FC<NotificationProps> = ({ userId, role })=> {
 
       {openModal && (
         <div 
-          className="absolute bg-white top-12 right-0 w-80 shadow-xl rounded-lg overflow-hidden z-50 border border-gray-200 animate-fade-in"
+          className="absolute bg-AppLight top-12 right-0 w-80 shadow-xl rounded-lg overflow-hidden z-50 border border-gray-200 animate-fade-in"
           style={{ maxHeight: '80vh' }}
         >
           <div className="flex justify-between items-center p-3 border-b bg-gray-50">

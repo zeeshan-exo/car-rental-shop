@@ -50,7 +50,7 @@ const page = () => {
   return (
     <MapProvider>
       <div className="bg-gray-50 min-h-screen">
-        <div className="bg-gradient-to-r from-sky-800 to-indigo-900 text-white p-6">
+        <div className="bg-gradient-to-r from-sky-800 to-indigo-900 text-AppLight p-6">
           <div className="container mx-auto flex justify-between items-center">
             <div>
               <h1 className="text-3xl font-bold">Dashboard</h1>
@@ -58,11 +58,11 @@ const page = () => {
               userName?.charAt(0).toLocaleUpperCase() +userName?.slice(1) : ""} to AutoNex. You have booked current total {rentedCars.length} cars.</p>
             </div>
             <div className="hidden md:flex space-x-2">
-              <Button size="sm" className="bg-white/20 hover:bg-white/30 backdrop-blur-sm">
+              <Button size="sm" className="bg-AppLight/20 hover:bg-AppLight/30 backdrop-blur-sm">
                 <AlertCircle className="h-4 w-4 mr-2" />
                 Notifications
               </Button>
-              <Button size="sm" className="bg-white text-sky-800 hover:bg-sky-100">
+              <Button size="sm" className="bg-AppLight text-sky-800 hover:bg-sky-100">
                 <Clock className="h-4 w-4 mr-2" />
                 Profile
               </Button>
@@ -70,7 +70,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className="bg-white border-b shadow-sm py-3">
+        <div className="bg-AppLight border-b shadow-sm py-3">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -83,7 +83,7 @@ const page = () => {
                   Book
                 </Button>
               </div>
-              <Button onClick={fetchData} size="sm" variant="outline" className="bg-white hover:bg-gray-50">
+              <Button onClick={fetchData} size="sm" variant="outline" className="bg-AppLight hover:bg-gray-50">
                 <RefreshCw className="h-4 w-4 mr-1" />
                 Refresh Data
               </Button>
@@ -134,7 +134,7 @@ const page = () => {
 
           <div className="grid grid-cols-12 gap-6">
             <div className="col-span-12 lg:col-span-8">
-              <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+              <div className="bg-AppLight rounded-xl shadow-md overflow-hidden mb-6">
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="text-lg font-semibold text-gray-800">Your Location</h2>
                   <Button variant="outline" size="sm" className="text-xs">
@@ -147,20 +147,20 @@ const page = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+              <div className="bg-AppLight rounded-xl shadow-md overflow-hidden mb-6">
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <div className="flex items-center">
                     <BarChart3 className="h-5 w-5 text-sky-700 mr-2" />
                     <h2 className="text-lg font-semibold text-gray-800">Car Distribution</h2>
                   </div>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm" className="rounded-md bg-white hover:bg-gray-50 text-xs">
+                    <Button variant="outline" size="sm" className="rounded-md bg-AppLight hover:bg-gray-50 text-xs">
                       Weekly
                     </Button>
-                    <Button variant="outline" size="sm" className="rounded-md bg-white hover:bg-gray-50 text-xs">
+                    <Button variant="outline" size="sm" className="rounded-md bg-AppLight hover:bg-gray-50 text-xs">
                       Monthly
                     </Button>
-                    <Button size="sm" className="rounded-md bg-sky-700 text-white hover:bg-sky-800 text-xs">
+                    <Button size="sm" className="rounded-md bg-sky-700 text-AppLight hover:bg-sky-800 text-xs">
                       Yearly
                     </Button>
                   </div>
@@ -181,10 +181,10 @@ const page = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
             
-                <CardHeader className="text-white">All Vehicles</CardHeader>
+                <CardHeader className="text-AppLight">All Vehicles</CardHeader>
                   <Button 
                     size="sm" 
-                    className="mt-3 bg-white text-sky-800 hover:bg-sky-50 w-32"
+                    className="mt-3 bg-AppLight text-sky-800 hover:bg-sky-50 w-32"
                     onClick={()=> router.push("/user/car")}
                   >
                     View All

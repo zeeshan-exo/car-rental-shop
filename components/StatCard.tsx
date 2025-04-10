@@ -12,7 +12,7 @@ const StatCard = ({ title, value, change, icon }: CardProps) => {
   const isPositive = change.startsWith('+');
   
   return (
-    <div className="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300">
+    <div className="bg-AppLight rounded-lg p-6 shadow-md hover:shadow-lg transition-all duration-300">
       <div className="flex items-center space-x-3 mb-2">
         <div className="p-2 rounded-full bg-sky-100">
           {icon}

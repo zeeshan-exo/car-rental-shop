@@ -87,7 +87,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                 ) : (
                   <Link
                     href="/auth/login"
-                    className="text-blue-500 font-medium hover:underline"
+                    className="text-AppPrimary font-medium hover:underline"
                   >
                     Login
                   </Link>
@@ -98,7 +98,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         />
         <main className="flex-1 mt-4 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 mb-6 w-full">
         <div className="md:hidden mb-4">
-              <SidebarTrigger className="p-2 rounded-md bg-white shadow-sm border border-gray-200" />
+              <SidebarTrigger className="p-2 rounded-md bg-AppLight shadow-sm border border-gray-200" />
             </div>
             <div className="w-full h-screen">{children}</div>
         </main>

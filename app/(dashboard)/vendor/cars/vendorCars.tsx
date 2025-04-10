@@ -27,7 +27,7 @@ export default async function DisplayVendorCars() {
         {cars.map((car) => (
           <div
             key={car._id}
-            className="bg-white border border-AppLight rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+            className="bg-AppLight border border-AppLight rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
           >
             <div className="relative h-60">
               {car.images &&
@@ -44,7 +44,7 @@ export default async function DisplayVendorCars() {
                 />
               )}
               <div className="absolute top-3 right-3">
-                <span className="bg-AppPrimary text-white text-xs font-bold px-2 py-1 rounded-full">
+                <span className="bg-AppPrimary text-AppLight text-xs font-bold px-2 py-1 rounded-full">
                   {car.brand}
                 </span>
               </div>

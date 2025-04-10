@@ -38,12 +38,12 @@ export default function SignupForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="flex w-full max-w-5xl shadow-2xl rounded-2xl overflow-hidden bg-white">
+      <div className="flex w-full max-w-5xl shadow-2xl rounded-2xl overflow-hidden bg-AppLight">
         <div className="w-full md:w-1/2 p-8">
           <form action={action} className="space-y-6">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-900">Welcome!</h1>
-              <p className="text-gray-600 mt-2">Create your account to get started</p>
+              <p className="text-AppDark mt-2">Create your account to get started</p>
             </div>
 
             <div className="relative">
@@ -100,7 +100,7 @@ export default function SignupForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-AppDark"
                 >
                   {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
@@ -123,8 +123,8 @@ export default function SignupForm() {
                       onChange={(e) => setRole(e.target.value)}
                       className="hidden"
                     />
-                    <div className={`w-4 h-4 rounded-full border ${role === 'vendor' ? 'border-blue-500 bg-blue-500' : 'border-gray-300'} group-hover:border-blue-400 transition-colors`}>
-                      {role === 'vendor' && <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>}
+                    <div className={`w-4 h-4 rounded-full border ${role === 'vendor' ? 'border-blue-500 bg-AppPrimary' : 'border-gray-300'} group-hover:border-blue-400 transition-colors`}>
+                      {role === 'vendor' && <div className="w-2 h-2 bg-AppLight rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>}
                     </div>
                   </div>
                   <span className="text-gray-700">Vendor</span>
@@ -139,8 +139,8 @@ export default function SignupForm() {
                       onChange={(e) => setRole(e.target.value)}
                       className="hidden"
                     />
-                    <div className={`w-4 h-4 rounded-full border ${role === 'customer' ? 'border-blue-500 bg-blue-500' : 'border-gray-300'} group-hover:border-blue-400 transition-colors`}>
-                      {role === 'customer' && <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>}
+                    <div className={`w-4 h-4 rounded-full border ${role === 'customer' ? 'border-blue-500 bg-AppPrimary' : 'border-gray-300'} group-hover:border-blue-400 transition-colors`}>
+                      {role === 'customer' && <div className="w-2 h-2 bg-AppLight rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>}
                     </div>
                   </div>
                   <span className="text-gray-700">Customer</span>
@@ -195,7 +195,7 @@ export default function SignupForm() {
             <button
               disabled={pending || !verified}
               type="submit"
-              className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="w-full bg-blue-600 text-AppLight py-2.5 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
             >
               {pending ? (
                 <span className="flex items-center justify-center">
@@ -206,7 +206,7 @@ export default function SignupForm() {
               )}
             </button>
 
-            <p className="text-center text-sm text-gray-600">
+            <p className="text-center text-sm text-AppDark">
               Already have an account?{' '}
               <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 font-medium">
                 Sign in

@@ -32,10 +32,10 @@ const OtpVerification= () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="w-full max-w-md p-6">
-                <div className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                <div className="bg-AppLight rounded-lg shadow-md overflow-hidden border border-gray-200">
 
                     <div className="bg-AppPrimary p-6 text-center">
-                        <h1 className="text-2xl font-bold text-white">Verification Code</h1>
+                        <h1 className="text-2xl font-bold text-AppLight">Verification Code</h1>
                         <p className="mt-2 text-indigo-100">
                             Please enter the verification code sent to
                         </p>
@@ -76,13 +76,13 @@ const OtpVerification= () => {
                         <Button 
                             type="submit"
                             variant={"outline"} 
-                            className="w-full bg-AppPrimary hover:bg-blue-600  text-white hover:text-white  font-medium rounded-md shadow-sm"
+                            className="w-full bg-AppPrimary hover:bg-blue-600  text-AppLight hover:text-AppLight  font-medium rounded-md shadow-sm"
                         >
                             Verify Code
                         </Button>
                         
                         <div className="mt-6 text-center">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-AppDark">
                                 Didn't receive a code? <button type="button" className="text-AppPrimary font-medium">Resend</button>
                             </p>
                         </div>

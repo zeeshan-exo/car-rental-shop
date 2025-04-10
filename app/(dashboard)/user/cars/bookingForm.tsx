@@ -109,7 +109,7 @@ const BookingForm : React.FC<BookingFormProps>=({
       <Button
         onClick={openModal}
         disabled={isPending}
-        className="w-full h-full bg-AppPrimary px-6 py-2.5 text-white rounded-lg font-semibold shadow-md hover:bg-AppPrimaryHover hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full h-full bg-AppPrimary px-6 py-2.5 text-AppLight rounded-lg font-semibold shadow-md hover:bg-AppPrimaryHover hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {isPending ? (
           <>
@@ -123,9 +123,9 @@ const BookingForm : React.FC<BookingFormProps>=({
 
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden relative transform transition-all duration-300 ease-in-out">
+          <div className="bg-AppLight w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden relative transform transition-all duration-300 ease-in-out">
             <>
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 flex items-center justify-between text-white">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 flex items-center justify-between text-AppLight">
                 <div className="flex items-center gap-4">
                   <CarFront className="w-10 h-10" />
                   <div>

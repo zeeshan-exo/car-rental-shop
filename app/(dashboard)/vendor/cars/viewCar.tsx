@@ -136,7 +136,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
     <div>
       <Button
         onClick={openModal}
-        className="bg-AppPrimary text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-AppPrimary transition-all duration-300 font-medium flex items-center gap-2"
+        className="bg-AppPrimary text-AppLight px-6 py-2.5 rounded-lg shadow-md hover:bg-AppPrimary transition-all duration-300 font-medium flex items-center gap-2"
       >
         View Details <ChevronRight size={16} />
       </Button>
@@ -148,18 +148,18 @@ export default function Viewcar({ carId }: ViewcarProps) {
               {loading ? (
                 <div className="h-96 flex flex-col items-center justify-center">
                   <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
-                  <p className="text-gray-600 text-lg animate-pulse">Loading car details...</p>
+                  <p className="text-AppDark text-lg animate-pulse">Loading car details...</p>
                 </div>
               ) : (
                 <>
                   <div className="bg-AppPrimary y py-5 px-8 flex justify-between items-center">
-                    <h2 className="text-2xl font-bold text-white flex items-center">
+                    <h2 className="text-2xl font-bold text-AppLight flex items-center">
                       <Star className="mr-3" size={24} fill="white" stroke="none" /> 
                       Car Details
                     </h2>
                     <button
                       onClick={closeModal}
-                      className="p-3 hover:bg-AppSecondary/50 rounded-full transition-colors text-white"
+                      className="p-3 hover:bg-AppSecondary/50 rounded-full transition-colors text-AppLight"
                     >
                       <IoClose size={28} />
                     </button>

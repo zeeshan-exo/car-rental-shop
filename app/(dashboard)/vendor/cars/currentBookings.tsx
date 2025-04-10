@@ -23,7 +23,7 @@ const CurrentOrders = () => {
   }, []);
 
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden p-4">
+    <div className="bg-AppLight rounded-xl shadow-md overflow-hidden p-4">
       <div className="border-b border-gray-100 bg-indigo-50 p-4">
         <h2 className="text-lg font-semibold text-indigo-800">Current Orders</h2>
       </div>

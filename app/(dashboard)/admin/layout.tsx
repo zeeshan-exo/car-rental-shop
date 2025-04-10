@@ -32,7 +32,7 @@ const layout = ({children}:{children: React.ReactNode}) => {
           ):(
             <Link
             href="/auth/login"
-            className="text-blue-500 font-medium hover:underline"
+            className="text-AppPrimary font-medium hover:underline"
           >
             Login
           </Link>

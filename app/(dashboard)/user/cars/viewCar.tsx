@@ -56,19 +56,19 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
   };
 
   const features = [
-    { icon: <Users size={20} className="text-blue-500" />, label: "4 Seats" },
-    { icon: <GaugeCircle size={20} className="text-blue-500" />, label: "Automatic" },
-    { icon: <Fuel size={20} className="text-blue-500" />, label: "Hybrid" },
-    { icon: <Calendar size={20} className="text-blue-500" />, label: "2024" },
-    { icon: <MapPin size={20} className="text-blue-500" />, label: "GPS" },
-    { icon: <Shield size={20} className="text-blue-500" />, label: "Insurance" },
+    { icon: <Users size={20} className="text-AppPrimary" />, label: "4 Seats" },
+    { icon: <GaugeCircle size={20} className="text-AppPrimary" />, label: "Automatic" },
+    { icon: <Fuel size={20} className="text-AppPrimary" />, label: "Hybrid" },
+    { icon: <Calendar size={20} className="text-AppPrimary" />, label: "2024" },
+    { icon: <MapPin size={20} className="text-AppPrimary" />, label: "GPS" },
+    { icon: <Shield size={20} className="text-AppPrimary" />, label: "Insurance" },
   ];
 
   return (
     <div>
       <Button
         onClick={openModal}
-        className="bg-AppPrimary text-white px-6 py-2.5 rounded-lg shadow-md hover:bg-yellow-700 transition-all duration-300 font-medium flex items-center gap-2"
+        className="bg-AppPrimary text-AppLight px-6 py-2.5 rounded-lg shadow-md hover:bg-AppPrimaryHover transition-all duration-300 font-medium flex items-center gap-2"
       >
         Details <ChevronRight size={16} />
       </Button>
@@ -76,7 +76,7 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
       {isOpen && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y-auto">
           <div className="min-h-screen px-4 py-8 flex items-center justify-center">
-            <div className="bg-white w-full max-w-6xl rounded-2xl shadow-2xl relative overflow-hidden">
+            <div className="bg-AppLight w-full max-w-6xl rounded-2xl shadow-2xl relative overflow-hidden">
               {loading ? (
                 <div className="h-96 flex flex-col items-center justify-center">
                   <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
@@ -85,13 +85,13 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
               ) : car && (
                 <>
                   <div className="bg-gradient-to-r from-AppPrimary to-AppPrimaryHover py-4 px-8 flex justify-between items-center">
-                    <h2 className="text-xl font-bold text-white flex items-center">
+                    <h2 className="text-xl font-bold text-AppLight flex items-center">
                       <Star className="mr-2" size={20} fill="white" stroke="none" /> 
                       Car Details
                     </h2>
                     <button
                       onClick={closeModal}
-                      className="p-2 hover:bg-blue-700/50 rounded-full transition-colors text-white"
+                      className="p-2 hover:bg-blue-700/50 rounded-full transition-colors text-AppLight"
                     >
                       <IoClose size={24} />
                     </button>
@@ -117,7 +117,7 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
                           <CircleUserRound size={20} />
                         </div>
                         <div>
-                          <span className="text-gray-600 text-sm">Listed by</span>
+                          <span className="text-AppDark text-sm">Listed by</span>
                           <p className="font-medium text-gray-800">{car.vendor?.vendorName}</p>
                         </div>
                       </div>
@@ -143,13 +143,13 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
                       <div className="flex justify-between items-center mb-4">
                         <div className="flex gap-3">
                           <button 
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'overview' ? 'bg-blue-100 text-AppPrimary' : 'text-gray-600 hover:bg-gray-100'}`} 
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'overview' ? 'bg-blue-100 text-AppPrimary' : 'text-AppDark hover:bg-gray-100'}`} 
                             onClick={() => setActiveTab('overview')}
                           >
                             Overview
                           </button>
                           <button 
-                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'booking' ? 'bg-blue-100 text-AppPrimary' : 'text-gray-600 hover:bg-gray-100'}`}
+                            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${activeTab === 'booking' ? 'bg-blue-100 text-AppPrimary' : 'text-AppDark hover:bg-gray-100'}`}
                             onClick={() => setActiveTab('booking')}
                           >
                             Booking

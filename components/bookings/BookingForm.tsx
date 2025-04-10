@@ -211,7 +211,7 @@ export default function ReusableForm({
           <Button
             type="submit"
             disabled={pending || !dateRange?.from || !dateRange?.to}
-            className="px-6 py-3 bg-AppPrimary text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-AppPrimary text-AppLight font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {pending ? "Booking..." : "Confirm Booking"}
           </Button>
@@ -219,7 +219,7 @@ export default function ReusableForm({
           <Button
             onClick={handleCheckout}
             disabled={pending || !dateRange?.from || !dateRange?.to}
-            className="px-6 py-3 bg-AppPrimary text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
+            className="px-6 py-3 bg-AppPrimary text-AppLight font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
           >
             Proceed to Checkout
           </Button>

@@ -12,16 +12,16 @@ export default function OrderModal({ orderId }) {
     <>
       <button
         onClick={openModal}
-        className="bg-blue-500 text-white px-2 py-1 rounded-md"
+        className="bg-AppPrimary text-AppLight px-2 py-1 rounded-md"
       >
         View Order
       </button>
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded-lg relative w-96">
+          <div className="bg-AppLight p-6 rounded-lg relative w-96">
             <button
               onClick={closeModal}
-              className="absolute top-2 right-2 text-gray-600 hover:text-black text-xl"
+              className="absolute top-2 right-2 text-AppDark hover:text-black text-xl"
             >
               &times;
             </button>

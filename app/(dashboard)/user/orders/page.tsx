@@ -122,7 +122,7 @@ const OrdersPage = () => {
               />
             </div>
             <div className="flex items-center gap-2 ml-4">
-              <Badge variant="outline" className="bg-white text-gray-500">
+              <Badge variant="outline" className="bg-AppLight text-gray-500">
                 {filteredOrders.length} {filteredOrders.length === 1 ? 'order' : 'orders'}
               </Badge>
             </div>
@@ -168,7 +168,7 @@ const OrdersPage = () => {
                     </div>
                     <div className="flex items-center gap-8">
                       <div className="hidden md:block">
-                        <div className="flex items-center text-sm text-gray-600">
+                        <div className="flex items-center text-sm text-AppDark">
                           <Calendar className="h-4 w-4 mr-2" />
                           <span>{order.date} - {order.returnDate}</span>
                         </div>
@@ -180,7 +180,7 @@ const OrdersPage = () => {
                   </div>
                   
                   {expandedOrder === order._id && (
-                    <div className="p-4 bg-white border-t">
+                    <div className="p-4 bg-AppLight border-t">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                           <h4 className="font-medium text-gray-700 mb-2">Customer Information</h4>

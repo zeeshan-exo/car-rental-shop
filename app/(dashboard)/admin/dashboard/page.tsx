@@ -14,18 +14,18 @@ const Dashboard = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       
-      <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-white p-6 shadow-md">
+      <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-AppLight p-6 shadow-md">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <h1 className="text-3xl font-bold">Car Rental Dashboard</h1>
             <p className="text-sky-100 mt-1">Welcome back, Alex! You have 2 pending reservations.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button size="sm" className="bg-white/20 hover:bg-white/30 backdrop-blur-sm">
+            <Button size="sm" className="bg-AppLight/20 hover:bg-AppLight/30 backdrop-blur-sm">
               <AlertCircle className="h-4 w-4 mr-2" />
               Notifications
             </Button>
-            <Button size="sm" className="bg-white text-sky-800 hover:bg-sky-100">
+            <Button size="sm" className="bg-AppLight text-sky-800 hover:bg-sky-100">
               <Clock className="h-4 w-4 mr-2" />
               Activity Log
             </Button>
@@ -48,8 +48,8 @@ const Dashboard = () => {
               <TabsTrigger value="reports">Reports</TabsTrigger>
             </TabsList>
           </Tabs>
-        <div className="bg-white rounded-lg shadow-sm p-3 mb-6 flex flex-wrap items-center gap-3">
-          <span className="text-gray-600 font-medium flex items-center">
+        <div className="bg-AppLight rounded-lg shadow-sm p-3 mb-6 flex flex-wrap items-center gap-3">
+          <span className="text-AppDark font-medium flex items-center">
             <Filter className="h-4 w-4 mr-1" /> 
             Quick Filters:
           </span>
@@ -101,21 +101,21 @@ const Dashboard = () => {
                 title="Cars Rented" 
                 value="19"
                 change="+7%" 
-                icon={<Car className="h-6 w-6 text-amber-600" />} 
+                icon={<Car className="h-6 w-6 text-AppAccent" />} 
               />
             </div>
 
 
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-AppLight rounded-xl shadow-sm overflow-hidden">
               <div className="p-4 border-b border-gray-100 flex flex-col sm:flex-row justify-between gap-3">
                 <div className="flex items-center">
                   <BarChart3 className="h-5 w-5 text-sky-700 mr-2" />
                   <h2 className="text-lg font-semibold text-gray-800">Fleet Performance</h2>
                 </div>
                 <div className="flex space-x-2 bg-gray-100 rounded-lg p-1">
-                  <Button variant="ghost" size="sm" className="rounded-md hover:bg-white text-xs">Weekly</Button>
-                  <Button variant="ghost" size="sm" className="rounded-md hover:bg-white text-xs">Monthly</Button>
-                  <Button size="sm" className="rounded-md bg-white text-sky-700 shadow-sm hover:bg-gray-50 text-xs">Yearly</Button>
+                  <Button variant="ghost" size="sm" className="rounded-md hover:bg-AppLight text-xs">Weekly</Button>
+                  <Button variant="ghost" size="sm" className="rounded-md hover:bg-AppLight text-xs">Monthly</Button>
+                  <Button size="sm" className="rounded-md bg-AppLight text-sky-700 shadow-sm hover:bg-gray-50 text-xs">Yearly</Button>
                 </div>
               </div>
               <div className="p-6 h-64 flex items-center justify-center text-gray-500">
@@ -127,7 +127,7 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-4">
+            <div className="bg-AppLight rounded-xl shadow-sm p-4">
               <div className="flex items-center mb-4">
                 <Clock className="h-5 w-5 text-sky-700 mr-2" />
                 <h2 className="text-lg font-semibold text-gray-800">Recent Activities</h2>
@@ -156,15 +156,15 @@ const Dashboard = () => {
                 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
-                <span className="bg-amber-500 text-white text-xs px-2 py-1 rounded-full mb-2 w-fit">Featured</span>
-                <h3 className="text-xl font-bold text-white">Tesla Model 3</h3>
-                <p className="text-white/80 text-sm mb-2">Available for premium rental</p>
-                <Button size="sm" className="mt-2 bg-white text-sky-800 hover:bg-sky-50 w-32">View Details</Button>
+                <span className="bg-amber-500 text-AppLight text-xs px-2 py-1 rounded-full mb-2 w-fit">Featured</span>
+                <h3 className="text-xl font-bold text-AppLight">Tesla Model 3</h3>
+                <p className="text-AppLight/80 text-sm mb-2">Available for premium rental</p>
+                <Button size="sm" className="mt-2 bg-AppLight text-sky-800 hover:bg-sky-50 w-32">View Details</Button>
               </div>
             </div>
 
             <div className="space-y-4">
-              <div className="bg-white rounded-xl p-5 shadow-sm transition-all duration-300 hover:shadow border-l-4 border-sky-600">
+              <div className="bg-AppLight rounded-xl p-5 shadow-sm transition-all duration-300 hover:shadow border-l-4 border-sky-600">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-gray-700 font-medium">Available Cars</h2>
@@ -178,7 +178,7 @@ const Dashboard = () => {
                 </div>
               </div>
               
-              <div className="bg-white rounded-xl p-5 shadow-sm transition-all duration-300 hover:shadow border-l-4 border-amber-600">
+              <div className="bg-AppLight rounded-xl p-5 shadow-sm transition-all duration-300 hover:shadow border-l-4 border-amber-600">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-gray-700 font-medium">Rented Cars</h2>
@@ -192,7 +192,7 @@ const Dashboard = () => {
                 </div>
               </div>
               
-              <div className="bg-white rounded-xl p-5 shadow-sm transition-all duration-300 hover:shadow border-l-4 border-indigo-600">
+              <div className="bg-AppLight rounded-xl p-5 shadow-sm transition-all duration-300 hover:shadow border-l-4 border-indigo-600">
                 <div className="flex justify-between items-start">
                   <div>
                     <h2 className="text-gray-700 font-medium">Pending Payments</h2>

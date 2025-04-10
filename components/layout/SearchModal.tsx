@@ -143,7 +143,7 @@ const SearchModal = ({
     return (
       <div className="space-y-4">
         <h4 className="font-semibold text-lg mb-2 flex items-center">
-          <CarIcon className="h-5 w-5 mr-2 text-blue-500" />
+          <CarIcon className="h-5 w-5 mr-2 text-AppPrimary" />
           Search Results
         </h4>
         <ul className="space-y-2">
@@ -151,14 +151,14 @@ const SearchModal = ({
             <li 
               key={car.id} 
               onClick={() => handleCarClick(car.id)}
-              className="bg-white border rounded-lg p-3 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer group"
+              className="bg-AppLight border rounded-lg p-3 hover:bg-blue-50 hover:border-blue-200 transition-all cursor-pointer group"
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <h3 className="font-bold text-gray-800 group-hover:text-blue-600">
+                  <h3 className="font-bold text-gray-800 group-bg-AppPrimaryHover">
                     {car.carName}
                   </h3>
-                  <div className="flex items-center text-gray-600 text-sm space-x-2">
+                  <div className="flex items-center text-AppDark text-sm space-x-2">
                     <span>{car.brand}</span>
                     <span className="h-1 w-1 bg-gray-300 rounded-full"></span>
                     <div className="flex items-center">
@@ -197,7 +197,7 @@ const SearchModal = ({
       >
         <CardHeader className="flex flex-row justify-between items-center border-b pb-3">
           <CardTitle className="flex items-center">
-            <Search className="h-5 w-5 mr-2 text-blue-500" />
+            <Search className="h-5 w-5 mr-2 text-AppPrimary" />
             Search Cars
           </CardTitle>
           <Button 
@@ -227,7 +227,7 @@ const SearchModal = ({
               onClick={handleSearch} 
               disabled={!inputValue}
               
-              className="flex items-center text-white bg-AppPrimary hover:bg-AppPrimaryHover"
+              className="flex items-center text-AppLight bg-AppPrimary hover:bg-AppPrimaryHover"
             >
               <Search className="h-4 w-4" />
               Search

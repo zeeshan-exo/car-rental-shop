@@ -61,7 +61,7 @@ export default function CheckoutButton({ car }: CheckoutButtonProps) {
 
       <Button
         onClick={handleCheckout}
-        className="bg-blue-500 text-white px-4 py-2"
+        className="bg-AppPrimary text-AppLight px-4 py-2"
         disabled={loading}
       >
         {loading ? "Processing..." : "Rent Now"}

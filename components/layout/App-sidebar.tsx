@@ -70,7 +70,7 @@ export function AppSidebar({title, url, icon}: AppSidebarProps) {
   const [activeItem, setActiveItem] = useState("Home");
 
   return (
-    <Sidebar className="w-60 hidden md:flex flex-col bg-white shadow-lg h-screen">
+    <Sidebar className="w-60 hidden md:flex flex-col bg-AppLight shadow-lg h-screen">
       <SidebarContent className="flex-grow overflow-y-auto">
         <SidebarGroup>
           <SidebarGroupLabel className="px-6 py-6">
@@ -114,7 +114,7 @@ export function AppSidebar({title, url, icon}: AppSidebarProps) {
                       </div>
                       
                       {/* {item.notifications && (
-                        <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                        <span className="bg-AppDanger text-AppLight text-xs rounded-full px-2 py-0.5">
                           {item.notifications}
                         </span>
                       )} */}

@@ -89,7 +89,7 @@ const LandingPage = () => {
     <div className="min-h-screen bg-gray-50">
      
       <motion.div 
-        className="bg-AppPrimary text-white py-16"
+        className="bg-AppPrimary text-AppLight py-16"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -117,15 +117,15 @@ const LandingPage = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
           {user ? (
-            <Link href="/user/cars" className="bg-white text-AppPrimary font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
+            <Link href="/user/cars" className="bg-AppLight text-AppPrimary font-bold py-3 px-6 rounded-lg hover:bg-blue-50 transition duration-300">
             Browse 
             </Link>
           ):(
             <div className='flex items-start gap-4'>
-              <Link href="/auth/login" className="bg-white text-AppPrimary font-bold py-3 px-6 rounded-xl hover:bg-blue-50 transition duration-300">
+              <Link href="/auth/login" className="bg-AppLight text-AppPrimary font-bold py-3 px-6 rounded-xl hover:bg-blue-50 transition duration-300">
             Login 
            </Link>
-           <Link href="/auth/signup" className="bg-AppAccent text-white hover:bg-amber-600 font-bold py-3 px-6 rounded-xl transition duration-300">
+           <Link href="/auth/signup" className="bg-AppAccent text-AppLight hover:bg-amber-600 font-bold py-3 px-6 rounded-xl transition duration-300">
             Signup
            </Link>
             </div>
@@ -157,7 +157,7 @@ const LandingPage = () => {
           {cars.map((car) => (
             <motion.div 
               key={car._id}
-              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="bg-AppLight rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
               variants={itemVariants}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
@@ -169,7 +169,7 @@ const LandingPage = () => {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
                 {car.isAvailable === "booked" && (
-                  <div className="absolute top-0 right-0 bg-red-500 text-white px-3 py-1 m-2 rounded">
+                  <div className="absolute top-0 right-0 bg-AppDanger text-AppLight px-3 py-1 m-2 rounded">
                     Reserved
                   </div>
                 )}
@@ -179,7 +179,7 @@ const LandingPage = () => {
                   <h3 className="text-xl font-bold">{car.brand} {car.carName}</h3>
                   <p className="text-lg font-bold text-AppPrimary">{formatCurrency(car.rentalRate)}/day</p>
                 </div>
-                <p className="text-gray-600 mb-3">Year: {car.modelYear}</p>
+                <p className="text-AppDark mb-3">Year: {car.modelYear}</p>
                 <p className="text-gray-800 mb-4 line-clamp-1">{car.details?.text || "Experience luxury and comfort"}</p>
                 
                 <div className="flex justify-between mb-4">
@@ -187,21 +187,21 @@ const LandingPage = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1-9a1 1 0 11-2 0 1 1 0 012 0zm4 0a1 1 0 11-2 0 1 1 0 012 0z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-sm text-gray-600">{car.details?.specs?.transmission || "Automatic"}</span>
+                    <span className="text-sm text-AppDark">{car.details?.specs?.transmission || "Automatic"}</span>
                   </div>
                   <div className="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-sm text-gray-600">{car.details?.specs?.fuelType || "Gasoline"}</span>
+                    <span className="text-sm text-AppDark">{car.details?.specs?.fuelType || "Gasoline"}</span>
                   </div>
                 </div>
                 
                 <div className="flex justify-between">
                   <button 
                     className={`px-4 py-2 rounded-md ${car.isAvailable === "available" 
-                      ? "bg-AppPrimary hover:bg-[#0062cc] text-white" 
-                      : "bg-gray-300 text-gray-600 cursor-not-allowed"}`}
+                      ? "bg-AppPrimary hover:bg-[#0062cc] text-AppLight" 
+                      : "bg-gray-300 text-AppDark cursor-not-allowed"}`}
                     disabled={car.isAvailable !== "available"}
                   >
                     {car.isAvailable === "available" ? "Book Now" : "Not Available"}
@@ -217,12 +217,12 @@ const LandingPage = () => {
         
         {cars.length === 0 && (
           <motion.div 
-            className="bg-white p-6 rounded-lg shadow text-center"
+            className="bg-AppLight p-6 rounded-lg shadow text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
             <p className="text-lg">No cars match your search criteria.</p>
-            <p className="text-gray-600 mt-2">Try adjusting your filters.</p>
+            <p className="text-AppDark mt-2">Try adjusting your filters.</p>
           </motion.div>
         )}
       </div>

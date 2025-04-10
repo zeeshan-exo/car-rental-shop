@@ -30,7 +30,7 @@ const HeroBanner = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }} 
         >
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight drop-shadow-md">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-AppLight leading-tight drop-shadow-md">
           Need a Ride? We've Got You Covered!
           </h1>
           <p className="text-base sm:text-lg text-gray-200 opacity-90 drop-shadow-sm">
@@ -50,7 +50,7 @@ const HeroBanner = () => {
             </Link>
             <Link href="#cars" scroll={true} >
             <Button
-            className="px-6 py-3 border-2 bg-transparent border-white text-white font-semibold rounded-lg shadow-lg hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105">
+            className="px-6 py-3 border-2 bg-transparent border-white text-AppLight font-semibold rounded-lg shadow-lg hover:bg-AppLight hover:text-black transition-all duration-300 transform hover:scale-105">
               Explore Fleet
             </Button>  
             
