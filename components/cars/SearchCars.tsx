@@ -77,6 +77,7 @@ const SearchCars = () => {
                   <DropdownMenuTrigger asChild>
                   <Input type='text'
                    value={city}
+                   onChange={() => setCity(city)}
                    className='bg-AppLight text-AppSecondary ' placeholder='select city'/>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent 
@@ -97,6 +98,7 @@ const SearchCars = () => {
                   <DropdownMenuTrigger>
                      <Input type='text' 
                      value={pickupTime}
+                     onChange={() => setCity(pickupTime)}
                      className='bg-AppLight text-AppSecondary w-56' 
                      placeholder='select time'/>
                   </DropdownMenuTrigger>
@@ -116,6 +118,7 @@ const SearchCars = () => {
                   <DropdownMenuTrigger>
                      <Input type='text' 
                      value={dropTime}
+                     onChange={() => setCity(dropTime)}
                      className='bg-AppLight text-AppSecondary w-56' 
                      placeholder='Drop off Time'/>
                   </DropdownMenuTrigger>

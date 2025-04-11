@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useMemo } from "react";
-import { Filter, ShieldAlert, SlidersHorizontal } from "lucide-react";
+import { Filter, CalendarCheck, ShieldAlert, SlidersHorizontal, Headset } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
   Sheet, 
@@ -10,6 +10,7 @@ import {
   SheetTitle, 
   SheetTrigger 
 } from "@/components/ui/sheet";
+import CarFilters from "@/components/cars/CarFilters";
 import { Badge } from "@/components/ui/badge";
 import dynamic from "next/dynamic";
 const CarCard = dynamic(() => import("@/components/cars/CarCard"))
@@ -17,6 +18,10 @@ import HeroBanner from "@/components/sections/HeroBanner";
 import Filters from "@/components/cars/Filters";
 import Footer from "@/components/layout/Footer";
 import Features from "@/components/sections/Features";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import CategoriesCard from "@/components/cars/CategoriesCard";
+
 type Car = {
   _id: string;
   brand: string;
@@ -56,23 +61,15 @@ const DisplayCars : React.FC<DisplayCarsProps> = ({ cars }) => {
   }));
 
   return (
-    <div className="bg-AppLight">
+    <div className="bg-AppLight flex">
       {/* <HeroBanner /> */}
-      <div>
-        <div>
-          <div>
-          
-            <h2>Price</h2>
-            <Button >Rent from </Button>
-          </div>
-        </div>
+      <div className="w-60 ">
+        <CarFilters cars={cars}/>
+        {/* <CategoriesCard/> */}
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-
         <div className="mb-6 flex justify-between items-center">
-
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" className="flex items-center gap-2">
@@ -130,8 +127,6 @@ const DisplayCars : React.FC<DisplayCarsProps> = ({ cars }) => {
           )}
         </div>
       </div>
-      {/* <Features/>
-      <Footer/> */}
     </div>
   );
 }
