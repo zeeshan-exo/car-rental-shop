@@ -79,8 +79,8 @@ const CarCard = ({ car }) => {
               Listed by <span className="font-medium text-gray-900">{car.vendor?.vendorName}</span>
             </span>
           </div>
-          {/* <Viewcar carId={car._id.toString()} /> */}
-          <PreviewCar carId={car._id.toString()}/>
+          <Viewcar carId={car._id.toString()} />
+         
         </div>
       </div>
     </article>

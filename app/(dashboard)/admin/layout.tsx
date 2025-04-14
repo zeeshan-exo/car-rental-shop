@@ -9,8 +9,8 @@ import Link from 'next/link'
 import { User2 } from 'lucide-react'
 
 
-const layout = ({children}:{children: React.ReactNode}) => {
-  const{data: session} = useSession()
+const Layout = ({children}:{children: React.ReactNode}) => {
+  const{data: session} = useSession({required: false})
 
   const user = session?.user
   return (
@@ -52,4 +52,4 @@ const layout = ({children}:{children: React.ReactNode}) => {
   )
 }
 
-export default layout
+export default Layout

@@ -101,7 +101,7 @@ const LandingPage = () => {
             animate={{ y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Need a Ride? We've Got You Covered!
+            {"Need a Ride? We've Got You Covered!"}
           </motion.h1>
           <motion.p 
             className="text-xl mb-8"
@@ -109,7 +109,7 @@ const LandingPage = () => {
             animate={{ y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            Whether it's a quick drive around the city or the weekend getaway, we've got the perfect ride for you.
+            {"Whether it's a quick drive around the city or the weekend getaway, we've got the perfect ride for you."}
           </motion.p>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}

@@ -150,7 +150,7 @@ const Notifications : React.FC<NotificationProps> = ({ userId, role })=> {
                 <Bell className="w-6 h-6 text-gray-400" />
               </div>
               <p className="text-gray-500 text-sm">No new notifications</p>
-              <p className="text-gray-400 text-xs mt-1">We'll notify you when something arrives</p>
+              <p className="text-gray-400 text-xs mt-1">{"We'll notify you when something arrives"}</p>
             </div>
           )}
         </div>

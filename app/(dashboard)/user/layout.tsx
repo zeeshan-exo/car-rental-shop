@@ -18,7 +18,7 @@ import { title } from "process";
 const sidebarItems = [
   {title: "Home", url: "/user/car", icon: Home},
   {title: "Cars", url: "/user/cars", icon: Car},
-  {title: "MyBooking", url: "/user/car", icon: Ticket},
+  {title: "MyBooking", url: "/user/booking", icon: Ticket},
   {title: "Notifications", url:"/", icon: Bell},
   {title: "Track", url:"/user", icon: MapPinned}
   

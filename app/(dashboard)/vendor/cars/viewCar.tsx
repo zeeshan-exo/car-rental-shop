@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { getCar } from "@/actions/cars";
-import { IoClose } from "react-icons/io5";
+import { Cross } from "lucide-react";
 import ImageSlider from "@/components/cars/ImageSlider";
 import ProductForm from "./carForm";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import {  
   Users, 
   Fuel, 
@@ -56,9 +57,10 @@ export default function Viewcar({ carId }: ViewcarProps) {
             {car.images && Array.isArray(car.images) && car.images.length > 0 ? (
               <ImageSlider images={car.images} />
             ) : (
-              <img
+              <Image
                 src={car.image}
                 alt={car.carName}
+                // width={"500"} height={300}
                 className="w-full h-96 object-cover transition-transform duration-300 hover:scale-105"
               />
             )}
@@ -161,7 +163,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                       onClick={closeModal}
                       className="p-3 hover:bg-AppSecondary/50 rounded-full transition-colors text-AppLight"
                     >
-                      <IoClose size={28} />
+                      <Cross size={28} />
                     </button>
                   </div>
 

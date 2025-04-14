@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { getCar } from "@/actions/cars";
-import { IoClose } from "react-icons/io5";
+import { Cross } from "lucide-react";
 import ImageSlider from "@/components/cars/ImageSlider";
 import { Button } from "@/components/ui/button";
 import BookingForm from "./bookingForm";
@@ -18,6 +18,7 @@ import {
   CircleUserRound
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
+import Booking from "./booking";
 
 const benefits = [
   "Free cancellation up to 24 hours before pickup",
@@ -93,7 +94,7 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
                       onClick={closeModal}
                       className="p-2 hover:bg-blue-700/50 rounded-full transition-colors text-AppLight"
                     >
-                      <IoClose size={24} />
+                      <Cross size={24} />
                     </button>
                   </div>
 
@@ -210,9 +211,18 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
                         )}
 
                         {activeTab === "booking" && (
-                          <BookingForm
-                            onClick={closeModal}
-                            carModel={car.modelYear}
+                          // <BookingForm
+                          //   onClick={closeModal}
+                          //   carModel={car.modelYear}
+                          //   carName={car.carName}
+                          //   carId={car._id}
+                          //   vendorEmail={car.vendor?.vendorEmail}
+                          //   vendorName = {car.vendor?.vendorName}
+                          //   vendorId={car.vendor?.vendorId}
+                          //   rentalRate={car.rentalRate}
+                          // />
+                          <Booking
+                          carModel={car.modelYear}
                             carName={car.carName}
                             carId={car._id}
                             vendorEmail={car.vendor?.vendorEmail}

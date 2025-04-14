@@ -4,7 +4,7 @@ import { Chat } from '@/components/Chat'
 import { useSession } from 'next-auth/react'
 import { Session } from 'inspector/promises'
 
-const page = () => {
+const Page = () => {
     const {data: session} = useSession()
     const user = session?.user
     const userId = session?.user.id
@@ -18,4 +18,4 @@ const page = () => {
 }
 
 
-export default page
+export default Page

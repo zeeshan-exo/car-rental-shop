@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { Chat } from "@/components/Chat";
 
-export default function VendorOrdersManagement() {
+export default function UserBooking() {
 
   const [orders, setOrders] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);

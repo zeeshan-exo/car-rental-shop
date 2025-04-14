@@ -7,6 +7,7 @@ import { Avatar } from '@/components/ui/avatar'
 import { Tabs,TabsList, TabsTrigger } from '@radix-ui/react-tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatCurrency } from '@/lib/currency'
+import Image from 'next/image'
 
 const Dashboard = () => {
       const [activeTab, setActiveTab] = useState("overview")
@@ -31,7 +32,7 @@ const Dashboard = () => {
             </Button>
             <div className="flex items-center ml-2">
               <Avatar className="h-8 w-8 border-2 border-white">
-                <img src="/api/placeholder/40/40" alt="User" />
+                <Image src="/api/placeholder/40/40" alt="User" />
               </Avatar>
             </div>
           </div>

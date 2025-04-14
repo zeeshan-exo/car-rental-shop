@@ -22,11 +22,11 @@ const NotFound = () => {
             <CardHeader className='text-center'>
                <div className='flex justify-center mb-4'><AlertTriangle className='h-12 w-12 text-AppDanger'/></div>
                <CardTitle>404 - Page Not Found</CardTitle>
-               <CardDescription>The page you're looking for doesn't exist.</CardDescription>
+               <CardDescription>{"The page you're looking for doesn't exist."}</CardDescription>
             </CardHeader>
             <CardContent className='text-center space-y-4'>
                 <p className="text-sm text-gray-500">
-                 It seems you’ve taken a wrong turn. Let’s get you back on track!
+                 {"It seems you’ve taken a wrong turn. Let’s get you back on track!"}
                 </p>
                 <div className='flex flex-col sm:flex-row gap-4 justify-center'>
                  <Button

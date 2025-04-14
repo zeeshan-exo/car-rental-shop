@@ -4,21 +4,26 @@ import {
   Car, 
   MapPin, 
   DollarSign, 
-  CheckCircle2, 
-  XCircle 
+  CheckCircle2,
+  Settings,
+  Fuel,
+  DivideCircleIcon
 } from "lucide-react";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
+import { Checkbox } from "../ui/checkbox";
+import { Label } from "../ui/label";
+import { Slider } from "../ui/slider";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "../ui/accordion";
+import { formatCurrency } from "@/lib/currency";
 
 type FiltersProps = {
   cars: any[];
-  filters: Record<string, string | number>;
-  setFilters: React.Dispatch<React.SetStateAction<Record<string, string | number>>>;
+  filters: Record<string, any>;
+  setFilters: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   clearFilters: () => void;
 };
 
@@ -26,111 +31,223 @@ export default function Filters({
   cars, 
   filters, 
   setFilters, 
-  clearFilters 
+  clearFilters,
 }: FiltersProps) {
 
+
   const filterOptions = useMemo(() => {
+   
+    const rentalRates = cars.map(car => car.rentalRate).filter(Boolean);
+    const minRate = Math.min(...rentalRates);
+    const maxRate = Math.max(...rentalRates);
+
     return {
-      brands: Array.from(new Set(cars.map((car) => car.brand))).map((brand) => ({
-        value: brand,
-        label: brand,
-      })),
-      cities: Array.from(new Set(cars.map((car) => car.city))).map((city) => ({
-        value: city,
-        label: city,
-      })),
-      rentalRates: [
-        { value: 500, label: "Under $500" },
-        { value: 1000, label: "Under $1000" },
-        { value: 2000, label: "Under $2000" },
-        { value: Math.max(...cars.map((car) => car.rentalRate)), label: `Full Range` },
-      ],
+      brands: Array.from(new Set(cars.map((car) => car.brand))).filter(Boolean).sort(),
+      
+      cities: Array.from(new Set(cars.map((car) => car.city))).filter(Boolean).sort(),
+      
+      fuelTypes: Array.from(
+        new Set(cars.map((car) => car?.details?.specs?.fuelType))
+      ).filter(Boolean).sort(),
+      
+      transmissions: Array.from(
+        new Set(cars.map((car) => car?.details?.specs?.transmission))
+      ).filter(Boolean).sort(),
+      
+      availabilityStatus: Array.from(
+        new Set(cars.map((car) => car.isAvailable))
+      ).filter(Boolean),
+      
+      rentalRates: {
+        min: minRate,
+        max: maxRate,
+        current: filters.maxRate || maxRate
+      }
     };
-  }, [cars]);
+  }, [cars, filters.maxRate]);
+
+  const handleCheckboxChange = (
+    filterKey: string,
+    value: any,
+    checked: boolean
+  ) => {
+    setFilters((prev) => {
+      const currentValues = prev[filterKey] ? [...prev[filterKey]] : [];
+      
+      if (checked) {
+        return { ...prev, [filterKey]: [...currentValues, value] };
+      } else {
+        return {
+          ...prev,
+          [filterKey]: currentValues.filter((v) => v !== value),
+        };
+      }
+    });
+  };
+
+  const handleRateChange = (value: number[]) => {
+    setFilters(prev => ({
+      ...prev,
+      maxRate: value[0]
+    }));
+  };
 
   return (
-    <div className="grid gap-6">
-      <div className="space-y-2">
-        <label className=" text-sm font-medium text-gray-700 flex items-center gap-2">
-          <Car className="h-4 w-4" /> Brand
-        </label>
-        <Select 
-          value={filters.brand as string} 
-          onValueChange={(value) => setFilters(prev => ({...prev, brand: value}))}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select Brand" />
-          </SelectTrigger>
-          <SelectContent>
-            {filterOptions.brands.map((brand) => (
-              <SelectItem key={brand.value} value={brand.value}>
-                {brand.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+    <div className="p-4 bg-white rounded-lg shadow-sm">
+      <h2 className="text-lg font-semibold mb-4">Filter Cars</h2>
+          <div className="text-sm font-medium flex items-center gap-2 py-2">
+            <span>Price Range</span>
+          </div>
+          <div>
+            <div className="px-1 pt-4 pb-6">
+              <div className="flex justify-between mb-2 text-sm">
+                <span>{formatCurrency(filterOptions.rentalRates.min)}</span>
+                <span> {formatCurrency(filterOptions.rentalRates.max)}</span>
+              </div>
+              <Slider
+                defaultValue={[filters.maxRate || filterOptions.rentalRates.max]}
+                max={filterOptions.rentalRates.max}
+                min={filterOptions.rentalRates.min}
+                step={100}
+                onValueChange={handleRateChange}
+              />
+              <div className="mt-2 text-sm text-center">
+                Max: {formatCurrency(filterOptions.rentalRates.max)}
+              </div>
+            </div>
+            <hr></hr>
+            </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-          <MapPin className="h-4 w-4" /> City
-        </label>
-        <Select 
-          value={filters.city as string} 
-          onValueChange={(value) => setFilters(prev => ({...prev, city: value}))}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select City" />
-          </SelectTrigger>
-          <SelectContent>
-            {filterOptions.cities.map((city) => (
-              <SelectItem key={city.value} value={city.value}>
-                {city.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-gray-700 flex items-center gap-2">
-          <DollarSign className="h-4 w-4" /> Rental Rate
-        </label>
-        <Select 
-          value={filters.rentalRate ? String(filters.rentalRate) : undefined} 
-          onValueChange={(value) => setFilters(prev => ({...prev, rentalRate: Number(value)}))}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select Max Rate" />
-          </SelectTrigger>
-          <SelectContent>
-            {filterOptions.rentalRates.map((rate) => (
-              <SelectItem key={rate.value} value={String(rate.value)}>
-                {rate.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+       
+          <div className="text-sm font-medium flex items-center gap-2 py-2">
+            <Car className="h-4 w-4" /> 
+            <span>Brand</span>
+          </div>
+          <div>
+            <div className="space-y-2 px-1 py-2">
+              {filterOptions.brands.map((brand) => (
+                <div key={brand} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`brand-${brand}`}
+                    checked={filters.brands?.includes(brand) || false}
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange("brands", brand, checked as boolean)
+                    }
+                  />
+                  <Label htmlFor={`brand-${brand}`} className="capitalize">{brand}</Label>
+                </div>
+              ))}
+              {filterOptions.brands.length === 0 && (
+                <p className="text-sm text-gray-500">No brands available</p>
+              )}
+            </div>
+            <hr></hr>
+          </div>
 
-      <div className="space-y-2">
-        <label className=" text-sm font-medium text-gray-700 flex items-center gap-2">
-          {filters.availability === 'available' ? <CheckCircle2 className="h-4 w-4 text-green-500" /> : <XCircle className="h-4 w-4 text-red-500" />} 
-          Availability
-        </label>
-        <Select 
-          value={filters.availability as string} 
-          onValueChange={(value) => setFilters(prev => ({...prev, availability: value}))}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select Availability" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="available">Available</SelectItem>
-            <SelectItem value="booked">Booked</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+        <div>
+          <div className="text-sm font-medium flex items-center gap-2 py-2">
+            <MapPin className="h-4 w-4" /> 
+            <span>Location</span>
+          </div>
+          <div>
+            <div className="space-y-2 px-1 py-2">
+              {filterOptions.cities.map((city) => (
+                <div key={city} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`city-${city}`}
+                    checked={filters.cities?.includes(city) || false}
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange("cities", city, checked as boolean)
+                    }
+                  />
+                  <Label htmlFor={`city-${city}`}>{city}</Label>
+                </div>
+              ))}
+              {filterOptions.cities.length === 0 && (
+                <p className="text-sm text-gray-500">No locations available</p>
+              )}
+            </div>
+          </div>
+          <hr></hr>
+        </div>
+
+        <div>
+          <div className="text-sm font-medium flex items-center gap-2 py-2">
+            <Fuel className="h-4 w-4" /> 
+            <span>Fuel Type</span>
+          </div>
+          <div>
+            <div className="space-y-2 px-1 py-2">
+              {filterOptions.fuelTypes.map((fuel) => (
+                <div key={fuel} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`fuel-${fuel}`}
+                    checked={filters.fuelType?.includes(fuel) || false}
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange("fuelType", fuel, checked as boolean)
+                    }
+                  />
+                  <Label htmlFor={`fuel-${fuel}`}>{fuel}</Label>
+                </div>
+              ))}
+              {filterOptions.fuelTypes.length === 0 && (
+                <p className="text-sm text-gray-500">No fuel types available</p>
+              )}
+            </div>
+          </div>
+          <hr></hr>
+        </div>
+
+        <div>
+          <div className="text-sm font-medium flex items-center gap-2 py-2">
+            <Settings className="h-4 w-4" /> 
+            <span>Transmission</span>
+          </div>
+          <div>
+            <div className="space-y-2 px-1 py-2">
+              {filterOptions.transmissions.map((transmission) => (
+                <div key={transmission} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`transmission-${transmission}`}
+                    checked={filters.transmission?.includes(transmission) || false}
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange("transmission", transmission, checked as boolean)
+                    }
+                  />
+                  <Label htmlFor={`transmission-${transmission}`}>{transmission}</Label>
+                </div>
+              ))}
+              {filterOptions.transmissions.length === 0 && (
+                <p className="text-sm text-gray-500">No transmission types available</p>
+              )}
+            </div>
+          </div>
+          <hr></hr>
+        </div>
+
+        {/* <div >
+          <div className="text-sm font-medium flex items-center gap-2 py-2">
+            <CheckCircle2 className="h-4 w-4" /> 
+            <span>Availability</span>
+          </div>
+          <div>
+            <div className="space-y-2 px-1 py-2">
+              {filterOptions.availabilityStatus.map((status) => (
+                <div key={status} className="flex items-center gap-2">
+                  <Checkbox
+                    id={`availability-${status}`}
+                    checked={filters.availability?.includes(status) || false}
+                    onCheckedChange={(checked) =>
+                      handleCheckboxChange("availability", status, checked as boolean)
+                    }
+                  />
+                  <Label htmlFor={`availability-${status}`} className="capitalize">{status}</Label>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div> */}
     </div>
   );
 }

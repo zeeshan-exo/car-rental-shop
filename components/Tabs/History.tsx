@@ -45,9 +45,9 @@ const History = () => {
                </Table>
                :
                <div className='flex flex-col items-center mt-4'> 
-               <p>It appears that you haven't book any cars at past. Click on the button below to book car.</p>
+               <p>{"It appears that you haven't book any cars at past. Click on the button below to book car."}</p>
                <Button 
-               className='bg-AppPrimary text-AppLight hover:bg-AppPrimaryHover mt-2'
+               className="bg-AppPrimary text-AppLight hover:bg-AppPrimaryHover mt-2"
                > Book Now</Button>
                </div>
         }

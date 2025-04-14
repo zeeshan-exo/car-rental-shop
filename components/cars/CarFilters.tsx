@@ -75,7 +75,7 @@ const CarFilters =  ({cars} : DisplayCarsProps ) => {
                 <hr></hr>
                 </>
                 
-
+                
             </CardContent>
         </Card>
     </div>
