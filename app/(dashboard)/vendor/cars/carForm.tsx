@@ -270,9 +270,11 @@ const CarForm = ({ carData = null }) => {
                     <div className="mt-4 flex flex-wrap gap-4">
                       {selectedImages.map((src, index) => (
                         <div key={index} className="relative group">
-                          <img 
+                          <Image
                             src={src} 
                             alt="Preview" 
+                            width={56}
+                            height={56}
                             className="w-32 h-32 object-cover rounded-lg border-2 border-gray-200 group-hover:scale-105 transition-transform" 
                           />
                           <button

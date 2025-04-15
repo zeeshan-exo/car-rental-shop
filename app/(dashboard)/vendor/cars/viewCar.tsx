@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { getCar } from "@/actions/cars";
-import { Cross } from "lucide-react";
+import { X } from "lucide-react";
 import ImageSlider from "@/components/cars/ImageSlider";
 import ProductForm from "./carForm";
 import { Button } from "@/components/ui/button";
@@ -163,7 +163,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                       onClick={closeModal}
                       className="p-3 hover:bg-AppSecondary/50 rounded-full transition-colors text-AppLight"
                     >
-                      <Cross size={28} />
+                      <X size={28} />
                     </button>
                   </div>
 

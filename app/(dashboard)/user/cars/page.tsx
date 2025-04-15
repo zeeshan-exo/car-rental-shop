@@ -4,11 +4,11 @@ import Displaycars from "./displayCars"
 import Pagination from "@/components/Pagination"
 
 
-export default async function (props:{
+const page = async (props:{
   searchParams?: Promise<{
     page?: string
   }>
-}) {
+}) => {
   const searchParams = await props.searchParams
   const currentPage = Number(searchParams?.page)|| 1
   const {cars, totalPages} = await getAllCars(currentPage)
@@ -23,3 +23,4 @@ export default async function (props:{
       </div>
   )
 }
+ export default page

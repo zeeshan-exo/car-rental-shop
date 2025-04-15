@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { getCar } from "@/actions/cars";
-import { Cross } from "lucide-react";
+import { X } from "lucide-react";
 import ImageSlider from "@/components/cars/ImageSlider";
 import { Button } from "@/components/ui/button";
 import BookingForm from "./bookingForm";
@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import Booking from "./booking";
+import Image from "next/image";
 
 const benefits = [
   "Free cancellation up to 24 hours before pickup",
@@ -94,7 +95,7 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
                       onClick={closeModal}
                       className="p-2 hover:bg-blue-700/50 rounded-full transition-colors text-AppLight"
                     >
-                      <Cross size={24} />
+                      <X size={24} />
                     </button>
                   </div>
 
@@ -104,7 +105,9 @@ const Viewcar: React.FC<ViewcarProps> = ({ carId }) => {
                         {car.images && Array.isArray(car.images) && car.images.length > 0 ? (
                           <ImageSlider images={car.images} />
                         ) : (
-                          <img
+                          <Image
+                          width={56}
+                          height={56}
                             src={car.image}
                             alt={car.carName}
                             loading="lazy"

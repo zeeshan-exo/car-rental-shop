@@ -18,7 +18,7 @@ const StatusCards = dynamic(() => import("@/components/StatusCards"), {ssr: fals
 const Map = dynamic(() => import("@/components/Map"), {ssr: false}) 
 
 
-const page = () => {
+const Page = () => {
   const [orders, setOrders] = useState<Booking[]>([])
   const [carsdata, setCars] = useState([])
   const [activeTab, setActiveTab] = useState("overview")
@@ -232,4 +232,4 @@ const page = () => {
   )
 }
 
-export default page;
+export default Page;

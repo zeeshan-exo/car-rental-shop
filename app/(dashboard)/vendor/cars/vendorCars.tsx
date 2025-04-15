@@ -5,6 +5,7 @@ import ImageSlider from "@/components/cars/ImageSlider";
 import Viewcar from "@/app/(dashboard)/vendor/cars/viewCar";
 import { MapPin, Car, Box, DollarSign, Tag } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
+import Image from "next/image";
 
 export default async function DisplayVendorCars() {
   const cars = await getVendorCars();
@@ -37,7 +38,7 @@ export default async function DisplayVendorCars() {
                   <ImageSlider images={car.images} />
                 </div>
               ) : (
-                <img
+                <Image
                   src={car.image}
                   alt={car.carName}
                   className="w-full h-full object-cover"

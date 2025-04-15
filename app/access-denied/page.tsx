@@ -5,7 +5,7 @@ import { Card, CardContent, CardTitle, CardHeader, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 
-const page = () => {
+const Page = () => {
   const router = useRouter()
 
   const handleGoBack = () =>{
@@ -39,4 +39,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

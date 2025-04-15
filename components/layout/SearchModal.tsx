@@ -1,5 +1,5 @@
 "use client"
-import React, { ChangeEvent, useState, useEffect, useRef } from "react";
+import React, { ChangeEvent, useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Search, X, MapPin, CarIcon } from "lucide-react";
 import { Input } from "../ui/input";
@@ -63,13 +63,7 @@ const SearchModal = ({
     };
   }, [isOpen, onClose]);
 
-  useEffect(() => {
-    if (inputValue && isOpen) {
-      performSearch();
-    }
-  }, [inputValue, isOpen]);
-
-  const performSearch = async () => {
+  const performSearch = useCallback(async () => {
     if (!inputValue) return;
 
     setIsLoading(true);
@@ -85,7 +79,13 @@ const SearchModal = ({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [inputValue]);
+
+  useEffect(() => {
+    if (inputValue && isOpen) {
+      performSearch();
+    }
+  }, [inputValue, isOpen, performSearch]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

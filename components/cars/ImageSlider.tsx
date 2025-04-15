@@ -1,6 +1,7 @@
 'use client'
 import React from "react";
 import Slider from "react-slick";
+import Image from "next/image";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
@@ -37,6 +38,8 @@ const ImageSlider = ({ images}) => {
         return (
           <div key={index}>
             <img
+            width={60}
+            height={60}
               src={imageUrl}
               alt={`Slide ${index + 1}`}
               className="w-full h-60 object-cover rounded"

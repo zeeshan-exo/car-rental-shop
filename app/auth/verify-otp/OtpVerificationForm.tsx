@@ -83,7 +83,7 @@ const OtpVerification= () => {
                         
                         <div className="mt-6 text-center">
                             <p className="text-sm text-AppDark">
-                                Didn't receive a code? <button type="button" className="text-AppPrimary font-medium">Resend</button>
+                                {"Didn't receive a code?"} <button type="button" className="text-AppPrimary font-medium">Resend</button>
                             </p>
                         </div>
                     </form>
@@ -93,7 +93,7 @@ const OtpVerification= () => {
                     <div className="flex items-start gap-2">
                         < Megaphone className='h-12 w-12 text-AppAccent'/>
                         <p className="text-sm  text-AppAccent">
-                            The verification code will expire in 10 minutes. Please check your inbox and spam folder if you haven't received it.
+                            {"The verification code will expire in 10 minutes. Please check your inbox and spam folder if you haven't received it."}
                         </p>
                     </div>
                 </div>
