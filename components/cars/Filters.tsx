@@ -12,12 +12,6 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
 import { Slider } from "../ui/slider";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
 import { formatCurrency } from "@/lib/currency";
 
 type FiltersProps = {
@@ -94,15 +88,16 @@ export default function Filters({
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-sm">
-      <h2 className="text-lg font-semibold mb-4">Filter Cars</h2>
+      <h2 className="text-lg font-semibold mb-1">Filter</h2>
+      <hr className="border-AppDark mb-4"/>
           <div className="text-sm font-medium flex items-center gap-2 py-2">
-            <span>Price Range</span>
+            <span>Rent Range</span>
           </div>
           <div>
             <div className="px-1 pt-4 pb-6">
               <div className="flex justify-between mb-2 text-sm">
-                <span>{formatCurrency(filterOptions.rentalRates.min)}</span>
-                <span> {formatCurrency(filterOptions.rentalRates.max)}</span>
+                <span>min ~{formatCurrency(filterOptions.rentalRates.min)}</span>
+                <span>max ~{formatCurrency(filterOptions.rentalRates.max)}</span>
               </div>
               <Slider
                 defaultValue={[filters.maxRate || filterOptions.rentalRates.max]}
@@ -111,21 +106,21 @@ export default function Filters({
                 step={100}
                 onValueChange={handleRateChange}
               />
-              <div className="mt-2 text-sm text-center">
+              {/* <div className="mt-2 text-sm text-center">
                 Max: {formatCurrency(filterOptions.rentalRates.max)}
-              </div>
+              </div> */}
             </div>
             <hr></hr>
             </div>
 
 
        
-          <div className="text-sm font-medium flex items-center gap-2 py-2">
+          <div className="text-md font-medium flex items-center gap-2 py-2">
             <Car className="h-4 w-4" /> 
-            <span>Brand</span>
+            <span className="">Brand</span>
           </div>
-          <div>
-            <div className="space-y-2 px-1 py-2">
+
+            <div className="space-y-2 px-1 py-2 text-AppDark">
               {filterOptions.brands.map((brand) => (
                 <div key={brand} className="flex items-center gap-2">
                   <Checkbox
@@ -142,16 +137,14 @@ export default function Filters({
                 <p className="text-sm text-gray-500">No brands available</p>
               )}
             </div>
-            <hr></hr>
-          </div>
+            <hr className="border-gray-300"/>
 
-        <div>
-          <div className="text-sm font-medium flex items-center gap-2 py-2">
+          <div className="text-md font-medium flex items-center gap-2 py-2">
             <MapPin className="h-4 w-4" /> 
             <span>Location</span>
           </div>
           <div>
-            <div className="space-y-2 px-1 py-2">
+            <div className="space-y-2 px-1 py-2 text-AppDark">
               {filterOptions.cities.map((city) => (
                 <div key={city} className="flex items-center gap-2">
                   <Checkbox
@@ -165,20 +158,18 @@ export default function Filters({
                 </div>
               ))}
               {filterOptions.cities.length === 0 && (
-                <p className="text-sm text-gray-500">No locations available</p>
+                <p className="text-md text-gray-500">No locations available</p>
               )}
             </div>
           </div>
-          <hr></hr>
-        </div>
+          <hr className="border-gray-300"/>
 
         <div>
-          <div className="text-sm font-medium flex items-center gap-2 py-2">
+          <div className="text-md font-medium flex items-center gap-2 py-2">
             <Fuel className="h-4 w-4" /> 
             <span>Fuel Type</span>
           </div>
-          <div>
-            <div className="space-y-2 px-1 py-2">
+            <div className="space-y-2 px-1 py-2 text-AppDark">
               {filterOptions.fuelTypes.map((fuel) => (
                 <div key={fuel} className="flex items-center gap-2">
                   <Checkbox
@@ -196,16 +187,16 @@ export default function Filters({
               )}
             </div>
           </div>
-          <hr></hr>
-        </div>
+          <hr className="border-gray-300"/>
+
 
         <div>
-          <div className="text-sm font-medium flex items-center gap-2 py-2">
+          <div className="text-md font-medium flex items-center gap-2 py-2">
             <Settings className="h-4 w-4" /> 
             <span>Transmission</span>
           </div>
-          <div>
-            <div className="space-y-2 px-1 py-2">
+
+            <div className="space-y-2 px-1 py-2 text-AppDark">
               {filterOptions.transmissions.map((transmission) => (
                 <div key={transmission} className="flex items-center gap-2">
                   <Checkbox
@@ -223,31 +214,8 @@ export default function Filters({
               )}
             </div>
           </div>
-          <hr></hr>
-        </div>
+          {/* <hr className="border-gray-300"/> */}
 
-        {/* <div >
-          <div className="text-sm font-medium flex items-center gap-2 py-2">
-            <CheckCircle2 className="h-4 w-4" /> 
-            <span>Availability</span>
-          </div>
-          <div>
-            <div className="space-y-2 px-1 py-2">
-              {filterOptions.availabilityStatus.map((status) => (
-                <div key={status} className="flex items-center gap-2">
-                  <Checkbox
-                    id={`availability-${status}`}
-                    checked={filters.availability?.includes(status) || false}
-                    onCheckedChange={(checked) =>
-                      handleCheckboxChange("availability", status, checked as boolean)
-                    }
-                  />
-                  <Label htmlFor={`availability-${status}`} className="capitalize">{status}</Label>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div> */}
     </div>
   );
 }

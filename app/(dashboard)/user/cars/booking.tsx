@@ -21,10 +21,9 @@ import {
   Mail,
   CreditCard,
   MapPin,
-  X,
   User,
-  CarFront,
   CalendarIcon,
+  Check
 } from "lucide-react";
 import {
   Popover,
@@ -56,7 +55,6 @@ const Booking: React.FC<BookingFormProps> = ({
   vendorName,
   rentalRate,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
   const [state, action, isPending] = useActionState(bookingOrder, null);
   const [formData, setFormData] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("cashOnDelivery");
@@ -122,7 +120,7 @@ const Booking: React.FC<BookingFormProps> = ({
 
       const result = await response.json();
       if (!result.id) {
-        console.error("Error: No session ID received from API", result);
+        console.error("Error: No session ID received from Server Action", result);
         alert(`Failed to create Stripe session: ${result.error || "Unknown error"}`);
         return;
       }
@@ -135,9 +133,6 @@ const Booking: React.FC<BookingFormProps> = ({
       console.error("Checkout error:", error);
     }
   };
-
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
 
   const fields = [
     {
@@ -183,176 +178,161 @@ const Booking: React.FC<BookingFormProps> = ({
   ];
 
   return (
-    <div>
-      <Button
-        onClick={openModal}
-        disabled={isPending}
-        className="w-full h-full bg-AppPrimary px-6 py-2.5 text-AppLight rounded-lg font-semibold shadow-md hover:bg-AppPrimaryHover hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-      >
-        {isPending ? (
-          <>
-            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            Processing...
-          </>
-        ) : (
-          "Book Now"
-        )}
-      </Button>
-
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-AppLight w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden relative transform transition-all duration-300 ease-in-out">
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 flex items-center justify-between text-AppLight">
-              <div className="flex items-center gap-4">
-                <CarFront className="w-10 h-10" />
-                <div>
-                  <h2 className="text-2xl font-bold">Book {carName}</h2>
-                  <p className="text-sm text-blue-100">{carModel}</p>
-                </div>
+    <div className="h-full bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="p-6 max-h-[70vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {fields.map(({ label, name, type, placeholder, icon, required }) => (
+            <div key={name} className="relative">
+              <Label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1.5">
+                {label} {required && <span className="text-red-500">*</span>}
+              </Label>
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 pl-3 flex items-center">{icon}</span>
+                <Input
+                  id={name}
+                  name={name}
+                  type={type}
+                  placeholder={placeholder}
+                  value={formData[name] || ""}
+                  onChange={handleChange}
+                  required={required}
+                  disabled={isPending}
+                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+                    state?.errors?.[name] ? "border-red-300 focus:ring-red-300" : "border-gray-200 focus:border-blue-400 focus:ring-blue-100"
+                  } shadow-sm transition-all disabled:bg-gray-50 disabled:cursor-not-allowed`}
+                />
               </div>
-              <button
-                onClick={closeModal}
-                aria-label="Close modal"
-                className="p-2 hover:bg-blue-700/30 rounded-full transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <div className="p-8 overflow-y-auto max-h-[70vh] scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {fields.map(({ label, name, type, placeholder, icon, required }) => (
-                  <div key={name} className="relative">
-                    <Label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
-                      {label} {required && <span className="text-red-500">*</span>}
-                    </Label>
-                    <div className="relative">
-                      <span className="absolute inset-y-0 left-0 pl-3 flex items-center">{icon}</span>
-                      <Input
-                        id={name}
-                        name={name}
-                        type={type}
-                        placeholder={placeholder}
-                        value={formData[name] || ""}
-                        onChange={handleChange}
-                        required={required}
-                        disabled={isPending}
-                        className={`w-full pl-10 pr-4 py-2.5 rounded-lg border ${
-                          state?.errors?.[name] ? "border-red-300" : "border-gray-300"
-                        } transition-all disabled:bg-gray-100 disabled:cursor-not-allowed`}
-                      />
-                    </div>
-                    {state?.errors?.[name] && (
-                      <p className="mt-1 text-red-600 text-sm">{state.errors[name]}</p>
-                    )}
-                  </div>
-                ))}
-
-                <div className="relative">
-                  <Label className="block text-sm font-medium text-gray-700 mb-1">
-                    Rental Period <span className="text-red-500">*</span>
-                  </Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        id="date"
-                        variant={"outline"}
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !dateRange && "text-muted-foreground"
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4 text-AppPrimary" />
-                        {dateRange?.from ? (
-                          dateRange.to ? (
-                            <>
-                              {format(dateRange.from, "LLL dd, y")} -{" "}
-                              {format(dateRange.to, "LLL dd, y")}
-                            </>
-                          ) : (
-                            format(dateRange.from, "LLL dd, y")
-                          )
-                        ) : (
-                          <span>Pick a date range</span>
-                        )}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <CalendarComponent
-                        initialFocus
-                        mode="range"
-                        defaultMonth={dateRange?.from}
-                        selected={dateRange}
-                        onSelect={setDateRange}
-                        numberOfMonths={2}
-                        minDate={new Date()}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  {state?.errors?.dateRange && (
-                    <p className="mt-1 text-red-600 text-sm">{state.errors.dateRange}</p>
-                  )}
-                </div>
-
-                <div className="mt-4">
-                  <Label
-                    htmlFor="paymentMethod"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Select Payment Method
-                  </Label>
-                  <Select
-                    value={paymentMethod}
-                    onValueChange={handlePaymentMethodChange}
-                    disabled={isPending}
-                  >
-                    <SelectTrigger id="paymentMethod" className="w-full">
-                      <SelectValue placeholder="Select payment method" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cashOnDelivery">💵 Cash on Delivery</SelectItem>
-                      <SelectItem value="card">💳 Pay with Card</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="pt-2 flex items-center justify-between">
-                  <a href="/terms" className="text-sm text-AppPrimary hover:underline">
-                    Terms & Conditions
-                  </a>
-                  {paymentMethod === "cashOnDelivery" ? (
-                    <Button
-                      type="submit"
-                      disabled={isPending || !dateRange?.from || !dateRange?.to}
-                      className="px-6 py-3 bg-AppPrimary text-AppLight font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isPending ? "Booking..." : "Confirm Booking"}
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={handleCheckout}
-                      disabled={isPending || !dateRange?.from || !dateRange?.to}
-                      className="px-6 py-3 bg-AppPrimary text-AppLight font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300"
-                    >
-                      Proceed to Checkout
-                    </Button>
-                  )}
-                </div>
-              </form>
-
-              {state?.errors && (
-                <div className="mt-6 p-4 bg-red-50 rounded-xl border border-red-200 flex items-center gap-3 text-red-600">
-                  <X className="w-6 h-6 text-red-500" />
-                  <div>
-                    <h3 className="font-semibold">Booking Failed</h3>
-                    <p className="text-sm">Please review and correct your details.</p>
-                  </div>
-                </div>
+              {state?.errors?.[name] && (
+                <p className="mt-1 text-red-600 text-sm">{state.errors[name]}</p>
               )}
             </div>
+          ))}
+
+          <div className="relative">
+            <Label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Rental Period <span className="text-red-500">*</span>
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  id="date"
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal py-3",
+                    !dateRange && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4 text-AppPrimary" />
+                  {dateRange?.from ? (
+                    dateRange.to ? (
+                      <>
+                        {format(dateRange.from, "LLL dd, y")} -{" "}
+                        {format(dateRange.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(dateRange.from, "LLL dd, y")
+                    )
+                  ) : (
+                    <span>Pick a date range</span>
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <CalendarComponent
+                  initialFocus
+                  mode="range"
+                  defaultMonth={dateRange?.from}
+                  selected={dateRange}
+                  onSelect={setDateRange}
+                  numberOfMonths={2}
+                  minDate={new Date()}
+                />
+              </PopoverContent>
+            </Popover>
+            {state?.errors?.dateRange && (
+              <p className="mt-1 text-red-600 text-sm">{state.errors.dateRange}</p>
+            )}
           </div>
-        </div>
-      )}
+
+          <div className="mt-4">
+            <Label
+              htmlFor="paymentMethod"
+              className="block text-sm font-medium text-gray-700 mb-1.5"
+            >
+              Select Payment Method
+            </Label>
+            <Select
+              value={paymentMethod}
+              onValueChange={handlePaymentMethodChange}
+              disabled={isPending}
+            >
+              <SelectTrigger id="paymentMethod" className="w-full py-3 border-gray-200">
+                <SelectValue placeholder="Select payment method" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="cashOnDelivery">💵 Cash on Delivery</SelectItem>
+                <SelectItem value="card">💳 Pay with Card</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="pt-4 flex items-center justify-between">
+            <a href="/terms" className="text-sm text-AppPrimary hover:underline">
+              Terms & Conditions
+            </a>
+            {paymentMethod === "cashOnDelivery" ? (
+              <Button
+                type="submit"
+                disabled={isPending || !dateRange?.from || !dateRange?.to}
+                className="px-6 py-3 bg-AppPrimary text-AppLight font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isPending ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Processing...
+                  </div>
+                ) : (
+                  "Confirm Booking"
+                )}
+              </Button>
+            ) : (
+              <Button
+                onClick={handleCheckout}
+                disabled={isPending || !dateRange?.from || !dateRange?.to}
+                className="px-6 py-3 bg-AppPrimary text-AppLight font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Proceed to Checkout
+              </Button>
+            )}
+          </div>
+        </form>
+
+        {state?.errors && (
+          <div className="mt-6 p-4 bg-red-50 rounded-xl border border-red-200 flex items-center gap-3 text-red-600">
+            <div className="p-2 bg-red-100 rounded-full">
+              <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="font-semibold">Booking Failed</h3>
+              <p className="text-sm">Please review and correct your details.</p>
+            </div>
+          </div>
+        )}
+        
+        {state?.success && (
+  <div className="mt-6 p-4 bg-green-50 rounded-xl border border-green-200 flex items-center gap-3 text-green-600">
+    <div className="p-2 bg-green-100 rounded-full">
+      <Check className="w-5 h-5 text-green-500" />
+    </div>
+    <div>
+      <h3 className="font-semibold">Booking Successful</h3>
+      <p className="text-sm">Your booking has been confirmed.</p>
+    </div>
+  </div>
+)}
+      </div>
     </div>
   );
 };

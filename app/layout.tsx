@@ -1,11 +1,11 @@
 "use client"
-import type { Metadata } from "next";
 import { Providers } from "@/providers";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
+import Header from "@/components/layout/Header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,9 +23,7 @@ const geistMono = Geist_Mono({
 //   description: "Rent cars easily with our platform",
 // };
 
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-
 
   return (
     <html lang="en">

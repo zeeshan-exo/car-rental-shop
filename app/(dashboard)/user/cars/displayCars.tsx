@@ -9,9 +9,9 @@ import {
   SheetTitle, 
   SheetTrigger 
 } from "@/components/ui/sheet";
+import { formatCurrency } from "@/lib/currency";
 import { Badge } from "@/components/ui/badge";
-import dynamic from "next/dynamic";
-const CarCard = dynamic(() => import("@/components/cars/CarCard"));
+import CarCard from "@/components/cars/CarCard";
 import Filters from "@/components/cars/Filters";
 
 type Car = {
@@ -154,7 +154,7 @@ const DisplayCars: React.FC<DisplayCarsProps> = ({ cars }) => {
     if (filters.maxRate) {
       badges.push({
         key: 'max-price',
-        label: `Max $${filters.maxRate}`,
+        label: `Max ${formatCurrency(filters.maxRate)}`,
         onClick: () => removeFilter('maxRate')
       });
     }
