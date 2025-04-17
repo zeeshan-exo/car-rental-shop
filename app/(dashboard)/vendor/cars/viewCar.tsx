@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { getCar } from "@/actions/cars";
 import { X } from "lucide-react";
 import ImageSlider from "@/components/cars/ImageSlider";
-import ProductForm from "./carForm";
+import CarForm from "./carForm";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {  
@@ -16,6 +16,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
+import { Badge } from "@/components/ui/badge";
 
 interface ViewcarProps {
   carId: string;
@@ -26,7 +27,6 @@ export default function Viewcar({ carId }: ViewcarProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [car, setCar] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("overview");
 
   const openModal = async () => {
     setLoading(true);
@@ -47,8 +47,34 @@ export default function Viewcar({ carId }: ViewcarProps) {
     setIsEditing(false);
   };
 
+  const toggleEditMode = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleEditComplete = async () => {
+    setIsEditing(false);
+
+    setLoading(true);
+    try {
+      const refreshedCarData = await getCar(carId);
+      setCar(refreshedCarData);
+    } catch (error) {
+      console.error("Error refreshing car data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const renderCarDetails = () => {
     if (!car) return null;
+
+    if (isEditing) {
+      return <CarForm 
+        carData={car} 
+        isInlineEdit={true} 
+        onEditComplete={handleEditComplete} 
+      />;
+    }
 
     return (
       <div className="grid lg:grid-cols-2 gap-8 p-8">
@@ -80,7 +106,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
             </div>
             <button 
               className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-AppPrimary rounded-lg text-sm font-semibold transition-all duration-300 hover:shadow-md"
-              onClick={() => setIsEditing(true)}
+              onClick={toggleEditMode}
             >
               <Edit size={16} /> Edit Details
             </button>
@@ -102,14 +128,14 @@ export default function Viewcar({ carId }: ViewcarProps) {
 
             {car.details?.specs?.features && (
               <div className="mt-4">
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">Special Features:</h3>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">Features:</h3>
                 <div className="flex flex-wrap gap-2">
                   {car.details.specs.features.map((feature, index) => (
                     <span 
                       key={index} 
-                      className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs"
+                      className="bg-blue-100 rounded-md p-0.5 ext-xs"
                     >
-                      {feature}
+                      <Badge variant="outline" className="text-AppPrimary">{feature}</Badge>
                     </span>
                   ))}
                 </div>
@@ -140,7 +166,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
         onClick={openModal}
         className="bg-AppPrimary text-AppLight px-6 py-2.5 rounded-lg shadow-md hover:bg-AppPrimary transition-all duration-300 font-medium flex items-center gap-2"
       >
-        View Details <ChevronRight size={16} />
+        View Details
       </Button>
 
       {isOpen && (
@@ -154,10 +180,10 @@ export default function Viewcar({ carId }: ViewcarProps) {
                 </div>
               ) : (
                 <>
-                  <div className="bg-AppPrimary y py-5 px-8 flex justify-between items-center">
+                  <div className="bg-AppPrimary py-5 px-8 flex justify-between items-center">
                     <h2 className="text-2xl font-bold text-AppLight flex items-center">
                       <Star className="mr-3" size={24} fill="white" stroke="none" /> 
-                      Car Details
+                      {isEditing ? "Edit Car Details" : "Car Details"}
                     </h2>
                     <button
                       onClick={closeModal}
@@ -167,13 +193,7 @@ export default function Viewcar({ carId }: ViewcarProps) {
                     </button>
                   </div>
 
-                  {isEditing ? (
-                    <div className="p-8">
-                      <ProductForm carData={car} />
-                    </div>
-                  ) : (
-                    renderCarDetails()
-                  )}
+                  {renderCarDetails()}
                 </>
               )}
             </div>

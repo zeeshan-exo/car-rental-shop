@@ -6,6 +6,7 @@ import Viewcar from "@/app/(dashboard)/vendor/cars/viewCar";
 import { MapPin, Car, Box, DollarSign, Tag } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 
 export default async function DisplayVendorCars() {
   const cars = await getVendorCars();
@@ -28,7 +29,7 @@ export default async function DisplayVendorCars() {
         {cars.map((car) => (
           <div
             key={car._id}
-            className="bg-AppLight border border-AppLight rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+            className="bg-AppLight border border-AppLight rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 "
           >
             <div className="relative h-60">
               {car.images &&
@@ -48,14 +49,16 @@ export default async function DisplayVendorCars() {
                 <span className="bg-AppPrimary text-AppLight text-xs font-bold px-2 py-1 rounded-full">
                   {car.brand}
                 </span>
+                
               </div>
             </div>
             
             <div className="p-5">
               <div className="flex justify-between items-start mb-2">
-                <h2 className="text-xl font-bold text-AppDark line-clamp-1">
-                  {car.carName}
+                <h2 className="text-xl font-bold text-AppDark space-x-2">
+                  {car.carName} 
                 </h2>
+               
                 <p className="text-AppAccent font-bold text-xl">
                   <span className="flex items-center">
                     {formatCurrency(car.rentalRate)}
@@ -71,20 +74,18 @@ export default async function DisplayVendorCars() {
                     {car.modelYear}
                   </span>
                 </div>
+
+                
+                <div className="flex items-center text-AppSecondary">
+                  <MapPin className="w-4 h-4 mr-2 text-AppPrimary/70" />
+                  <span className="ml-1 text-sm font-medium">{car.city}</span>
+                </div>
                 
                 <div className="flex items-center text-AppSecondary">
                   <Box className="w-4 h-4 mr-2 text-AppPrimary/70" />
-                  <span className="text-sm">Available:</span>
-                  {/* <span className="ml-1 text-sm font-medium">
-                    {car.carQuantity} units
-                  </span> */}
+                  <span className="text-sm font-medium text-green-600">{car.isAvailable}</span>
                 </div>
 
-                <div className="flex items-center text-AppSecondary">
-                  <MapPin className="w-4 h-4 mr-2 text-AppPrimary/70" />
-                  <span className="text-sm">City:</span>
-                  <span className="ml-1 text-sm font-medium">{car.city}</span>
-                </div>
               </div>
               
               <p className="text-AppSecondary/80 text-sm line-clamp-1 mb-4">

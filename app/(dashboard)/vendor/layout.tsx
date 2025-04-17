@@ -39,7 +39,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
         defaultActiveItems="Home"
          />
         <div className="flex flex-col flex-1 w-full">
-          <Header
+          {/* <Header
             title={
               <Link href="/" className="flex items-center gap-2">
                 <span className="font-bold text-xl">AutoNex</span>
@@ -83,7 +83,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
               </div>
             }
             className="bg-AppLight shadow-md w-full"
-          />
+          /> */}
 
           <main className="flex-1 p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-300 scrollbar-track-blue-100 mb-6 w-full">
             <div className="md:hidden mb-4">

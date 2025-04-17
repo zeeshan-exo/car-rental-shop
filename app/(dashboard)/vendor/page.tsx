@@ -57,29 +57,6 @@ const Dashboard = () => {
   return (
     <MapProvider>
       <div className="bg-gray-50 min-h-screen">
-        {/* <div className="bg-gradient-to-r from-sky-700 to-indigo-800 text-AppLight p-6 shadow-md">
-          <div className="container mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <div>
-                <h1 className="text-3xl font-bold">AutoNex Dashboard</h1>
-                <p className="text-sky-100 mt-1">
-                  Welcome back! {userName ? 
-              userName?.charAt(0).toLocaleUpperCase() +userName?.slice(1) : ""} You have {reservations.length} pending reservations
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Button size="sm" className="bg-AppLight/20 hover:bg-AppLight/30 backdrop-blur-sm">
-                  <AlertCircle className="h-4 w-4 mr-2" />
-                  Notifications
-                </Button>
-                <Button size="sm" className="bg-AppLight text-sky-800 hover:bg-sky-100">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Activity Log
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <Welcome/>
 
         <div className="bg-AppLight border-b shadow-sm py-3">

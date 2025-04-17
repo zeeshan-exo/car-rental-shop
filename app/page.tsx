@@ -1,11 +1,14 @@
-
 import { getAllCars } from "@/actions/cars"
 import DisplayCars from "./(dashboard)/user/cars/displayCars"
 import Pagination from "@/components/Pagination"
 import SearchCars from "@/components/cars/SearchCars"
 import Features from "@/components/cars/Features"
 import Footer from "@/components/layout/Footer"
-
+import Header from "@/components/layout/Header"
+import Link from "next/link"
+import { Home, Car, Heart, Search, LayoutDashboard } from "lucide-react"
+import Notifications from "@/components/Notifications"
+import Profile from "@/components/Tabs/Profile"
 
 const page = async (props:{
   searchParams?: Promise<{
@@ -19,6 +22,35 @@ const page = async (props:{
   return (
 
     <div>
+      <Header
+          title="AutoNex"
+          navLinks={[
+            { label: <Home/>, href: "/" },
+            { label: <LayoutDashboard />, href: "/user" },
+            { label: <Car />, href: "/user/cars" },
+            { label: <Heart />, href: "#" },
+            // { label: <Search />,  onClick: handleOpenSearch },
+          ]}
+          rightContent={
+            <div className="flex justify-between items-center gap-14 flex-wrap">
+              <div className="flex items-center space-x-4">
+                {/* {user ? (
+                  <>
+                    <Notifications userId={user.id} role={user.role || "customer"} />
+                    <Profile/>
+                  </>
+                ) : (
+                  <Link
+                    href="/auth/login"
+                    className="text-AppPrimary font-medium hover:underline"
+                  >
+                    Login
+                  </Link>
+                )} */}
+              </div>
+            </div>
+          }
+        />
       <SearchCars/>
       <DisplayCars cars={cars}/>
       <div>
