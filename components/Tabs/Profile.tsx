@@ -1,5 +1,10 @@
 "use client"
 import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Button } from '../ui/button'
+import { signOut, useSession } from 'next-auth/react'
+import { LogOut, Settings, User } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,10 +14,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '../ui/dropdown-menu'
-import Image from 'next/image'
-import { Button } from '../ui/button'
-import { signOut, useSession } from 'next-auth/react'
-import { LogOut, Settings, User } from 'lucide-react'
 
 const Profile = () => {
   const { data: session } = useSession()
@@ -53,8 +54,11 @@ const Profile = () => {
                 <span>Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-3 p-3 cursor-pointer rounded-md hover:bg-slate-50">
+              <Link href="/user/account">
               <Settings size={18} className="text-AppDark" />
-              <span>Account Settings</span>
+              <span>Account Settings</span>  
+              </Link>
+              
             </DropdownMenuItem>
           </DropdownMenuGroup>
 

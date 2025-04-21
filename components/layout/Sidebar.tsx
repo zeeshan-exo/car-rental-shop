@@ -1,11 +1,12 @@
 "use client"
 import React, { useState } from 'react'
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuAction, SidebarMenuItem, SidebarMenuButton, SidebarGroupContent, SidebarGroupAction, SidebarGroupLabel  } from '../ui/sidebar'
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarHeader, SidebarMenu, SidebarMenuAction, SidebarMenuItem, SidebarMenuButton, SidebarGroupContent, SidebarGroupLabel  } from '../ui/sidebar'
 import { Car } from 'lucide-react'
 
 interface SidebarItems {
   title: string,
-  url: string,
+  url?: string,
+  onClick?: () => void,
   icon: React.ComponentType<{className?: string}>
 }
 
@@ -62,7 +63,6 @@ const AppSidebar = ({items, header, footerItems, defaultActiveItems = items[0]?.
                       </div>
                      </a>
                   </SidebarMenuButton>
-
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -73,13 +73,32 @@ const AppSidebar = ({items, header, footerItems, defaultActiveItems = items[0]?.
       {footerItems && 
       <SidebarFooter className="border-t border-gray-200 px-6 py-4">
         {footerItems.map((item) => (
-          <SidebarMenuButton
-          key={item.title}
-          className="flex items-center gap-4 w-full px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors mb-2 last:mb-0"
-        >
-          <item.icon className="h-5 w-5 text-AppDark" />
-          <span className="text-AppSecondary font-medium">{item.title}</span>
-        </SidebarMenuButton>
+          <SidebarMenuButton 
+            asChild
+            key={item.title}
+            className="flex items-center gap-4 w-full hover:bg-gray-100 rounded-lg transition-colors mb-2 last:mb-0"
+            onClick={item.onClick} 
+          >
+            {item.onClick ? (
+              <button 
+                className="flex items-center gap-4 w-full px-6 py-3"
+                type="button"
+              >
+                <item.icon className="h-5 w-5 text-AppDark" />
+                <span className="text-AppSecondary font-medium">
+                  {item.title}
+                </span>
+              </button>
+            ) : (
+              <a 
+                href={item.url}
+                className="flex items-center gap-4 w-full px-6 py-3"
+              >
+                <item.icon className="h-5 w-5 text-AppDark" />
+                <span className="text-AppSecondary font-medium">{item.title}</span>
+              </a>
+            )}
+          </SidebarMenuButton>
         ))}
       </SidebarFooter>
       }

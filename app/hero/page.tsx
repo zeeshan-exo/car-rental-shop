@@ -1,9 +1,10 @@
 import React from 'react'
 import HeroSection from '@/components/cars/heroSection'
+import BioForm from '@/components/user/BioForm'
 
 const page = () => {
   return (
-    <div><HeroSection/></div>
+    <div><BioForm/></div>
   )
 }
 

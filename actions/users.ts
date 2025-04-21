@@ -1,8 +1,10 @@
 "use server"
 import { getCollection } from "@/lib/db";
-import { decrypt } from "@/lib/session";
-import { cookies } from "next/headers";
+import { BioFormSchema } from "@/lib/definations/authDefinations";
 import {ObjectId} from "mongodb"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth";
+import { error } from "console";
 
 export async function getUsers(role?: "customer" | "vendor") {
     try {
@@ -37,6 +39,51 @@ export async function getUser(_id: string){
     }
 }
 
+export type BioFormState = {
+    errors?: {
+      age?: string[];
+      country?: string[];
+      bio?: string[];
+      form?: string[];
+    };
+    success?: boolean;
+  };
+
+
+export async function updateBio(state : BioFormState,  formData: FormData): Promise<BioFormState> {
+    const rawData = Object.fromEntries(formData.entries());
+  
+    const validatedFields = BioFormSchema.safeParse(rawData);
+    if (!validatedFields.success) {
+      return { errors: validatedFields.error.flatten().fieldErrors };
+    }
+  
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
+      return { errors: { form: ["You must be logged in to update profile."] } };
+    }
+  
+    const { age, country, bio } = validatedFields.data;
+    const userCollection = await getCollection("users");
+  
+    const result = await userCollection.updateOne(
+      { email: session.user.email },
+      {
+        $set: {
+          age,
+          country,
+          bio,
+        },
+      }
+    );
+  
+    if (result.modifiedCount === 0) {
+      return { errors: { form: ["No changes made."] } };
+    }
+  
+    return { success: true };
+  }
+
 export async function updateUser(_id: string, updateData: Record<string, any>) {
     try {
       if (!_id) {
@@ -69,18 +116,30 @@ export async function updateUser(_id: string, updateData: Record<string, any>) {
   }
   
 
-export async function deleteUser(_id: string){
-    try {
-        const userCollection = await getCollection('users')
-        if(userCollection){  
-            await userCollection.deleteOne({_id: new ObjectId(_id)})
-            }else{
-                throw new Error ("Error occur while finding Users Collection")
-            }
-        if(!_id){
-            console.log("No user found with such id")
-        }
-    } catch (error) {
-        console.log("Error while deleting User",error)
+export default async function deleteUser()  {
+    
+ try {
+    const session = await getServerSession(authOptions)
+    const userId = session?.user.id
+
+    if(!userId){
+        throw new Error ("No authenticated user exist with such id")
     }
+
+    const userCollection = await getCollection("users")
+    if(!userCollection) {
+        throw new Error("Failed to access the user collection.")
+    }
+
+    const result = await userCollection.deleteOne({_id: new ObjectId(userId)})
+
+    if(result.deletedOne === 0){
+        throw new Error("No such user exist i the database.")
+    }
+
+    return {success :true, message: "User account deleted successfully" }
+ } catch (error) {
+    console.error("Error while deleting user:", error);
+        throw error;
+ }
 }

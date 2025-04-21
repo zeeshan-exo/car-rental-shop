@@ -154,7 +154,6 @@ const SearchCars = () => {
                   </DropdownMenu>
                 </div>
 
-                {/* Pickup Date */}
                 <div className="lg:col-span-2">
                   <div className="relative w-full">
                     <div className="absolute left-0 top-0 bottom-0 w-12 flex items-center justify-center text-AppAccent bg-AppAccent/10 rounded-l-xl border-r border-white/10">
@@ -169,7 +168,6 @@ const SearchCars = () => {
                   </div>
                 </div>
 
-                {/* Pickup Time */}
                 <div className="lg:col-span-2 items-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -207,7 +205,6 @@ const SearchCars = () => {
                   </DropdownMenu>
                 </div>
 
-                {/* Dropoff Date */}
                 <div className="lg:col-span-2 items-center">
                   <div className="relative w-full">
                     <div className="absolute left-0 top-0 bottom-0 w-12 flex items-center justify-center text-AppAccent bg-AppAccent/10 rounded-l-xl border-r border-white/10">
@@ -222,7 +219,6 @@ const SearchCars = () => {
                   </div>
                 </div>
 
-                {/* Dropoff Time */}
                 <div className="lg:col-span-2">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -260,8 +256,7 @@ const SearchCars = () => {
                   </DropdownMenu>
                 </div>
               </div>
-              
-              {/* Search button */}
+
               <div className="mt-6 flex justify-center">
                 <Button 
                   variant="default"

@@ -55,7 +55,7 @@ const CarForm = ({ carData = null, isInlineEdit = false, onEditComplete = () => 
 
       setSelectedImages(carData.images || []);
       
-      // If we're editing a car, show the specs section by default
+      
       if (carData.details?.specs) {
         setShowDetailsSpecs(true);
       }

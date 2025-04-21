@@ -9,6 +9,8 @@ import Link from "next/link"
 import { Home, Car, Heart, Search, LayoutDashboard } from "lucide-react"
 import Notifications from "@/components/Notifications"
 import Profile from "@/components/Tabs/Profile"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth/auth"
 
 const page = async (props:{
   searchParams?: Promise<{
@@ -18,6 +20,8 @@ const page = async (props:{
   const searchParams = await props.searchParams
   const currentPage = Number(searchParams?.page)|| 1
   const {cars, totalPages} = await getAllCars(currentPage)
+   const session = await getServerSession(authOptions);
+   const user = session?.user
 
   return (
 
@@ -34,7 +38,7 @@ const page = async (props:{
           rightContent={
             <div className="flex justify-between items-center gap-14 flex-wrap">
               <div className="flex items-center space-x-4">
-                {/* {user ? (
+                {user ? (
                   <>
                     <Notifications userId={user.id} role={user.role || "customer"} />
                     <Profile/>
@@ -46,16 +50,17 @@ const page = async (props:{
                   >
                     Login
                   </Link>
-                )} */}
+                )}
               </div>
             </div>
           }
         />
       <SearchCars/>
       <DisplayCars cars={cars}/>
-      <div>
+      <div className="mb-4">
         {totalPages > 1 && <Pagination totalPages={totalPages}/>}
       </div>
+      
       <Features/>
       <Footer/>
       </div>

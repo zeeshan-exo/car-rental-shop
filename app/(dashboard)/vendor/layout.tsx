@@ -4,8 +4,9 @@ import Header from "@/components/layout/Header";
 import { useSession } from "next-auth/react";
 import ProfileImage from "@/components/user/ProfileImage";
 import Profile from "@/components/Tabs/Profile";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { House, Search,HelpCircle, MapPinned, ShoppingCart, Settings, Home, Ticket, Bell, Car, LayoutDashboard, Mail, LocateIcon } from "lucide-react";
+import { House, Search,HelpCircle, MapPinned, ShoppingCart, Settings, Home, Ticket, Bell, Car, LayoutDashboard, Mail, LocateIcon, LogOut } from "lucide-react";
 import Notifications from "@/components/Notifications";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidebar from "@/components/layout/Sidebar"
@@ -27,6 +28,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
   const footerItems = [
     { title: "Account", url: "/account", icon: Settings },
     { title: "Help & Support", url: "/help", icon: HelpCircle },
+    {title: "Logout", onClick:() => signOut(), icon: LogOut },
   ];
   
 
