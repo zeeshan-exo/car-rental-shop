@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import Header from "../../../components/layout/Header";
-import Profile from "@/components/Tabs/Profile";
+import Profile from "@/components/dashboard/Tabs/Profile";
 import Link from "next/link";
-import Viewcar from "./cars/viewCar";
+import Viewcar from "./cars/ViewCar";
 import { Search, Home, Heart, Car, LayoutDashboard } from "lucide-react";
-import Notifications from "@/components/Notifications";
+import Notifications from "@/components/shared/Notifications";
 import { useSession } from "next-auth/react";
 import SearchModal from "@/components/layout/SearchModal";
-import Loading from "@/components/Loading";
+import Loading from "@/components/shared/Loading";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();

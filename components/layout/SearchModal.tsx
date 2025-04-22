@@ -13,7 +13,7 @@ import {
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { searchQuery } from "@/actions/search";
-import Loading from "../Loading";
+import Loading from "../shared/Loading";
 
 interface SearchResult {
   id: string;

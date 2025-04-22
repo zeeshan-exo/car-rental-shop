@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { getCar } from "@/actions/cars";
 import { X } from "lucide-react";
 import ImageSlider from "@/components/cars/ImageSlider";
-import CarForm from "./carForm";
+import CarForm from "./CarForm";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {  

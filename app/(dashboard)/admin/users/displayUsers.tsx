@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { getUsers } from "@/actions/users";
-import DeleteButton from "@/components/DeleteButton";
-import Loading from "@/components/Loading";
+import DeleteButton from "@/components/shared/DeleteButton";
+import Loading from "@/components/shared/Loading";
 import { Edit } from "lucide-react";
 
 

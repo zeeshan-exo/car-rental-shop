@@ -2,7 +2,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import { signOut, useSession } from 'next-auth/react'
 import { LogOut, Settings, User } from 'lucide-react'
 import {
@@ -13,7 +13,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuSeparator,
   DropdownMenuTrigger
-} from '../ui/dropdown-menu'
+} from '../../ui/dropdown-menu'
 
 const Profile = () => {
   const { data: session } = useSession()

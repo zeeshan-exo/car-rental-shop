@@ -1,11 +1,11 @@
 
 import React from 'react';
 import Link from 'next/link';
-import VendorOrdersManagement from './displayOrder';
+import VendorOrdersManagement from './DisplayOrder';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth/auth';
 
-export default async function OrdersPage() {
+export default async function BookingsPage() {
   const session =await  getServerSession(authOptions)
 
   return (

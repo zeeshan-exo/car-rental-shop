@@ -1,6 +1,6 @@
 "use server"
 import { getCollection } from "@/lib/db";
-import { BioFormSchema } from "@/lib/definations/authDefinations";
+import { BioFormSchema } from "@/lib/definitions/authDefinitions";
 import {ObjectId} from "mongodb"
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";

@@ -1,11 +1,9 @@
 "use client"
-import { Providers } from "@/providers";
-import { Geist, Geist_Mono } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { Toaster } from "sonner";
+import { Geist, Geist_Mono } from "next/font/google";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
-import Header from "@/components/layout/Header";
+import { AuthProvider } from "@/provider/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,13 +26,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Providers>
+        <AuthProvider>
         <ReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}>
          {children}
 
           <Toaster richColors position="top-right"/>
         </ReCaptchaProvider>
-        </Providers>
+        </AuthProvider>
       </body>
     </html>
   );

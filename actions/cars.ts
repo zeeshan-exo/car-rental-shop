@@ -1,6 +1,6 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { CarSchema } from "@/lib/definations/carDefinations";
+import { CarSchema } from "@/lib/definitions/carDefinitions";
 import { ObjectId } from "mongodb";
 import { authOptions } from "@/lib/auth/auth";
 import { getServerSession } from "next-auth";
@@ -96,27 +96,37 @@ export async function getAllCars(page: number | string = 1, limit = 9) {
     const carsCollection = await getCollection("cars");
     if (!carsCollection) {
       console.error("Cars collection not found.");
-      return { cars: [], totalPages: 1 };
+      return { cars: [], allCars: [], totalPages: 1 };
     }
 
     const totalCars = await carsCollection.countDocuments();
     const totalPages = Math.ceil(totalCars / limit);
 
-    const cars = await carsCollection
+    const allCars = await carsCollection.find().toArray();
+    const paginatedCars = await carsCollection
       .find()
       .skip(skip)
       .limit(limit)
       .toArray();
 
-    const serializedCars = cars.map((car) => ({
+    const serializedAllCars = allCars.map((car) => ({
       ...car,
-      _id: car._id.toString(), 
+      _id: car._id.toString(),
     }));
 
-    return { cars: serializedCars, totalPages };
+    const serializedPaginatedCars = paginatedCars.map((car) => ({
+      ...car,
+      _id: car._id.toString(),
+    }));
+
+    return {
+      cars: serializedPaginatedCars,
+      allCars: serializedAllCars,
+      totalPages,
+    };
   } catch (error) {
     console.error("Error fetching cars:", error);
-    return { cars: [], totalPages: 1 };
+    return { cars: [], allCars: [], totalPages: 1 };
   }
 }
 

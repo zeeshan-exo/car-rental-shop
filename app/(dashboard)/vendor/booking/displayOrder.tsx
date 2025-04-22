@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { getVendorOrders, updateOrderStatus } from "@/actions/booking";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
-import { Booking } from "@/lib/definations/bookingdefinations";
+import { Booking } from "@/lib/definitions/bookingDefinitions";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +27,7 @@ import {
   User,
   Car
 } from "lucide-react";
-import { Chat } from "@/components/Chat";
+import { Chat } from "@/components/chat";
 
 export default function VendorOrdersManagement() {
 

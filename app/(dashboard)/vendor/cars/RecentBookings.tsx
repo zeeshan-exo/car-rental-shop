@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { getVendorOrders } from "@/actions/booking";
 import { useRouter } from "next/navigation";
-import { Booking } from "@/lib/definations/bookingdefinations";
+import { Booking } from "@/lib/definitions/bookingDefinitions";
 
 const CurrentOrders = () => {
   const [orders, setOrders] = useState<Booking[]>([]);

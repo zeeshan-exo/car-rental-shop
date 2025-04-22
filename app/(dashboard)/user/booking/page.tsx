@@ -1,5 +1,5 @@
 import React from 'react'
-import UserBooking from '@/components/bookings/UserBookings'
+import UserBooking from '@/app/(dashboard)/user/booking/UserBookings'
 
 const page = () => {
   return (

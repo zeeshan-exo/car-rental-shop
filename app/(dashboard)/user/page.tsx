@@ -1,22 +1,21 @@
 "use client"
-import { Button } from "@/components/ui/button"
-import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw } from "lucide-react"
-import { MapProvider } from "@/provider/map-provider"
-import dynamic from "next/dynamic"
 import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { MapProvider } from "@/provider/MapProvider"
 import { getAllCars } from "@/actions/cars"
 import { getUserOrders } from "@/actions/booking"
-import { useSession } from "next-auth/react"
-import { CardHeader} from "@/components/ui/card"
-import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
-import { Booking } from "@/lib/definations/bookingdefinations"
 import { formatCurrency } from "@/lib/currency"
+import { Booking } from "@/lib/definitions/bookingDefinitions"
+import { Button } from "@/components/ui/button"
+import { CardHeader} from "@/components/ui/card"
+import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/shared/Tabs"
 const PieChartWithCustomizedLabel = dynamic(() => import ("@/components/cars/BarChart"))
-const StatCard = dynamic(() => import("@/components/StatCard"), {ssr: false})
-const StatusCards = dynamic(() => import("@/components/StatusCards"), {ssr: false})
-const Map = dynamic(() => import("@/components/Map"), {ssr: false}) 
-
+const StatCard = dynamic(() => import("@/components/dashboard/StatCard"), {ssr: false})
+const StatusCards = dynamic(() => import("@/components/dashboard/StatusCards"), {ssr: false})
+const Map = dynamic(() => import("@/components/shared/Map"), {ssr: false}) 
+import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw } from "lucide-react"
 
 const Page = () => {
   const [orders, setOrders] = useState<Booking[]>([])

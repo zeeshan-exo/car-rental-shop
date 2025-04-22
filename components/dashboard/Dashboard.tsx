@@ -1,6 +1,6 @@
 "use client";
 import PieChartWithCustomizedLabel from "@/components/cars/BarChart";
-import StatCard from "@/components/StatCard";
+import StatCard from "@/components/dashboard/StatCard";
 import { Button } from "@/components/ui/button";
 import {
   Calendar,
@@ -14,9 +14,9 @@ import {
   Search,
   Loader2,
 } from "lucide-react";
-import { MapProvider } from "@/provider/map-provider";
-import { Map } from "@/components/Map";
-import CurrentOrders from "@/app/(dashboard)/vendor/cars/currentBookings";
+import { MapProvider } from "@/provider/MapProvider";
+import { Map } from "@/components/shared/Map";
+import CurrentOrders from "@/app/(dashboard)/vendor/cars/RecentBookings";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAllCars } from "@/actions/cars";

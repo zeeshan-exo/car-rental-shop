@@ -1,6 +1,6 @@
 "use client"
 import React, {useState} from 'react'
-import StatCard from '@/components/StatCard'
+import StatCard from '@/components/dashboard/StatCard'
 import { Car, CreditCard, Users, AlertCircle, Clock, BarChart3, Filter, MapPin, Calendar } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Avatar } from '@/components/ui/avatar'

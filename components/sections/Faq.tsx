@@ -7,7 +7,7 @@ import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Label } from '../ui/label'
 import { getAllCars } from '@/actions/cars'
 import TimePicker from 'react-time-picker'
-import { CarType } from '@/lib/definations/carDefinations'
+import { CarType } from '@/lib/definitions/carDefinitions'
 import { Icon, Search, ShieldAlert } from 'lucide-react'
 
 const Time = [

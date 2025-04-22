@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Tabs, TabsList, TabsContent, TabsTrigger } from './ui/tabs'
+import { Tabs, TabsList, TabsContent, TabsTrigger } from '../ui/tabs'
 
 interface TabsWrapperProps {
   defaultValue?: string, 

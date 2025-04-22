@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { deleteUser } from "@/actions/users";
+import deleteUser from "@/actions/users";
 import { toast } from "sonner";
 import { Delete } from "lucide-react";
 

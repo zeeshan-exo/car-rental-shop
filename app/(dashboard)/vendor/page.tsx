@@ -1,11 +1,11 @@
 "use client"
 import { useState, useEffect } from "react"
 import PieChartWithCustomizedLabel from "@/components/cars/BarChart"
-import StatCard from "@/components/StatCard"
+import StatCard from "@/components/dashboard/StatCard"
 import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, MapPin, Search } from "lucide-react"
-import { MapProvider } from "@/provider/map-provider"
-import CurrentOrders from "@/app/(dashboard)/vendor/cars/currentBookings"
+import { MapProvider } from "@/provider/MapProvider"
+import CurrentOrders from "@/app/(dashboard)/vendor/cars/RecentBookings"
 import { getVendorOrders } from "@/actions/booking"
 import { getVendorCars } from "@/actions/cars"
 import { useSession } from "next-auth/react"
@@ -13,13 +13,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import StatusCards from "@/components/StatusCards"
-import { Booking } from "@/lib/definations/bookingdefinations"
-import { CarType } from "@/lib/definations/carDefinations"
-import Welcome from "@/components/Tabs/Welcome"
-import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/Tabs"
+import { Booking } from "@/lib/definitions/bookingDefinitions"
+import { CarType } from "@/lib/definitions/carDefinitions"
+import Welcome from "@/components/dashboard/Tabs/Welcome"
+import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/shared/Tabs"
 import dynamic from "next/dynamic"
 import { formatCurrency } from "@/lib/currency"
-const Map = dynamic(() => import("@/components/Map"), {ssr: false})
+const Map = dynamic(() => import("@/components/shared/Map"), {ssr: false})
 
 const Dashboard = () => {
   const [orders, setOrders] = useState<Booking[]>([])

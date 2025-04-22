@@ -1,8 +1,8 @@
 import React from "react";
 import { getVendorCars } from "@/actions/cars";
-import DeletecarButton from "./deleteCar";
+import DeletecarButton from "./DeleteCar";
 import ImageSlider from "@/components/cars/ImageSlider";
-import Viewcar from "@/app/(dashboard)/vendor/cars/viewCar";
+import Viewcar from "@/app/(dashboard)/vendor/cars/ViewCar";
 import { MapPin, Car, Box, DollarSign, Tag } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import Image from "next/image";

@@ -1,12 +1,11 @@
 import React from 'react'
-import Account from '@/components/sections/account'
-import Header from '@/components/layout/Header'
+import ProfilePage from './Account'
 
 const page = () => {
   return (
     <div>
       
-      <Account/>
+      <ProfilePage/>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 "use server";
 import { getCollection } from "@/lib/db";
-import { BookingSchema, BookingCreate, Booking} from "@/lib/definations/bookingdefinations";
+import { BookingSchema, BookingCreate, Booking} from "@/lib/definitions/bookingDefinitions";
 import { ObjectId } from "mongodb";
 import ejs from 'ejs'
 import path from "path";

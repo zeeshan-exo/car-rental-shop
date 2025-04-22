@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Label } from '../ui/label'
 import { getAllCars } from '@/actions/cars'
-import { CarType } from '@/lib/definations/carDefinations'
+import { CarType } from '@/lib/definitions/carDefinitions'
 import { Search, Calendar, Clock, MapPin, ChevronDown, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -30,7 +30,7 @@ const Time = [
   {value: "11:00 PM", label: "11:00 PM"},
 ]
 
-const SearchCars = () => {
+const Hero = () => {
   const [carsData, setCarsData] = useState<CarType[]>([])
   const [city, setCity] = useState("")
   const [pickupTime, setPickupTime] = useState("")
@@ -42,7 +42,6 @@ const SearchCars = () => {
   useEffect(() => {
     const fetchCars = async () => {
       const {cars} = await getAllCars()
-      console.log("Cars Data:", cars)
       setCarsData(cars)
     }
     fetchCars()
@@ -53,11 +52,10 @@ const SearchCars = () => {
   return (
     <section className="w-full h-screen overflow-hidden">
       <div className="relative w-full h-full bg-cover bg-center bg-[url('/anime-car.webp')]">
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 backdrop-blur-sm"></div>
         
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 md:px-8 lg:px-16">
-          {/* Hero text */}
+
           <div className="text-center mb-8 md:mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-2 text-white tracking-tight drop-shadow-lg">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">Find Your Perfect Ride</span>
@@ -66,11 +64,9 @@ const SearchCars = () => {
               Explore our premium selection of vehicles for any journey
             </p>
           </div>
-          
-          {/* Search card */}
+
           <div className="w-full max-w-6xl">
             <div className="bg-black/40 backdrop-blur-md rounded-3xl border border-white/10 shadow-2xl shadow-AppAccent/10 p-6 md:p-8 overflow-hidden">
-              {/* Trip type selection */}
               <div className="mb-8">
                 <RadioGroup 
                   value={tripType} 
@@ -104,17 +100,15 @@ const SearchCars = () => {
                   </div>
                 </RadioGroup>
               </div>
-              
-              {/* Divider */}
+
               <div className="relative mb-16">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
                 </div>
               </div>
               
-              {/* Search form */}
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 md:gap-4">
-                {/* City Selection */}
                 <div className="lg:col-span-2">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -274,4 +268,4 @@ const SearchCars = () => {
   )
 }
 
-export default SearchCars
+export default Hero

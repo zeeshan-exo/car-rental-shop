@@ -3,14 +3,14 @@ import React from "react";
 import Header from "@/components/layout/Header";
 import { useSession } from "next-auth/react";
 import ProfileImage from "@/components/user/ProfileImage";
-import Profile from "@/components/Tabs/Profile";
+import Profile from "@/components/dashboard/Tabs/Profile";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { House, Search,HelpCircle, MapPinned, ShoppingCart, Settings, Home, Ticket, Bell, Car, LayoutDashboard, Mail, LocateIcon, LogOut } from "lucide-react";
-import Notifications from "@/components/Notifications";
+import Notifications from "@/components/shared/Notifications";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Sidebar from "@/components/layout/Sidebar"
-import { AppSidebar } from "@/components/layout/App-sidebar";
+import { AppSidebar } from "@/components/layout/AppSidebar";
 
 export default function VendorDashboardLayout({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();

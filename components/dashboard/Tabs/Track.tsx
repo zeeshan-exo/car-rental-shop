@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react'
-import Map from '../Map'
-import { MapProvider } from '@/provider/map-provider'
+import Map from '../../shared/Map'
+import { MapProvider } from '@/provider/MapProvider'
 
 const Track = () => {
   return (

@@ -25,6 +25,7 @@ const ProfileImage = () => {
         aria-label="Open profile menu"
       >
         <div className="relative overflow-hidden rounded-full border-2 border-gray-200">
+          
           <Image
             src="/profile.png"
             alt="Profile"

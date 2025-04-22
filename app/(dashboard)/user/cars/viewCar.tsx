@@ -17,7 +17,7 @@ import {
   CircleUserRound
 } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
-import Booking from "./booking";
+import Booking from "./BookingForm";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 

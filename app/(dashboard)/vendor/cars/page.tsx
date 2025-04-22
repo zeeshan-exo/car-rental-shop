@@ -1,11 +1,11 @@
 import React from 'react'
-import ProductsPage from './carsPage'
+import CarsPage from './CarsPage'
 
  function productPage  () {
   
   return (
     <>
-      <ProductsPage/>
+      <CarsPage/>
     </>
   )
 }

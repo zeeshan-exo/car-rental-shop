@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { Button } from '../ui/button'
+import { Button } from '../../ui/button'
 import { AlertCircle, Clock, Slice } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 

@@ -1,10 +1,10 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Table, TableBody, TableCell, TableHeader, TableHead, TableRow } from '../ui/table'
+import { Table, TableBody, TableCell, TableHeader, TableHead, TableRow } from '../../ui/table'
 import { getUserOrders } from '@/actions/booking'
 import { useSession } from 'next-auth/react'
-import { Booking } from '@/lib/definations/bookingdefinations'
-import { Button } from '../ui/button'
+import { Booking } from '@/lib/definitions/bookingDefinitions'
+import { Button } from '../../ui/button'
 
 const History = () => {
     const [bookings, setBooking] = useState<Booking[]>([])

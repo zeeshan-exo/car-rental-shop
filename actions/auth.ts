@@ -1,6 +1,6 @@
 'use server'
 import { getCollection } from "@/lib/db";
-import { SignupFormSchema ,SignupType} from "@/lib/definations/authDefinations";
+import { SignupFormSchema ,SignupType} from "@/lib/definitions/authDefinitions";
 import { redirect } from "next/navigation";
 import bcrypt from "bcrypt"
 import { sendMail } from "@/lib/email";

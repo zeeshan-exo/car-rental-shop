@@ -1,5 +1,5 @@
 import React from 'react'
-import OrdersPage from './orderPage'
+import OrdersPage from './BookingsPage'
 
 const page = () => {
   return (

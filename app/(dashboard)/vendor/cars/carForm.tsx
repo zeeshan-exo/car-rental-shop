@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { addCar, updateCar } from "@/actions/cars";
-import { AddCarType, CarType } from "@/lib/definations/carDefinations";
+import { AddCarType, CarType } from "@/lib/definitions/carDefinitions";
 import Image from "next/image";
 import { 
   Plus, 

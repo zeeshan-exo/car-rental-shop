@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import Notifications from '@/components/Notifications'
+import Notifications from '@/components/shared/Notifications'
 import { House, LayoutDashboard, Search } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import { useSession } from 'next-auth/react'

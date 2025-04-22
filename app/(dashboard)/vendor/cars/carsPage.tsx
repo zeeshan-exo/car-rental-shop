@@ -1,7 +1,7 @@
-import CarForm from './carForm';
+import CarForm from './CarForm';
 import DisplayVendorCars from './vendorCars';
 
-export default async function ProductsPage() {
+export default async function CarsPage() {
 
   return (
     <div className="p-4">
