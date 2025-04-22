@@ -5,7 +5,7 @@ import { getVendorOrders } from "@/actions/booking";
 import { useRouter } from "next/navigation";
 import { Booking } from "@/lib/definitions/bookingDefinitions";
 
-const CurrentOrders = () => {
+const RecentBookings = () => {
   const [orders, setOrders] = useState<Booking[]>([]);
   const router = useRouter()
 
@@ -68,7 +68,7 @@ const CurrentOrders = () => {
           variant="outline"
           size="sm"
           className="w-full mt-4 text-indigo-600 border-indigo-200 hover:bg-indigo-50"
-          onClick={()=> router.push("/vendor/orders")}
+          onClick={()=> router.push("/vendor/booking")}
         >
           View All Orders
         </Button>
@@ -78,4 +78,4 @@ const CurrentOrders = () => {
   );
 };
 
-export default CurrentOrders;
+export default RecentBookings;

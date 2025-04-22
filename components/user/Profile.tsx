@@ -6,7 +6,7 @@ import { LogOut, X, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
 
-const ProfileImage = () => {
+const Profile = () => {
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
   const user = session?.user;
@@ -97,4 +97,4 @@ const ProfileImage = () => {
   );
 };
 
-export default ProfileImage;
+export default Profile;

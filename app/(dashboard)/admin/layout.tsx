@@ -4,7 +4,7 @@ import Notifications from '@/components/shared/Notifications'
 import { House, LayoutDashboard, Search } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import { useSession } from 'next-auth/react'
-import ProfileImage from '@/components/user/ProfileImage'
+import ProfileImage from '@/components/user/Profile'
 import Link from 'next/link'
 import { User2 } from 'lucide-react'
 

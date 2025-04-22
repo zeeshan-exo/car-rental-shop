@@ -6,9 +6,15 @@ const nextConfig = {
     // env:{
 
     // },
-    // images:{
-    //     domains:["res.cloudinary.com"]
-    // }
+    images: {
+        remotePatterns: [
+          {
+            protocol: 'http',
+            hostname: 'res.cloudinary.com',
+            pathname: '/**',
+          },
+        ],
+      },
     
 };
 

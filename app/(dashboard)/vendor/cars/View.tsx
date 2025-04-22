@@ -22,7 +22,7 @@ interface ViewcarProps {
   carId: string;
 }
 
-export default function Viewcar({ carId }: ViewcarProps) {
+export default function ViewCar({ carId }: ViewcarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [car, setCar] = useState<any>(null);

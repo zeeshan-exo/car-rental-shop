@@ -10,6 +10,13 @@ import { Button } from "../ui/button";
 import { User, MapPin, FileText, Calendar } from "lucide-react";
 import deleteUser from "@/actions/users";
 
+const formFields = [
+  {label: "Age", icon: User},
+  {label: "Country", icon: MapPin, },
+  {label: "Date", icon: Calendar, },
+  {label: "Bio", icon: MapPin, },
+]
+
 const BioForm = () => {
   const [state, formAction] = useActionState(updateBio, { errors: {}, success: false });
 
@@ -24,7 +31,7 @@ const BioForm = () => {
           {state.errors?.form ? (
             <p>{state.errors.form.join(", ")}</p>
           ) : (
-            <p>You haven't completed your profile info yet.</p>
+            <p>{"You haven't completed your profile info yet."}</p>
           )}
         </div>
       )}

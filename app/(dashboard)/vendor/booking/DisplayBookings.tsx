@@ -27,9 +27,9 @@ import {
   User,
   Car
 } from "lucide-react";
-import { Chat } from "@/components/chat";
+import { Chat } from "@/components/shared/Chat";
 
-export default function VendorOrdersManagement() {
+export default function VendorBookingManagement() {
 
   const [orders, setOrders] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);

@@ -53,7 +53,12 @@ const CarForm = ({ carData = null, isInlineEdit = false, onEditComplete = () => 
           : "",
       });
 
-      setSelectedImages(carData.images || []);
+      const imageURLs =
+      carData.images?.map((imgObj: { cloudinaryUrl: string }) => imgObj.cloudinaryUrl) || [];
+
+    setSelectedImages(imageURLs);
+
+      // setSelectedImages((carData.images || []));
       
       
       if (carData.details?.specs) {
@@ -262,7 +267,7 @@ const CarForm = ({ carData = null, isInlineEdit = false, onEditComplete = () => 
 
         {selectedImages.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-4">
-            {selectedImages.map((src, index) => (
+            {selectedImages.filter(Boolean).map((src, index) => (
               <div key={index} className="relative group">
                 <Image
                   src={src} 
@@ -292,7 +297,7 @@ const CarForm = ({ carData = null, isInlineEdit = false, onEditComplete = () => 
             onClick={onEditComplete}
             className="w-full py-3 rounded-lg font-bold transition-colors flex items-center justify-center gap-2"
           >
-            <X size={18} /> Cancel
+             Cancel
           </Button>
         )}
         <Button

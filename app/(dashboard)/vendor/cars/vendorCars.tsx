@@ -1,12 +1,11 @@
 import React from "react";
 import { getVendorCars } from "@/actions/cars";
-import DeletecarButton from "./DeleteCar";
+import DeleteCar from "./DeleteCar";
 import ImageSlider from "@/components/cars/ImageSlider";
-import Viewcar from "@/app/(dashboard)/vendor/cars/ViewCar";
+import ViewCar from "./View";
 import { MapPin, Car, Box, DollarSign, Tag } from "lucide-react";
 import { formatCurrency } from "@/lib/currency";
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 
 export default async function DisplayVendorCars() {
   const cars = await getVendorCars();
@@ -93,8 +92,8 @@ export default async function DisplayVendorCars() {
               </p>
               
               <div className="flex items-center justify-between pt-3 border-t border-AppLight">
-                <Viewcar carId={car._id.toString()} />
-                <DeletecarButton carId={car._id.toString()} />
+                <ViewCar carId={car._id.toString()} />
+                <DeleteCar carId={car._id.toString()} />
               </div>
             </div>
           </div>

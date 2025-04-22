@@ -1,7 +1,12 @@
 "use client";
 
 import { bookingOrder } from "@/actions/booking";
-import { useState, useEffect, useActionState, startTransition } from "react";
+import {
+  useState,
+  useEffect,
+  useActionState,
+  startTransition,
+} from "react";
 import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Button } from "@/components/ui/button";
@@ -22,7 +27,7 @@ import {
   MapPin,
   User,
   CalendarIcon,
-  Check
+  Check,
 } from "lucide-react";
 import {
   Popover,
@@ -33,7 +38,9 @@ import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { format, addDays } from "date-fns";
 import { cn } from "@/lib/utils";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 interface BookingFormProps {
   carModel: string;
@@ -57,10 +64,7 @@ const Booking: React.FC<BookingFormProps> = ({
   const [state, action, isPending] = useActionState(bookingOrder, null);
   const [formData, setFormData] = useState({});
   const [paymentMethod, setPaymentMethod] = useState("cashOnDelivery");
-  const [dateRange, setDateRange] = useState<{
-    from?: Date;
-    to?: Date;
-  }>({
+  const [dateRange, setDateRange] = useState<{ from?: Date; to?: Date }>({
     from: new Date(),
     to: addDays(new Date(), 1),
   });
@@ -105,6 +109,7 @@ const Booking: React.FC<BookingFormProps> = ({
         console.error("Stripe failed to load.");
         return;
       }
+
       const response = await fetch("/api/payment/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -118,13 +123,19 @@ const Booking: React.FC<BookingFormProps> = ({
       });
 
       const result = await response.json();
+
       if (!result.id) {
-        console.error("Error: No session ID received from Server Action", result);
-        alert(`Failed to create Stripe session: ${result.error || "Unknown error"}`);
+        console.error("Error: No session ID received", result);
+        alert(
+          `Failed to create Stripe session: ${result.error || "Unknown error"}`
+        );
         return;
       }
 
-      const { error } = await stripe.redirectToCheckout({ sessionId: result.id });
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: result.id,
+      });
+
       if (error) {
         console.error("Stripe redirect error:", error.message);
       }
@@ -180,32 +191,43 @@ const Booking: React.FC<BookingFormProps> = ({
     <div className="h-full bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div className="p-6 max-h-[70vh] overflow-y-auto">
         <form onSubmit={handleSubmit} className="space-y-5">
-          {fields.map(({ label, name, type, placeholder, icon, required }) => (
-            <div key={name} className="relative">
-              <Label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1.5">
-                {label} {required && <span className="text-red-500">*</span>}
-              </Label>
-              <div className="relative">
-                <span className="absolute inset-y-0 left-0 pl-3 flex items-center">{icon}</span>
-                <Input
-                  id={name}
-                  name={name}
-                  type={type}
-                  placeholder={placeholder}
-                  value={formData[name] || ""}
-                  onChange={handleChange}
-                  required={required}
-                  disabled={isPending}
-                  className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
-                    state?.errors?.[name] ? "border-red-300 focus:ring-red-300" : "border-gray-200 focus:border-blue-400 focus:ring-blue-100"
-                  } shadow-sm transition-all disabled:bg-gray-50 disabled:cursor-not-allowed`}
-                />
+          {fields.map(
+            ({ label, name, type, placeholder, icon, required }) => (
+              <div key={name} className="relative">
+                <Label
+                  htmlFor={name}
+                  className="block text-sm font-medium text-gray-700 mb-1.5"
+                >
+                  {label} {required && <span className="text-red-500">*</span>}
+                </Label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3 flex items-center">
+                    {icon}
+                  </span>
+                  <Input
+                    id={name}
+                    name={name}
+                    type={type}
+                    placeholder={placeholder}
+                    value={formData[name] || ""}
+                    onChange={handleChange}
+                    required={required}
+                    disabled={isPending}
+                    className={`w-full pl-10 pr-4 py-3 rounded-lg border ${
+                      state?.errors?.[name]
+                        ? "border-red-300 focus:ring-red-300"
+                        : "border-gray-200 focus:border-blue-400 focus:ring-blue-100"
+                    } shadow-sm transition-all disabled:bg-gray-50 disabled:cursor-not-allowed`}
+                  />
+                </div>
+                {state?.errors?.[name] && (
+                  <p className="mt-1 text-red-600 text-sm">
+                    {state.errors[name]}
+                  </p>
+                )}
               </div>
-              {state?.errors?.[name] && (
-                <p className="mt-1 text-red-600 text-sm">{state.errors[name]}</p>
-              )}
-            </div>
-          ))}
+            )
+          )}
 
           <div className="relative">
             <Label className="block text-sm font-medium text-gray-700 mb-1.5">
@@ -249,7 +271,9 @@ const Booking: React.FC<BookingFormProps> = ({
               </PopoverContent>
             </Popover>
             {state?.errors?.dateRange && (
-              <p className="mt-1 text-red-600 text-sm">{state.errors.dateRange}</p>
+              <p className="mt-1 text-red-600 text-sm">
+                {state.errors.dateRange}
+              </p>
             )}
           </div>
 
@@ -265,18 +289,26 @@ const Booking: React.FC<BookingFormProps> = ({
               onValueChange={handlePaymentMethodChange}
               disabled={isPending}
             >
-              <SelectTrigger id="paymentMethod" className="w-full py-3 border-gray-200">
+              <SelectTrigger
+                id="paymentMethod"
+                className="w-full py-3 border-gray-200"
+              >
                 <SelectValue placeholder="Select payment method" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="cashOnDelivery">💵 Cash on Delivery</SelectItem>
+                <SelectItem value="cashOnDelivery">
+                  💵 Cash on Delivery
+                </SelectItem>
                 <SelectItem value="card">💳 Pay with Card</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="pt-4 flex items-center justify-between">
-            <a href="/terms" className="text-sm text-AppPrimary hover:underline">
+            <a
+              href="/terms"
+              className="text-sm text-AppPrimary hover:underline"
+            >
               Terms & Conditions
             </a>
             {paymentMethod === "cashOnDelivery" ? (
@@ -309,8 +341,18 @@ const Booking: React.FC<BookingFormProps> = ({
         {state?.errors && (
           <div className="mt-6 p-4 bg-red-50 rounded-xl border border-red-200 flex items-center gap-3 text-red-600">
             <div className="p-2 bg-red-100 rounded-full">
-              <svg className="w-5 h-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-5 h-5 text-red-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </div>
             <div>
@@ -319,18 +361,18 @@ const Booking: React.FC<BookingFormProps> = ({
             </div>
           </div>
         )}
-        
+
         {state?.success && (
-  <div className="mt-6 p-4 bg-green-50 rounded-xl border border-green-200 flex items-center gap-3 text-green-600">
-    <div className="p-2 bg-green-100 rounded-full">
-      <Check className="w-5 h-5 text-green-500" />
-    </div>
-    <div>
-      <h3 className="font-semibold">Booking Successful</h3>
-      <p className="text-sm">Your booking has been confirmed.</p>
-    </div>
-  </div>
-)}
+          <div className="mt-6 p-4 bg-green-50 rounded-xl border border-green-200 flex items-center gap-3 text-green-600">
+            <div className="p-2 bg-green-100 rounded-full">
+              <Check className="w-5 h-5 text-green-500" />
+            </div>
+            <div>
+              <h3 className="font-semibold">Booking Successful</h3>
+              <p className="text-sm">Your booking has been confirmed.</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

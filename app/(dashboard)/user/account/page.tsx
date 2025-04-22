@@ -1,10 +1,10 @@
 import React from 'react'
-import Account from '@/components/sections/account'
+import ProfilePage from '@/components/user/Account'
 
 const page = () => {
   return (
     <div>
-        <Account/>
+        <ProfilePage/>
     </div>
   )
 }

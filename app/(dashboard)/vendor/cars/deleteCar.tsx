@@ -4,7 +4,7 @@ import { deleteCar } from "@/actions/cars";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 
-const DeletecarButton = ({ carId}: {carId: string}) => {
+const DeleteCar = ({ carId}: {carId: string}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -58,4 +58,4 @@ const DeletecarButton = ({ carId}: {carId: string}) => {
   );
 };
 
-export default DeletecarButton;
+export default DeleteCar

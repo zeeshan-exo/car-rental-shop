@@ -1,11 +1,16 @@
 import React from 'react'
 import CarsPage from './CarsPage'
+import CarForm from './CarForm'
+import DisplayVendorCars from './VendorCars'
 
  function productPage  () {
   
   return (
     <>
-      <CarsPage/>
+    <div className="p-4">
+       <CarForm />
+     <DisplayVendorCars/>
+    </div>
     </>
   )
 }

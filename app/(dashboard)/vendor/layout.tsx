@@ -2,7 +2,7 @@
 import React from "react";
 import Header from "@/components/layout/Header";
 import { useSession } from "next-auth/react";
-import ProfileImage from "@/components/user/ProfileImage";
+import ProfileImage from "@/components/user/Profile";
 import Profile from "@/components/dashboard/Tabs/Profile";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -20,7 +20,7 @@ export default function VendorDashboardLayout({ children }: { children: React.Re
     {title: "Home", url: "/vendor", icon: Home},
     {title: "Inventory", url: "/vendor/cars", icon: Car},
     {title: "Booking", url: "/vendor/booking", icon: Ticket},
-    {title: "Notifications", url:"/", icon: Bell},
+    {title: "Notifications", url:"/vendor", icon: Bell},
     {title: "Messages", url:"/vendor", icon: Mail},
     {title: "Track", url:"/vendor", icon: MapPinned}
   ]

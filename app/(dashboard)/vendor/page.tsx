@@ -5,14 +5,13 @@ import StatCard from "@/components/dashboard/StatCard"
 import { Button } from "@/components/ui/button"
 import { Calendar, Car, CreditCard, Users, BarChart3, Clock, AlertCircle, RefreshCw, MapPin, Search } from "lucide-react"
 import { MapProvider } from "@/provider/MapProvider"
-import CurrentOrders from "@/app/(dashboard)/vendor/cars/RecentBookings"
+import RecentBookings from "@/app/(dashboard)/vendor/cars/RecentBookings"
 import { getVendorOrders } from "@/actions/booking"
 import { getVendorCars } from "@/actions/cars"
-import { useSession } from "next-auth/react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import StatusCards from "@/components/StatusCards"
+import StatusCards from "@/components/dashboard/StatusCards"
 import { Booking } from "@/lib/definitions/bookingDefinitions"
 import { CarType } from "@/lib/definitions/carDefinitions"
 import Welcome from "@/components/dashboard/Tabs/Welcome"
@@ -26,9 +25,6 @@ const Dashboard = () => {
   const [cars, setCars] = useState<CarType[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("overview")
-
-  // const{data: session} = useSession()
-  // const userName = session?.user?.name
 
   const fetchData = async () => {
     setLoading(true)
@@ -257,7 +253,7 @@ const Dashboard = () => {
 
                 <div className="col-span-12 lg:col-span-4 space-y-6">
                   <Card className="shadow-sm">
-                    <CurrentOrders />
+                    <RecentBookings />
                   </Card>
 
                   <div className="relative rounded-xl overflow-hidden shadow-sm h-64 group">

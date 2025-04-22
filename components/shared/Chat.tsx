@@ -13,7 +13,7 @@ import { Sheet,
      SheetTitle,
      SheetTrigger
 
- } from './ui/sheet'
+ } from '../ui/sheet'
 
 const socket = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000")
 

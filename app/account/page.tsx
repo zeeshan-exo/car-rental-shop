@@ -1,5 +1,5 @@
 import React from 'react'
-import ProfilePage from './Account'
+import ProfilePage from '../../components/user/Account'
 
 const page = () => {
   return (
