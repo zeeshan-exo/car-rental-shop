@@ -11,7 +11,8 @@ import {
   Upload, 
   Image as ImageIcon, 
   ChevronDown, 
-  ChevronUp 
+  ChevronUp ,
+  Car
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -316,12 +317,15 @@ const CarForm = ({ carData = null, isInlineEdit = false, onEditComplete = () => 
 
   return (
     <div>
-      <button
-        className="bg-AppPrimary text-AppLight rounded-lg px-4 py-2 mb-4 flex items-center gap-2 hover:bg-AppPrimary2 transition-colors shadow-md"
-        onClick={() => setIsModalOpen(true)}
-      >
-        <Plus size={18} /> Add Car
-      </button>
+      <Button 
+       variant="outline" 
+       size="sm" 
+       className="text-AppPrimary hover:text-AppPrimaryHover border-blue-200 hover:bg-blue-50 shadow-md ml-4"
+       onClick={() => setIsModalOpen(true)}           
+        >
+         <Car className="h-4 w-4" />
+         Add Car
+      </Button>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-hidden">

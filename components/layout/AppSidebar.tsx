@@ -1,4 +1,4 @@
-import { Car, Home, ChartNoAxesCombined ,Mail , UserRoundCheck,  Users , ShoppingCart, Settings, Bell, HelpCircle, ChevronDown, TicketCheck } from "lucide-react";
+import { Car, Home, ChartNoAxesCombined, Mail, UserRoundCheck, Users, ShoppingCart, Settings, Bell, HelpCircle, ChevronDown, TicketCheck, LogOut } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -37,49 +37,45 @@ const sidebarItems = [
   { 
     title: "Messages", 
     url: "/notifications", 
-    icon: Mail ,
+    icon: Mail,
     notifications: 3 
   },
   { 
     title: "Tracking", 
-    url: "/notifications", 
-    icon: UserRoundCheck ,
-    notifications: 3 
+    url: "/tracking", 
+    icon: UserRoundCheck,
+    notifications: 2
   },
   { 
     title: "Clients", 
-    url: "/notifications", 
-    icon: Users ,
-    notifications: 3 
+    url: "/clients", 
+    icon: Users
   },
   { 
     title: "Report", 
-    url: "/notifications", 
-    icon: ChartNoAxesCombined ,
-    notifications: 3 
+    url: "/reports", 
+    icon: ChartNoAxesCombined
   },
 ];
 
-interface AppSidebarProps {
-   title: string,
-   url: ReactNode | string
-   icon: ReactNode | string
-}
-
-export function AppSidebar({title, url, icon}: AppSidebarProps) {
+export function AppSidebar() {
   const [activeItem, setActiveItem] = useState("Home");
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Sidebar className="w-60 hidden md:flex flex-col bg-AppLight shadow-lg h-screen">
-      <SidebarContent className="flex-grow overflow-y-auto">
+    <Sidebar className={`${collapsed ? 'w-20' : 'w-64'} hidden md:flex flex-col bg-white shadow-xl border-r transition-all duration-300 h-screen`}>
+      <SidebarContent className="flex-grow overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300">
         <SidebarGroup>
-          <SidebarGroupLabel className="px-6 py-6">
+          <SidebarGroupLabel className="px-4 py-6">
             <div className="flex items-center justify-between">
               <span className="flex items-center gap-3 text-2xl font-bold text-gray-800">
-                <Car className="h-8 w-8 text-AppPrimary" />
-                AutoNex
+                <Car className="h-8 w-8 text-blue-600" />
+                {!collapsed && "AutoNex"}
               </span>
-              <ChevronDown className="h-5 w-5 text-gray-500 cursor-pointer" />
+              <ChevronDown 
+                className="h-5 w-5 text-gray-500 cursor-pointer hover:text-blue-600 transition-colors" 
+                onClick={() => setCollapsed(!collapsed)}
+              />
             </div>
           </SidebarGroupLabel>
           
@@ -89,9 +85,9 @@ export function AppSidebar({title, url, icon}: AppSidebarProps) {
                 <SidebarMenuItem 
                   key={item.title}
                   className={`
-                    group relative mb-1 
+                    group relative mb-1 mx-2 rounded-lg transition-all duration-200
                     ${activeItem === item.title 
-                      ? 'bg-blue-50 text-AppPrimary' 
+                      ? 'bg-blue-100 text-blue-700' 
                       : 'hover:bg-gray-100 text-gray-700'}
                   `}
                   onClick={() => setActiveItem(item.title)}
@@ -99,25 +95,31 @@ export function AppSidebar({title, url, icon}: AppSidebarProps) {
                   <SidebarMenuButton asChild>
                     <a
                       href={item.url}
-                      className="flex items-center justify-between w-full px-6 py-3"
+                      className="flex items-center justify-between w-full px-4 py-3"
                     >
                       <div className="flex items-center gap-4">
                         <item.icon 
                           className={`
                             h-5 w-5 
                             ${activeItem === item.title 
-                              ? 'text-AppPrimary' 
-                              : 'text-AppDark group-hover:text-AppSecondary'}
+                              ? 'text-blue-600' 
+                              : 'text-gray-600 group-hover:text-blue-500'}
                           `} 
                         />
-                        <span className="font-medium">{item.title}</span>
+                        {!collapsed && <span className="font-medium">{item.title}</span>}
                       </div>
                       
-                      {/* {item.notifications && (
-                        <span className="bg-AppDanger text-AppLight text-xs rounded-full px-2 py-0.5">
+                      {!collapsed && item.notifications && (
+                        <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5 min-w-[20px] text-center">
                           {item.notifications}
                         </span>
-                      )} */}
+                      )}
+                      
+                      {collapsed && item.notifications && (
+                        <span className="absolute top-1 right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 min-w-[16px] text-center text-[10px]">
+                          {item.notifications}
+                        </span>
+                      )}
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -127,22 +129,32 @@ export function AppSidebar({title, url, icon}: AppSidebarProps) {
         </SidebarGroup>
       </SidebarContent>
       
-      <SidebarFooter className="border-t border-gray-200 px-6 py-4">
+      <SidebarFooter className="border-t border-gray-200 px-4 py-4">
         <SidebarMenuButton 
           className="flex items-center gap-4 w-full px-4 py-3 
-                     hover:bg-gray-100 rounded-lg transition-colors"
+                     hover:bg-gray-100 rounded-lg transition-colors mb-2"
         >
-          <Settings className="h-5 w-5 text-AppDark" />
-          <span className="text-AppSecondary font-medium">Settings</span>
+          <Settings className="h-5 w-5 text-gray-600" />
+          {!collapsed && <span className="text-gray-700 font-medium">Settings</span>}
         </SidebarMenuButton>
         
         <SidebarMenuButton 
           className="flex items-center gap-4 w-full px-4 py-3 
-                     hover:bg-gray-100 rounded-lg transition-colors mt-2"
+                     hover:bg-gray-100 rounded-lg transition-colors mb-2"
         >
-          <HelpCircle className="h-5 w-5 text-AppDark" />
-          <span className="text-AppSecondary font-medium">Help & Support</span>
+          <HelpCircle className="h-5 w-5 text-gray-600" />
+          {!collapsed && <span className="text-gray-700 font-medium">Help & Support</span>}
         </SidebarMenuButton>
+        
+        <div className="mt-6 border-t border-gray-200 pt-4">
+          <SidebarMenuButton 
+            className="flex items-center gap-4 w-full px-4 py-3 
+                      text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+          >
+            <LogOut className="h-5 w-5" />
+            {!collapsed && <span className="font-medium">Log Out</span>}
+          </SidebarMenuButton>
+        </div>
       </SidebarFooter>
     </Sidebar>
   );

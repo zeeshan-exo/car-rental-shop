@@ -1,6 +1,7 @@
-"use client"
+
 import "./globals.css";
 import { Toaster } from "sonner";
+import { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import { AuthProvider } from "@/provider/AuthProvider";
@@ -16,10 +17,10 @@ const geistMono = Geist_Mono({
 });
 
 
-// export const metadata: Metadata = {
-//   title: "AutoNex",
-//   description: "Rent cars easily with our platform",
-// };
+export const metadata: Metadata = {
+  title: "AutoNex",
+  description: "Rent cars easily with our platform",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 

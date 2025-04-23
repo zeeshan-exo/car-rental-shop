@@ -18,11 +18,13 @@ import Welcome from "@/components/dashboard/Tabs/Welcome"
 import { TabsWrapper, TabsList, TabsContent, TabsTrigger } from "@/components/shared/Tabs"
 import dynamic from "next/dynamic"
 import { formatCurrency } from "@/lib/currency"
+import CarForm from "./cars/CarForm"
 const Map = dynamic(() => import("@/components/shared/Map"), {ssr: false})
 
 const Dashboard = () => {
   const [orders, setOrders] = useState<Booking[]>([])
   const [cars, setCars] = useState<CarType[]>([])
+  const [isCarFormOpen , setIsCarFormOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("overview")
 
@@ -63,10 +65,8 @@ const Dashboard = () => {
                   <Clock className="h-4 w-4 mr-1" />
                   Activity Log
                 </Button>
-                <Button variant="outline" size="sm" className="text-green-700 border-green-200 hover:bg-green-50">
-                  <Car className="h-4 w-4 mr-1" />
-                  Add New Car
-                </Button>
+
+                
               </div>
               <div className="hidden md:flex relative max-w-xs">
                 <Search className="h-4 w-4 absolute left-2.5 top-1/2 transform -translate-y-1/2 text-gray-400" />
