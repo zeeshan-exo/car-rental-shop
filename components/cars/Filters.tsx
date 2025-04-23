@@ -214,7 +214,6 @@ export default function Filters({
               )}
             </div>
           </div>
-          {/* <hr className="border-gray-300"/> */}
 
     </div>
   );

@@ -8,13 +8,11 @@ import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { User, MapPin, FileText, Calendar } from "lucide-react";
-import deleteUser from "@/actions/users";
 
 const formFields = [
-  {label: "Age", icon: User},
-  {label: "Country", icon: MapPin, },
-  {label: "Date", icon: Calendar, },
-  {label: "Bio", icon: MapPin, },
+  {id:"age", label: "Age", icon: Calendar, type: "number", placeholder:"Enter your age", required: true, min: 18, component: "input" },
+  {id:"country", label: "Country", icon: MapPin, type: "text", placeholder:"country", required: false, component: "input" },
+  {id:"bio", label: "Bio", icon: FileText, placeholder:"Let others know a bit about you (max 250 characters)", rows:3,  required: false, component: "textarea" }
 ]
 
 const BioForm = () => {
@@ -37,47 +35,37 @@ const BioForm = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <Calendar size={18} className="text-gray-500" />
-            <Label htmlFor="age" className="font-medium">
-              Age
-            </Label>
-          </div>
-          <Input id="age" name="age" type="number" min={18} placeholder="Enter your age" required />
-          {state.errors?.age && <p className="text-sm text-red-500">{state.errors.age}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <MapPin size={18} className="text-gray-500" />
-            <Label htmlFor="country" className="font-medium">
-              Country
-            </Label>
-          </div>
-          <Input id="country" name="country" type="text" placeholder="Enter your country" />
-          {state.errors?.country && <p className="text-sm text-red-500">{state.errors.country}</p>}
-        </div>
+        {formFields.map((field)=> (
+            <div key={field.id} className="space-y-2">
+              <div className="flex items-center gap-2">
+              <field.icon size={18} className="text-AppDark" />
+              <Label htmlFor={field.id}>{field.label}</Label>
+              </div>
+              {field.component === "input" ? (
+                <Input
+                id={field.id}
+                name={field.id}
+                type={field.type}
+                placeholder={field.placeholder}
+                required={field.required}
+                min={field.min}
+                />
+              ):(
+                <Textarea
+                id={field.id}
+                name={field.id}
+                placeholder={field.placeholder}
+                rows={field.rows}
+                
+                />
+              )}
+              
+            {state.errors?.[field.id] && (
+              <p className="text-sm text-red-500">{state.errors[field.id]}</p>
+            )}
+            </div>
+        ))}    
       </div>
-
-      <div className="space-y-2 mt-6">
-        <div className="flex items-center gap-2">
-          <FileText size={18} className="text-gray-500" />
-          <Label htmlFor="bio" className="font-medium">
-            Bio
-          </Label>
-        </div>
-        <Textarea id="bio" name="bio" rows={4} placeholder="Tell us about yourself..." />
-        <p className="text-sm text-gray-500">Let others know a bit about you (max 250 characters)</p>
-        {state.errors?.bio && <p className="text-sm text-red-500">{state.errors.bio}</p>}
-      </div>
-
-      {/* <div>
-        <div>
-            <Label htmlFor="image">Upload Image</Label>
-        </div>
-        <Input type="file" id="image" name="image"/>
-      </div> */}
 
       <Button type="submit" className="w-full bg-AppPrimary text-white py-3 mt-6">
         Save Profile

@@ -12,6 +12,16 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth/auth"
 import { Home, Car, Heart, Search, LayoutDashboard } from "lucide-react"
 
+const getNavLinks = ( role ="customer") => {
+  const basePath = role === "customer" ? "/user" : "/vendor"
+  return [
+   {label: <Home/>, href: "/"},
+   {label: <LayoutDashboard/>, href: basePath},
+   {label: <Car/>, href: `${basePath}/cars`},
+   { label: <Heart />, href: "#" },
+  ]
+}
+
 const page = async (props:{
   searchParams?: Promise<{
     page?: string
@@ -28,13 +38,8 @@ const page = async (props:{
     <div>
       <Header
           title="AutoNex"
-          navLinks={[
-            { label: <Home/>, href: "/" },
-            { label: <LayoutDashboard />, href: "/user" },
-            { label: <Car />, href: "/user/cars" },
-            { label: <Heart />, href: "#" },
-            // { label: <Search />,  onClick: handleOpenSearch },
-          ]}
+
+          navLinks={getNavLinks(user?.role)}
           rightContent={
             <div className="flex justify-between items-center gap-14 flex-wrap">
               <div className="flex items-center space-x-4">
