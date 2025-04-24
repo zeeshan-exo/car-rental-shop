@@ -2,7 +2,7 @@
 import React from "react";
 import deleteUser from "@/actions/users";
 import { toast } from "sonner";
-import { Delete } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 interface Props{
   Id: string
@@ -36,7 +36,7 @@ const DeleteButton = ({ Id }: Props) => {
       onClick={handleDelete}
       className="text-red-500 text-2xl px-2 py-1 rounded"
     >
-      <Delete/>
+      <Trash2/>
     </button>
   );
 };

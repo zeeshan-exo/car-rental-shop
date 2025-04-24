@@ -4,9 +4,9 @@ import Notifications from '@/components/shared/Notifications'
 import { House, LayoutDashboard, Search } from 'lucide-react'
 import Header from '@/components/layout/Header'
 import { useSession } from 'next-auth/react'
-import ProfileImage from '@/components/user/Profile'
 import Link from 'next/link'
 import { User2 } from 'lucide-react'
+import Profile from '@/components/user/Profile'
 
 
 const Layout = ({children}:{children: React.ReactNode}) => {
@@ -28,7 +28,7 @@ const Layout = ({children}:{children: React.ReactNode}) => {
       rightContent={
         <div className="flex justify-between items-center gap-14 flex-wrap">
           {user ?(
-            <ProfileImage/>
+            <Profile/>
           ):(
             <Link
             href="/auth/login"

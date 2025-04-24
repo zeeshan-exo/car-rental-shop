@@ -32,7 +32,7 @@ const Dashboard = () => {
             </Button>
             <div className="flex items-center ml-2">
               <Avatar className="h-8 w-8 border-2 border-white">
-                <Image src="/api/placeholder/40/40" alt="User" />
+                <Image src="/api/placeholder/40/40" alt="User" width={256} height={256} />
               </Avatar>
             </div>
           </div>
@@ -49,7 +49,7 @@ const Dashboard = () => {
               <TabsTrigger value="reports">Reports</TabsTrigger>
             </TabsList>
           </Tabs>
-        <div className="bg-AppLight rounded-lg shadow-sm p-3 mb-6 flex flex-wrap items-center gap-3">
+        {/* <div className="bg-AppLight rounded-lg shadow-sm p-3 mb-6 flex flex-wrap items-center gap-3">
           <span className="text-AppDark font-medium flex items-center">
             <Filter className="h-4 w-4 mr-1" /> 
             Quick Filters:
@@ -66,7 +66,7 @@ const Dashboard = () => {
           <Button variant="outline" size="sm" className="rounded-full text-xs bg-sky-50 text-sky-700 border-sky-200">
             All Filters
           </Button>
-        </div>
+        </div> */}
         <div className={`${activeTab === "customers" ? "block" : "hidden"}`}>
             <Card>
                 <CardHeader>

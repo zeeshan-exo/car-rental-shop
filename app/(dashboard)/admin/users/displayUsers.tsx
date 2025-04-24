@@ -97,7 +97,7 @@ function UserTable({ role }: { role: UserRole }) {
     return (
       <div className="bg-gray-50 p-8 rounded-md border border-gray-200 text-center">
         <p className="text-gray-500">No {role}s found in the system.</p>
-        {/* You could add a button to create new users here */}
+        {/* button to create new users here */}
       </div>
     );
   }
