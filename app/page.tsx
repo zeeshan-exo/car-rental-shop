@@ -3,7 +3,7 @@ import Hero from "@/components/cars/Hero"
 import Footer from "@/components/layout/Footer"
 import Header from "@/components/layout/Header"
 import Features from "@/components/cars/Features"
-import Profile from "@/components/dashboard/Tabs/Profile"
+import UserProfile from "@/components/user/Profile"
 import Notifications from "@/components/shared/Notifications"
 import DisplayCars from "./(dashboard)/user/cars/DisplayCars"
 import Pagination from "@/components/shared/Pagination"
@@ -46,7 +46,7 @@ const page = async (props:{
                 {user ? (
                   <>
                     <Notifications userId={user.id} role={user.role || "customer"} />
-                    <Profile/>
+                    <UserProfile/>
                   </>
                 ) : (
                   <Link

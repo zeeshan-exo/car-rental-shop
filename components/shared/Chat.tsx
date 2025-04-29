@@ -147,6 +147,5 @@ export const Chat: React.FC<ChatProps> = ({
         </Card>
             </SheetContent>
         </Sheet>
-
     )
 }

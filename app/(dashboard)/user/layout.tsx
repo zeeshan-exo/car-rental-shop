@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Header from "../../../components/layout/Header";
-import Profile from "@/components/dashboard/Tabs/Profile";
 import Link from "next/link";
 import Viewcar from "./cars/ViewCar";
 import { Search, Home, Heart, Car, LayoutDashboard } from "lucide-react";
@@ -9,8 +8,11 @@ import Notifications from "@/components/shared/Notifications";
 import { useSession } from "next-auth/react";
 import SearchModal from "@/components/layout/SearchModal";
 import Loading from "@/components/shared/Loading";
+import Profile from "@/components/user/Profile";
+import { useRouter } from "next/navigation";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter()
   const { data: session, status } = useSession();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
@@ -55,7 +57,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               {user ? (
                 <>
                   <Notifications userId={user.id} role={user.role || "customer"} />
-                  <Profile/>
+                  <Profile onClick={() => router.push("/user/account")}/>
                 </>
               ) : (
                 <Link
