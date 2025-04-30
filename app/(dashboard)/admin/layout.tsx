@@ -20,8 +20,8 @@ const Layout = ({children}:{children: React.ReactNode}) => {
      <Header
      title="AutoNex"
      navLinks={[
-      { label: <House/>, href: "/" },
-      { label: <LayoutDashboard/>, href: "/admin/dashboard" },
+      // { label: <House/>, href: "/" },
+      { label: <LayoutDashboard/>, href: "/admin" },
       { label:  <User2/>, href: "/admin/users" },
       { label: <Search/>, href: "" },
      ]}

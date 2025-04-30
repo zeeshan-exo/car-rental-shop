@@ -33,6 +33,7 @@ export const BookingCreateSchema = z.object({
     email: z.string().email("Invalid email format"),
     contact: z.string().min(11, "Contact number must be at least 11 characters"),
   }),
+  totalAmount: z.string().optional(),
   paymentStatus: z.enum(["paid", "pending", "refunded"]),
   paymentMethod: z.enum(["cashOnDelivery", "card"]).default("cashOnDelivery"),
   createdAt: z.date().optional(),
