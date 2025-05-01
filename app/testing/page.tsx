@@ -3,7 +3,9 @@ import BioForm from '@/components/user/BioForm'
 
 const page = () => {
   return (
-    <div><BioForm/></div>
+    // <div><BioForm/></div>
+    <>
+    </>
   )
 }
 

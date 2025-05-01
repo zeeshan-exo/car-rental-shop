@@ -15,6 +15,7 @@ import { getUsers } from '@/actions/users'
 import { useSession } from 'next-auth/react'
 import { getAllCars } from '@/actions/cars'
 import { CarType } from '@/lib/definitions/carDefinitions'
+import CustomTable from '@/components/shared/Table'
 
 const Dashboard = () => {
       const [activeTab, setActiveTab] = useState("overview")
@@ -87,11 +88,49 @@ const Dashboard = () => {
           </Tabs>
        
         <div className={`${activeTab ==="users" ? "block" : "hidden"}`}>
-            <UserList users={users}/>
+            <CustomTable 
+            title='Users List'
+            columns={[
+              {label:"Name", render: (row) =>(
+                <span className='text-AppSecondary font-medium'>{row.name}</span>
+              )},
+              {label:"Email", key:"email"},
+              {label:"Status", key:"status"},
+              {label:"Country", key:"country"}
+            ]}
+            data={users}
+            />
         </div>
 
         <div className={`${activeTab === "cars" ? "block": "hidden"}`}>
-             <CarsList cars={cars} totalCars={totalCars} totalPages ={pages}/>
+             {/* <CarsList cars={cars} totalCars={totalCars} totalPages ={pages}/> */}
+             <CustomTable 
+            title='Cars List'
+            columns={[
+              {label:"Image", render: (row) => (
+                <img
+                src={row.images?.[0]?.cloudinaryUrl || "/placeholder.jpg"}
+                width={90}
+                height={80}
+                alt="Car Image"
+                // className="w-16 h-10 object-cover rounded"
+              />
+              )},
+              {label:"Id", render: (row) =>(
+              <span className="text-AppPrimary">{`#${row._id.slice(-5)}`}</span>)},
+              {label:"Name", key:"carName"},
+              {label:"Brand", key:"brand"},
+              {label:"Model", key:"modelYear"},
+              {label:"Vendor", render: (row) => row.vendor?.vendorName || "-"},
+              {label:"City", key:"city"},
+              {label:"Rental Rate", render: (row) => (
+                <span className="font-medium text-green-600">
+                {formatCurrency(row.rentalRate)}
+              </span>
+              )},
+            ]}
+            data={cars}
+            />
         </div>
 
         <div  className={`${activeTab === "overview" ? "block" : "hidden"} grid grid-cols-1 lg:grid-cols-3 gap-6`}>
