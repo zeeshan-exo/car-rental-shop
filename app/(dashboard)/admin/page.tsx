@@ -16,6 +16,7 @@ import { useSession } from 'next-auth/react'
 import { getAllCars } from '@/actions/cars'
 import { CarType } from '@/lib/definitions/carDefinitions'
 import CustomTable from '@/components/shared/Table'
+import Reports from '@/components/dashboard/Report'
 
 const Dashboard = () => {
       const [activeTab, setActiveTab] = useState("overview")
@@ -131,6 +132,13 @@ const Dashboard = () => {
             ]}
             data={cars}
             />
+        </div>
+
+        <div className={`${activeTab === "reports" ? "block" : "hidden"} grid grid-cols-1 lg:grid-cols-3 gap-6`}>
+          <div>
+            <Reports/>
+          </div>
+
         </div>
 
         <div  className={`${activeTab === "overview" ? "block" : "hidden"} grid grid-cols-1 lg:grid-cols-3 gap-6`}>

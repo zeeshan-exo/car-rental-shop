@@ -7,8 +7,6 @@ import DeleteButton from "@/components/shared/DeleteButton";
 import Loading from "@/components/shared/Loading";
 import { Edit } from "lucide-react";
 
-
-
 type UserRole = "customer" | "vendor";
 
 export default function DisplayUsers() {
